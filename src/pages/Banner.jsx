@@ -15,15 +15,15 @@ const Banner = () => {
             >
                 <div>
                     <img
-                        src="https://i.ibb.co/xvXjJ4s/13597627-5301588.jpg"
+                        src="https://i.ibb.co/MwG52Pk/13186263-5136847.jpg"
                         alt="Banner 1"
-                        className="w-full h-[300px] md:h-[400px] object-cover rounded-lg"
+                        className="w-full h-[400px] md:h-[500px] object-cover rounded-lg"
                     />
                     <p className="legend">Find your perfect hobby group!</p>
                 </div>
                 <div>
                     <img
-                        src="https://i.ibb.co/27RjdKxv/13185139-5156797.jpg"
+                        src="https://i.ibb.co/xtBw6w1q/2148419502.jpg"
                         alt="Banner 2"
                         className="w-full h-[300px] md:h-[400px] object-cover rounded-lg"
                     />

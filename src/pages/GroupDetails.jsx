@@ -30,7 +30,7 @@ const isExpired = new Date(startDate).setHours(0,0,0,0) < new Date().setHours(0,
         <img
           src={image}
           alt={name}
-          className="w-full h-64 object-cover"
+          className="w-full h-96 object-cover"
         />
 
         <div className="p-6">

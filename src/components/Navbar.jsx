@@ -6,7 +6,7 @@ const Navbar = () => {
         <li><NavLink to="/">Home</NavLink></li>
         <li><NavLink to="/AllGroups">All Groups</NavLink></li>
         <li><NavLink to="/createGroup">Create Group </NavLink></li>
-        <li><NavLink to="/my-events">My Groups </NavLink></li>
+        <li><NavLink to="myGroups">My Groups </NavLink></li>
     </>
 
     return (
@@ -56,7 +56,7 @@ const Navbar = () => {
                             user ? <Link onClick={handleLogOut} to="/" className="btn border-primary text-primary hover:bg-primary hover:text-white hover:border-primary">Logout</Link>
                                 : <Link to="auth/login" className="btn border-primary text-primary hover:bg-primary hover:text-white hover:border-primary">Login</Link>
                         } */}
-                        <Link to="auth/login" className="btn border-primary text-primary hover:bg-primary hover:text-white hover:border-primary">Login</Link>
+                        <Link to="/auth/login" className="btn border-primary text-primary hover:bg-primary hover:text-white hover:border-primary">Login</Link>
 
                     </div>
                 </div>
