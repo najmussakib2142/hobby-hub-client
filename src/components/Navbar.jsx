@@ -1,7 +1,9 @@
-import React from 'react';
+import React, { use } from 'react';
 import { Link, NavLink } from 'react-router';
+import { AuthContext } from '../provider/AuthProvider';
 
 const Navbar = () => {
+    const {user} = use(AuthContext)
     const links = <>
         <li><NavLink to="/">Home</NavLink></li>
         <li><NavLink to="/AllGroups">All Groups</NavLink></li>
@@ -26,6 +28,7 @@ const Navbar = () => {
                         </div>
                         {/* <Link to="/" className="font-bold text-2xl"><span className='text-[#3B25C1]'>Hobby</span><span className='text-[#F97316]'>Hub</span></Link> */}
                         <Link to="/" className="font-bold text-2xl"><span className='text-primary'>HobbyHub</span><span className='text-[#F97316]'></span></Link>
+                        {user.email}
                     </div>
                     <div className="navbar-center hidden lg:flex">
                         <ul className="menu menu-horizontal px-1">
@@ -40,7 +43,7 @@ const Navbar = () => {
                                 <Link to="/profile">
                                     <img
                                         className="w-12 h-12 rounded-full object-cover"
-                                        // src={user?.photoURL || userIcon}
+                                        src="https://i.ibb.co/VWqpdVpB/user.pngs"
                                         alt="User"
                                     />
                                 </Link>
