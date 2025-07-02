@@ -1,13 +1,16 @@
 import React from "react";
-import { useLoaderData } from "react-router"; 
+import { useLoaderData, useNavigate } from "react-router"; 
 
 const MyGroups = () => {
   const groups = useLoaderData();
-  console.log(groups);
+//   console.log(groups);
+
+  const navigate = useNavigate()
 
   const handleUpdate = (id) => {
     console.log("Update group with ID:", id);
     // navigate or open modal here
+    navigate(`/updateGroup/${id}`)
   };
 
   const handleDelete = (id) => {
@@ -38,7 +41,7 @@ const MyGroups = () => {
           </thead>
           <tbody>
             {groups.map((group, index) => (
-              <tr key={group.id} className="hover:bg-gray-50 transition-all">
+              <tr key={group._id} className="hover:bg-gray-50 transition-all">
                 <td className="border px-4 py-3 font-medium text-center">{index + 1}</td>
                 
                 <td className="border px-2 py-2">
@@ -57,13 +60,13 @@ const MyGroups = () => {
 
                 <td className="border px-4 py-3 space-y-1 flex flex-col items-center">
                   <button
-                    onClick={() => handleUpdate(group.id)}
+                    onClick={() => handleUpdate(group._id)}
                     className="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded text-sm"
                   >
                     Update
                   </button>
                   <button
-                    onClick={() => handleDelete(group.id)}
+                    onClick={() => handleDelete(group._id)}
                     className="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded text-sm"
                   >
                     Delete

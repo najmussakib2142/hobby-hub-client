@@ -4,15 +4,23 @@ import { Link } from "react-router";
 
 const GroupCard = ({ group }) => {
     const { _id, name, category, image, description, startDate } = group;
+    // const fallbackImage = "https://i.ibb.co/SDk3FB8Z/2148888824.jpg";
+
 
     return (
         <div className="border border-base-300 rounded-xl overflow-hidden bg-base-100 transition-all duration-300 hover:scale-[1.015] hover:border-primary">
             <div className="relative h-56">
-                <img
-                    src={image}
-                    alt={name}
-                    className="object-cover w-full h-full"
-                />
+                {image ? (
+                    <img
+                        src={image}
+                        alt={name}
+                        className="object-cover w-full h-full"
+                    />
+                ) : (
+                    <div className="bg-gray-200 w-full h-full flex items-center justify-center text-gray-500 text-sm">
+                        No Image
+                    </div>
+                )}
                 <span className="absolute top-2 left-2 badge badge-primary text-white">
                     {category}
                 </span>

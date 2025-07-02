@@ -10,6 +10,7 @@ import Login from "../components/Login";
 import Loading from "../components/Loading";
 import AuthLayout from "../layouts/AuthLayout";
 import Register from "../components/Register";
+import UpdateGroup from "../pages/UpdateGroup";
 // import MyGroups from "../pages/MyGroups";
 
 const router = createBrowserRouter([
@@ -45,6 +46,12 @@ const router = createBrowserRouter([
                 element: <MyGroups></MyGroups>,
                 hydrateFallbackElement: <Loading></Loading>
             },
+            {
+                path: '/updateGroup/:id',
+                loader: ({ params }) => fetch(`http://localhost:3000/groups/${params.id}`),
+                element: <UpdateGroup></UpdateGroup>,
+                hydrateFallbackElement: <Loading></Loading>
+            },
         ]
     },
     {
@@ -54,11 +61,11 @@ const router = createBrowserRouter([
         children: [
             {
                 path: '/auth/login',
-                element:<Login></Login>
+                element: <Login></Login>
             },
             {
                 path: '/auth/register',
-                element:<Register></Register>
+                element: <Register></Register>
             },
         ]
     },
