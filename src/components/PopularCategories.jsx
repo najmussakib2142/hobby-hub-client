@@ -1,10 +1,13 @@
 import React from 'react';
+import { Typewriter } from 'react-simple-typewriter'
+
 
 const PopularCategories = () => {
 
     return (
         <section className="my-12 px-6 md:px-12">
-            <h2 className="text-3xl font-bold mb-6 text-center">Popular Categories</h2>
+            <h2 className="text-3xl font-bold mb-6 text-center">
+                Popular Categories</h2>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
                 <div className="p-6 bg-base-200 rounded-xl text-center">
                     🎨 Drawing & Painting

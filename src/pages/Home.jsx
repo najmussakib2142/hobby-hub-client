@@ -6,6 +6,7 @@ import GroupCard from '../components/GroupCard';
 import { useLoaderData } from 'react-router';
 import PopularCategories from '../components/PopularCategories';
 import Faq from '../components/Faq';
+import { Typewriter } from 'react-simple-typewriter';
 
 const Home = () => {
     const groups = useLoaderData()
@@ -14,7 +15,20 @@ const Home = () => {
             <Banner></Banner>
             <div>
                 <div className="text-center mt-10">
-                    <h2 className="text-3xl md:text-4xl font-bold text-primary">Explore Hobby Groups</h2>
+                    <h2 className="text-3xl md:text-4xl font-bold text-primary">
+                        Discover New{' '}
+                        <span className="text-secondary">
+                            <Typewriter
+                                words={['Passions', 'Hobbies', 'Skills', 'Communities']}
+                                loop={true}
+                                cursor
+                                cursorStyle="|"
+                                typeSpeed={100}
+                                deleteSpeed={50}
+                                delaySpeed={1500}
+                            />
+                        </span>
+                    </h2>
                     <p className="text-gray-500 mt-2 text-sm md:text-base">
                         Connect with passionate people, discover new hobbies, and build your own community!
                     </p>
@@ -33,7 +47,7 @@ const Home = () => {
 
                 </section>
             </div>
-        </div>
+        </div >
     );
 };
 

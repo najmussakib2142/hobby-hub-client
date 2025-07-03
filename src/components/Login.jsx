@@ -4,6 +4,7 @@ import { Link, useLocation, useNavigate } from 'react-router';
 import { AuthContext } from '../provider/AuthContext';
 import Swal from 'sweetalert2';
 import toast from 'react-hot-toast';
+import { FaEye, FaEyeSlash } from 'react-icons/fa';
 
 const Login = () => {
 
@@ -12,6 +13,7 @@ const Login = () => {
     console.log(location);
     const navigate = useNavigate()
     const [error, setError] = useState("")
+    const [showPassword, setShowPassword] = useState(false)
 
     const handleLogin = (e) => {
         e.preventDefault()
@@ -49,7 +51,8 @@ const Login = () => {
                 navigate(location.state ? location.state : "/");
             })
             .catch(error => {
-                toast.error(error.message)
+                const errorCode = error.code;
+                setError(errorCode)
             })
     }
     return (
@@ -61,7 +64,23 @@ const Login = () => {
                         <label className="label">Email</label>
                         <input type="email" required name='email' className="input border-primary" placeholder="Email" />
                         <label className="label">Password</label>
-                        <input type="password" required name='password' className="input border-primary" placeholder="Password" />
+                        <div className='relative'>
+                            <input
+                                required
+                                name='password'
+                                type={showPassword ? 'text' : "password"}
+                                className="input"
+                                placeholder="Password"
+                            />
+                            <button
+                                onClick={() => setShowPassword(!showPassword)}
+                                className='absolute btn btn-xs right-3 top-2'
+                                type='button'
+                            >
+                                {showPassword ? <FaEyeSlash></FaEyeSlash> : <FaEye></FaEye>}
+                            </button>
+                        </div>
+
                         <div><a className="link link-hover">Forgot password?</a></div>
                         {error && <p className='text-red-500 text-sm'>{error}</p>}
                         <button type='submit' className="btn bg-[#0967C2] text-white border-[#0059b3]">Login</button>
