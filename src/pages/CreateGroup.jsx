@@ -1,12 +1,19 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import Swal from 'sweetalert2';
+import { AuthContext } from '../provider/AuthContext';
 
 const CreateGroup = () => {
+
+    const {user} = useContext(AuthContext)
+    console.log(user);
+
     const handleCreateGroup = e => {
         e.preventDefault();
         const form = e.target;
         const formData = new FormData(form);
         const newGroup = Object.fromEntries(formData.entries());
+
+        
         console.log(newGroup);
 
         // send Data to db
@@ -28,7 +35,7 @@ const CreateGroup = () => {
                         timer: 1500
                     });
 
-                    // form.reset()
+                    form.reset()
                 }
             })
 
@@ -106,7 +113,7 @@ const CreateGroup = () => {
                     {/* User Email (readonly) */}
                     <fieldset className="fieldset bg-base-200 border-base-300 rounded-box border p-4">
                         <label className="label">User Email</label>
-                        <input type="email" required name="userEmail" className="input w-full select-primary" />
+                        <input type="email" name="userEmail" value={user.email} className="input w-full select-primary" readOnly />
                         {/* <input type="email" name="userEmail" className="input w-full select-primary" value={user?.email} readOnly /> */}
                     </fieldset>
 
@@ -114,7 +121,7 @@ const CreateGroup = () => {
                     {/* User Name (readonly) */}
                     <fieldset className="fieldset bg-base-200 border-base-300 rounded-box border p-4">
                         <label className="label">User Name</label>
-                        <input type="text" required name="userName" className="input w-full select-primary" />
+                        <input type="text" required name="userName" value={user.displayName} readOnly className="input w-full select-primary" />
                     </fieldset>
 
                 </div>

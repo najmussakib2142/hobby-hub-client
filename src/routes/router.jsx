@@ -12,7 +12,6 @@ import AuthLayout from "../layouts/AuthLayout";
 import Register from "../components/Register";
 import UpdateGroup from "../pages/UpdateGroup";
 import PrivateRoute from "../provider/PrivateRoute";
-// import MyGroups from "../pages/MyGroups";
 
 const router = createBrowserRouter([
     {
@@ -47,7 +46,6 @@ const router = createBrowserRouter([
             },
             {
                 path: '/myGroups',
-                loader: () => fetch(`http://localhost:3000/groups`),
                 element: <PrivateRoute>
                     <MyGroups></MyGroups>
                 </PrivateRoute>,

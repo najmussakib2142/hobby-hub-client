@@ -1,4 +1,3 @@
-// import { toast } from "react-hot-toast";
 import toast from "react-hot-toast";
 import { Link, useLoaderData } from "react-router";
 
@@ -16,12 +15,21 @@ const GroupDetails = () => {
     location,
   } = useLoaderData();
 
-  const isExpired = new Date(startDate).setHours(0, 0, 0, 0) < new Date().setHours(0, 0, 0, 0);
+  // Parse both dates and zero the time to compare only by date
+  const groupStartDate = new Date(startDate).setHours(0, 0, 0, 0);
+  const today = new Date().setHours(0, 0, 0, 0);
+  const isExpired = groupStartDate < today;
+  const isIncomplete =
+    !name || !startDate || !image || !description || !maxMembers || !userName || !userEmail || !location;
 
   const handleJoin = () => {
-    if (isExpired) return;
+    if (isExpired) {
+      toast.error("Sorry — this group is no longer active!");
+      return;
+    }
+
     toast.success(`You've joined the "${name}" group!`);
-    // Optionally you can call API to add this user to group's member list
+    // Call your API here if you have a membership endpoint
   };
 
   return (
@@ -51,7 +59,11 @@ const GroupDetails = () => {
           </div>
 
           <div className="mt-6">
-            {isExpired ? (
+            {isIncomplete ? (
+              <button className="btn btn-disabled w-full">
+                Group information is incomplete
+              </button>
+            ) : isExpired ? (
               <button className="btn btn-disabled w-full">
                 This group is no longer active
               </button>
@@ -61,12 +73,13 @@ const GroupDetails = () => {
               </button>
             )}
           </div>
-          <Link to={'/'}>
-            <button className="btn mt-3 bg-gray-500 btn-primary w-full">
+
+
+          <Link to="/">
+            <button className="btn mt-3 bg-secondary btn-primary w-full">
               Back to discovery
             </button>
           </Link>
-
         </div>
       </div>
     </div>
