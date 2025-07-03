@@ -6,13 +6,16 @@ import { RouterProvider } from 'react-router'
 import router from './routes/router.jsx'
 import { Toaster } from 'react-hot-toast';
 import AuthProvider from './provider/AuthProvider.jsx'
+import { HelmetProvider } from 'react-helmet-async'
 
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <AuthProvider>
-      <RouterProvider router={router} />
-      <Toaster position="top-right" autoClose={3000} />
-    </AuthProvider>
+    <HelmetProvider>
+      <AuthProvider>
+        <RouterProvider router={router} />
+        <Toaster position="top-right" autoClose={3000} />
+      </AuthProvider>
+    </HelmetProvider>
   </StrictMode>,
 )

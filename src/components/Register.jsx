@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import { AuthContext } from '../provider/AuthContext';
 import toast from 'react-hot-toast';
+import { Helmet } from 'react-helmet-async';
 // import { AuthContext } from '../provider/AuthProvider';
 
 
@@ -60,9 +61,9 @@ const Register = () => {
 
     return (
         <div className="hero py-10 bg-gradient-to-tr from-blue-50 via-purple-50 to-pink-50 min-h-screen items-center flex-col justify-center lg:flex-row-reverse">
-            {/* <Helmet>
-                <title>EventExpo || Register</title>
-            </Helmet> */}
+            <Helmet>
+                <title>HobbyHub || Register</title>
+            </Helmet>
 
             <div className="card p-4 bg-base-100 w-full max-w-sm shrink-0 shadow-2xl">
                 <h1 className="text-4xl font-bold text-center">Register your account</h1>

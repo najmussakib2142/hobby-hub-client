@@ -1,3 +1,4 @@
+import { Helmet } from "react-helmet-async";
 import toast from "react-hot-toast";
 import { Link, useLoaderData } from "react-router";
 
@@ -34,6 +35,9 @@ const GroupDetails = () => {
 
   return (
     <div className="max-w-4xl mx-auto p-6">
+      <Helmet>
+        <title>HobbyHub || Group Details</title>
+      </Helmet>
       <div className="rounded-xl overflow-hidden border border-base-300 bg-base-100 shadow-md">
         <img
           src={image}

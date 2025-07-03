@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import { AuthContext } from "../provider/AuthContext";
 import Swal from "sweetalert2";
+import { Helmet } from "react-helmet-async";
 
 const MyGroups = () => {
   const { user } = useContext(AuthContext);
@@ -54,6 +55,9 @@ const MyGroups = () => {
 
   return (
     <div className="max-w-6xl mx-auto px-10 py-10">
+      <Helmet>
+        <title>HobbyHub || My Groups</title>
+      </Helmet>
       <h2 className="text-3xl font-bold text-gray-800 mb-6 text-center">
         🎨 My Hobby Groups
       </h2>

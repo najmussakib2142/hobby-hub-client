@@ -5,6 +5,7 @@ import { AuthContext } from '../provider/AuthContext';
 import Swal from 'sweetalert2';
 import toast from 'react-hot-toast';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
+import { Helmet } from 'react-helmet-async';
 
 const Login = () => {
 
@@ -57,6 +58,9 @@ const Login = () => {
     }
     return (
         <div className='hero min-h-screen items-center flex-col justify-center lg:flex-row-reverse bg-gradient-to-tr from-blue-50 via-purple-50 to-pink-50'>
+            <Helmet>
+                <title>HobbyHub || Login</title>
+            </Helmet>
             <div className="card bg-base-100 p-7  w-full max-w-sm shrink-0 shadow-2xl">
                 <h1 className="text-5xl text-center font-bold">Login now!</h1>
                 <div className="card-body">

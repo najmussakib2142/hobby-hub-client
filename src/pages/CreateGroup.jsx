@@ -1,10 +1,11 @@
 import React, { useContext } from 'react';
 import Swal from 'sweetalert2';
 import { AuthContext } from '../provider/AuthContext';
+import { Helmet } from 'react-helmet-async';
 
 const CreateGroup = () => {
 
-    const {user} = useContext(AuthContext)
+    const { user } = useContext(AuthContext)
     console.log(user);
 
     const handleCreateGroup = e => {
@@ -13,7 +14,7 @@ const CreateGroup = () => {
         const formData = new FormData(form);
         const newGroup = Object.fromEntries(formData.entries());
 
-        
+
         console.log(newGroup);
 
         // send Data to db
@@ -43,6 +44,9 @@ const CreateGroup = () => {
 
     return (
         <div className='mb-10 px-10'>
+            <Helmet>
+                <title>HobbyHub || Create Group</title>
+            </Helmet>
             <div className='text-center py-4 '>
                 <p>*private route*</p>
                 <h2 className='text-4xl font-semibold mb-3'>Create Group</h2>

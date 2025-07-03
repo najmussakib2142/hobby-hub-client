@@ -1,5 +1,6 @@
 // import React, { useState } from 'react';
 import { useState } from 'react';
+import { Helmet } from 'react-helmet-async';
 import { useLoaderData } from 'react-router';
 
 const UpdateGroup = () => {
@@ -22,8 +23,11 @@ const UpdateGroup = () => {
     }
     return (
         <div className='mb-10 px-10'>
+            <Helmet>
+                <title>HobbyHub || Update Group</title>
+            </Helmet>
             <div className='text-center py-4 '>
-                <p>*private route*</p>
+                {/* <p>*private route*</p> */}
                 <h2 className='text-4xl font-semibold mb-3'>Update Group</h2>
                 <p className='text-2xl font-semibold mb-5 text-gray-600'>Update your hobby group</p>
             </div>
