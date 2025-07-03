@@ -4,13 +4,14 @@ import Footer from '../components/Footer';
 import AllGroups from './AllGroups';
 import GroupCard from '../components/GroupCard';
 import { useLoaderData } from 'react-router';
+import PopularCategories from '../components/PopularCategories';
+import Faq from '../components/Faq';
 
 const Home = () => {
     const groups = useLoaderData()
     return (
         <div>
             <Banner></Banner>
-            {import.meta.env.VITE_name}
             <div>
                 <div className="text-center mt-10">
                     <h2 className="text-3xl md:text-4xl font-bold text-primary">Explore Hobby Groups</h2>
@@ -26,8 +27,12 @@ const Home = () => {
                             </GroupCard>)
                     }
                 </div>
+                <section>
+                    <PopularCategories></PopularCategories>
+                    <Faq></Faq>
+
+                </section>
             </div>
-            <Footer></Footer>
         </div>
     );
 };
