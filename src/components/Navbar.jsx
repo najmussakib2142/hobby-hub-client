@@ -54,7 +54,7 @@ const Navbar = () => {
                                 <Link to="/profile">
                                     <img
                                         className="w-12 h-12 rounded-full object-cover"
-                                        src="https://i.ibb.co/VWqpdVpB/user.pngs"
+                                        src= {`${user ? user.photoURL : "https://i.ibb.co/VWqpdVpB/user.pngs"}`}
                                         alt="User"
                                     />
                                 </Link>

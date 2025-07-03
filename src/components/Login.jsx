@@ -1,4 +1,4 @@
-import React, { use } from 'react';
+import React, { use, useState } from 'react';
 import { FcGoogle } from 'react-icons/fc';
 import { Link, useLocation, useNavigate } from 'react-router';
 import { AuthContext } from '../provider/AuthContext';
@@ -9,6 +9,7 @@ const Login = () => {
     const location = useLocation()
     console.log(location);
     const navigate = useNavigate()
+    const [error, setError] = useState("")
 
     const handleLogin = (e) => {
         e.preventDefault()
@@ -26,8 +27,8 @@ const Login = () => {
             })
             .catch((error) => {
                 const errorCode = error.code;
-                const errorMessage = error.message;
-                alert(errorCode, errorMessage)
+                // const errorMessage = error.message;
+                setError(errorCode)
             })
     }
     return (
@@ -37,10 +38,11 @@ const Login = () => {
                 <div className="card-body">
                     <form onSubmit={handleLogin} className="fieldset">
                         <label className="label">Email</label>
-                        <input type="email" name='email' className="input border-primary" placeholder="Email" />
+                        <input type="email" required name='email' className="input border-primary" placeholder="Email" />
                         <label className="label">Password</label>
-                        <input type="password" name='password' className="input border-primary" placeholder="Password" />
+                        <input type="password" required name='password' className="input border-primary" placeholder="Password" />
                         <div><a className="link link-hover">Forgot password?</a></div>
+                        {error && <p className='text-red-500 text-sm'>{error}</p>}
                         <button type='submit' className="btn bg-[#0967C2] text-white border-[#0059b3]">Login</button>
                         {/* Google */}
                         <button className="btn mt-1 bg-white hover:bg-gray-50 hover:border-primary transition text-black border-[#e5e5e5]">

@@ -1,16 +1,16 @@
 import React, { use, useState } from 'react';
-import { Link } from 'react-router';
+import { Link, useNavigate } from 'react-router';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import { AuthContext } from '../provider/AuthContext';
 // import { AuthContext } from '../provider/AuthProvider';
 
 
 const Register = () => {
-    const {createUser, setUser} = use(AuthContext)
+    const { createUser, setUser, updateUser } = use(AuthContext)
 
     const [showPassword, setShowPassword] = useState(false)
     // const [errorMessage, setErrorMessage] = useState('')
-
+    const navigate = useNavigate()
 
 
     const handleRegister = (e) => {
@@ -19,17 +19,27 @@ const Register = () => {
         const formData = new FormData(form)
         const email = formData.get('email')
         const password = formData.get('password')
-        console.log(email, password);
+        const name = formData.get('name')
+        const photo = formData.get('photo')
+        // console.log(email, password);
 
         // firebase
         createUser(email, password)
-        .then(result => {
-            const user = result.user;
-            setUser(user);
-        })
-        .catch(error => {
-            console.log(error);
-        })
+            .then(result => {
+                const user = result.user;
+                updateUser({ displayName: name, photoURL: photo })
+                    .then(() => {
+                        setUser({...user, displayName: name, photoURL: photo});
+                        navigate('/')
+                    })
+                    .catch((error) => {
+                        console.log(error);
+                        setUser(user)
+                    });
+            })
+            .catch(error => {
+                console.log(error);
+            })
 
 
         // setErrorMessage('');
