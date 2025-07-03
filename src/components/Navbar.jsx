@@ -1,17 +1,34 @@
 import React, { use } from 'react';
 import { Link, NavLink } from 'react-router';
 import { AuthContext } from '../provider/AuthContext';
+import Swal from 'sweetalert2';
 
 const Navbar = () => {
     const { user, logOut } = use(AuthContext)
 
-    const handleLogOut =() => {
-        logOut()
-        .then(() => {
-            alert("signout successfully");
-        })
-        .catch((error) => {
-            console.log(error);
+    const handleLogOut = () => {
+        Swal.fire({
+            title: "Are you sure?",
+            text: "You want to log out?",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes, log me out!"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                logOut()
+                    .then(() => {
+                        Swal.fire({
+                            title: "Logged out!",
+                            text: "You have been successfully logged out.",
+                            icon: "success"
+                        });
+                    })
+                    .catch((error) => {
+                        console.log(error);
+                    })
+            }
         })
     }
 
@@ -47,14 +64,14 @@ const Navbar = () => {
                         </ul>
                     </div>
                     <div className="navbar-end gap-3">
-                        {/* <span className="hidden md:inline text-sm font-medium text-gray-600">{user && user.email}</span> */}
-                        {user && user.email}
+                        <span className="hidden md:inline text-sm font-medium text-gray-600">{user && user.email}</span>
+                        {/* {user && user.email} */}
                         <div className="relative group">
                             <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar">
-                                <Link to="/profile">
+                                <Link to="/">
                                     <img
                                         className="w-12 h-12 rounded-full object-cover"
-                                        src= {`${user ? user.photoURL : "https://i.ibb.co/VWqpdVpB/user.pngs"}`}
+                                        src={`${user ? user.photoURL : "https://i.ibb.co/VWqpdVpB/user.pngs"}`}
                                         alt="User"
                                     />
                                 </Link>
@@ -67,7 +84,7 @@ const Navbar = () => {
                         </div>
 
                         {
-                            user ? <Link onClick={handleLogOut}  to="/" className="btn border-primary text-primary hover:bg-primary hover:text-white hover:border-primary">Logout</Link>
+                            user ? <Link onClick={handleLogOut} to="/" className="btn border-primary text-primary hover:bg-primary hover:text-white hover:border-primary">Logout</Link>
                                 : <Link to="auth/login" className="btn border-primary text-primary hover:bg-primary hover:text-white hover:border-primary">Login</Link>
                         }
                         {/* <Link to="/auth/login" className="btn border-primary text-primary hover:bg-primary hover:text-white hover:border-primary">Login</Link> */}

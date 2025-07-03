@@ -2,11 +2,12 @@ import React, { use, useState } from 'react';
 import { Link, useNavigate } from 'react-router';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import { AuthContext } from '../provider/AuthContext';
+import toast from 'react-hot-toast';
 // import { AuthContext } from '../provider/AuthProvider';
 
 
 const Register = () => {
-    const { createUser, setUser, updateUser } = use(AuthContext)
+    const { createUser, setUser, updateUser, googleSignIn } = use(AuthContext)
 
     const [showPassword, setShowPassword] = useState(false)
     // const [errorMessage, setErrorMessage] = useState('')
@@ -46,14 +47,14 @@ const Register = () => {
     }
 
     const handleGoogleLogin = () => {
-        // googleSignIn()
-        //     .then(() => {
-        //         toast.success("Logged in with Google!");
-        //         navigate(location.state ? location.state : "/");
-        //     })
-        //     .catch(error => {
-        //         toast.error(error.message)
-        //     })
+        googleSignIn()
+            .then(() => {
+                toast.success("Logged in with Google!");
+                navigate(location.state ? location.state : "/");
+            })
+            .catch(error => {
+                toast.error(error.message)
+            })
     }
 
     return (
