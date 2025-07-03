@@ -3,7 +3,6 @@ import React, { useEffect, useState } from 'react';
 import { getAuth } from "firebase/auth";
 import app from '../firebase/firebase.config';
 import { AuthContext } from './AuthContext';
-// import { GoogleAuthProvider } from 'firebase/auth/web-extension';
 
 const auth = getAuth(app);
 const googleProvider = new GoogleAuthProvider()
@@ -12,8 +11,6 @@ const AuthProvider = ({ children }) => {
 
     const [user, setUser] = useState(null)
     const[loading, setLoading] = useState(true)
-    // console.log(user);
-
 
     const createUser = (email, password) => {
         
@@ -65,6 +62,5 @@ const AuthProvider = ({ children }) => {
     return <AuthContext value={authData}>{children}</AuthContext>
 };
 
-// Initialize Firebase Authentication and get a reference to the service
 
 export default AuthProvider;

@@ -3,16 +3,16 @@ import React from 'react';
 const Faq = () => {
     return (
         <div className="my-12 px-6 md:px-12 max-w-5xl mx-auto">
-            <h2 className="text-3xl font-bold mb-6 text-center">Why Join Hobby Hub?</h2>
+            <h2 className="text-3xl font-bold mb-6 text-center">Why Join HobbyHub?</h2>
 
             <div className="space-y-4">
                 <div className="collapse collapse-arrow bg-base-100 border border-base-300">
                     <input type="radio" name="faq-accordion" defaultChecked />
                     <div className="collapse-title font-semibold">
-                        What is Hobby Hub?
+                        What is HobbyHub?
                     </div>
                     <div className="collapse-content text-sm">
-                        Hobby Hub is a social platform where people can discover, join, and create hobby-based groups, events, and communities.
+                        HobbyHub is a social platform where people can discover, join, and create hobby-based groups, events, and communities.
                     </div>
                 </div>
 
@@ -39,10 +39,10 @@ const Faq = () => {
                 <div className="collapse collapse-arrow bg-base-100 border border-base-300">
                     <input type="radio" name="faq-accordion" />
                     <div className="collapse-title font-semibold">
-                        Is it free to use Hobby Hub?
+                        Is it free to use HobbyHub?
                     </div>
                     <div className="collapse-content text-sm">
-                        Absolutely. Creating an account, joining groups, and attending public events are all free on Hobby Hub.
+                        Absolutely. Creating an account, joining groups, and attending public events are all free on HobbyHub.
                     </div>
                 </div>
             </div>

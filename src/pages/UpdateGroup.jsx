@@ -88,7 +88,6 @@ const UpdateGroup = () => {
                     <fieldset className="fieldset bg-base-200 border-base-300 rounded-box border p-4">
                         <label className="label">User Email</label>
                         <input type="email" name="userEmail" defaultValue={userEmail} className="input w-full select-primary" />
-                        {/* <input type="email" name="userEmail" className="input w-full select-primary" value={user?.email} readOnly /> */}
                     </fieldset>
 
 

@@ -4,7 +4,6 @@ import { Link } from "react-router";
 
 const GroupCard = ({ group }) => {
     const { _id, name, category, image, description, startDate } = group;
-    // const fallbackImage = "https://i.ibb.co/SDk3FB8Z/2148888824.jpg";
 
 
     return (
