@@ -1,6 +1,6 @@
 // import { toast } from "react-hot-toast";
 import toast from "react-hot-toast";
-import { useLoaderData } from "react-router";
+import { Link, useLoaderData } from "react-router";
 
 const GroupDetails = () => {
   const {
@@ -16,7 +16,7 @@ const GroupDetails = () => {
     location,
   } = useLoaderData();
 
-const isExpired = new Date(startDate).setHours(0,0,0,0) < new Date().setHours(0,0,0,0);
+  const isExpired = new Date(startDate).setHours(0, 0, 0, 0) < new Date().setHours(0, 0, 0, 0);
 
   const handleJoin = () => {
     if (isExpired) return;
@@ -61,6 +61,12 @@ const isExpired = new Date(startDate).setHours(0,0,0,0) < new Date().setHours(0,
               </button>
             )}
           </div>
+          <Link to={'/'}>
+            <button className="btn mt-3 bg-gray-500 btn-primary w-full">
+              Back to discovery
+            </button>
+          </Link>
+
         </div>
       </div>
     </div>

@@ -11,6 +11,7 @@ import Loading from "../components/Loading";
 import AuthLayout from "../layouts/AuthLayout";
 import Register from "../components/Register";
 import UpdateGroup from "../pages/UpdateGroup";
+import PrivateRoute from "../provider/PrivateRoute";
 // import MyGroups from "../pages/MyGroups";
 
 const router = createBrowserRouter([
@@ -32,24 +33,32 @@ const router = createBrowserRouter([
             },
             {
                 path: '/createGroup',
-                element: <CreateGroup></CreateGroup>
+                element: <PrivateRoute>
+                    <CreateGroup></CreateGroup>
+                </PrivateRoute>
             },
             {
                 path: '/groupDetails/:id',
                 loader: ({ params }) => fetch(`http://localhost:3000/groups/${params.id}`),
-                element: <GroupDetails></GroupDetails>,
+                element: <PrivateRoute>
+                    <GroupDetails></GroupDetails>
+                </PrivateRoute>,
                 hydrateFallbackElement: <Loading></Loading>
             },
             {
                 path: '/myGroups',
                 loader: () => fetch(`http://localhost:3000/groups`),
-                element: <MyGroups></MyGroups>,
+                element: <PrivateRoute>
+                    <MyGroups></MyGroups>
+                </PrivateRoute>,
                 hydrateFallbackElement: <Loading></Loading>
             },
             {
                 path: '/updateGroup/:id',
                 loader: ({ params }) => fetch(`http://localhost:3000/groups/${params.id}`),
-                element: <UpdateGroup></UpdateGroup>,
+                element: <PrivateRoute>
+                    <UpdateGroup></UpdateGroup>
+                </PrivateRoute>,
                 hydrateFallbackElement: <Loading></Loading>
             },
         ]

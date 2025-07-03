@@ -1,9 +1,20 @@
 import React, { use } from 'react';
 import { Link, NavLink } from 'react-router';
-import { AuthContext } from '../provider/AuthProvider';
+import { AuthContext } from '../provider/AuthContext';
 
 const Navbar = () => {
-    const {user} = use(AuthContext)
+    const { user, logOut } = use(AuthContext)
+
+    const handleLogOut =() => {
+        logOut()
+        .then(() => {
+            alert("signout successfully");
+        })
+        .catch((error) => {
+            console.log(error);
+        })
+    }
+
     const links = <>
         <li><NavLink to="/">Home</NavLink></li>
         <li><NavLink to="/AllGroups">All Groups</NavLink></li>
@@ -28,7 +39,7 @@ const Navbar = () => {
                         </div>
                         {/* <Link to="/" className="font-bold text-2xl"><span className='text-[#3B25C1]'>Hobby</span><span className='text-[#F97316]'>Hub</span></Link> */}
                         <Link to="/" className="font-bold text-2xl"><span className='text-primary'>HobbyHub</span><span className='text-[#F97316]'></span></Link>
-                        {user.email}
+
                     </div>
                     <div className="navbar-center hidden lg:flex">
                         <ul className="menu menu-horizontal px-1">
@@ -37,7 +48,7 @@ const Navbar = () => {
                     </div>
                     <div className="navbar-end gap-3">
                         {/* <span className="hidden md:inline text-sm font-medium text-gray-600">{user && user.email}</span> */}
-
+                        {user && user.email}
                         <div className="relative group">
                             <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar">
                                 <Link to="/profile">
@@ -51,15 +62,15 @@ const Navbar = () => {
 
                             {/* Tooltip on hover */}
                             <div className="absolute top-14 left-1/2 -translate-x-1/2 w-max bg-gray-700 text-white text-xs font-medium py-1.5 px-3 rounded-xl opacity-0 group-hover:opacity-100 transition duration-200 whitespace-nowrap z-20">
-                                {/* {user?.displayName || user?.email} */}
+                                {user?.displayName || user?.email}
                             </div>
                         </div>
 
-                        {/* {
-                            user ? <Link onClick={handleLogOut} to="/" className="btn border-primary text-primary hover:bg-primary hover:text-white hover:border-primary">Logout</Link>
+                        {
+                            user ? <Link onClick={handleLogOut}  to="/" className="btn border-primary text-primary hover:bg-primary hover:text-white hover:border-primary">Logout</Link>
                                 : <Link to="auth/login" className="btn border-primary text-primary hover:bg-primary hover:text-white hover:border-primary">Login</Link>
-                        } */}
-                        <Link to="/auth/login" className="btn border-primary text-primary hover:bg-primary hover:text-white hover:border-primary">Login</Link>
+                        }
+                        {/* <Link to="/auth/login" className="btn border-primary text-primary hover:bg-primary hover:text-white hover:border-primary">Login</Link> */}
 
                     </div>
                 </div>

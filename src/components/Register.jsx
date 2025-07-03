@@ -1,11 +1,15 @@
-import React, { useState } from 'react';
+import React, { use, useState } from 'react';
 import { Link } from 'react-router';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
+import { AuthContext } from '../provider/AuthContext';
+// import { AuthContext } from '../provider/AuthProvider';
 
 
 const Register = () => {
+    const {createUser, setUser} = use(AuthContext)
+
     const [showPassword, setShowPassword] = useState(false)
-    const [errorMessage, setErrorMessage] = useState('')
+    // const [errorMessage, setErrorMessage] = useState('')
 
 
 
@@ -13,12 +17,22 @@ const Register = () => {
         e.preventDefault();
         const form = e.target;
         const formData = new FormData(form)
-        const {email, password, ...restData} = Object.fromEntries(formData.entries())
+        const email = formData.get('email')
+        const password = formData.get('password')
         console.log(email, password);
 
+        // firebase
+        createUser(email, password)
+        .then(result => {
+            const user = result.user;
+            setUser(user);
+        })
+        .catch(error => {
+            console.log(error);
+        })
 
 
-        setErrorMessage('');
+        // setErrorMessage('');
     }
 
     const handleGoogleLogin = () => {
@@ -33,7 +47,7 @@ const Register = () => {
     }
 
     return (
-        <div className="hero bg-gradient-to-tr from-blue-50 via-purple-50 to-pink-50 min-h-screen items-center flex-col justify-center lg:flex-row-reverse">
+        <div className="hero py-10 bg-gradient-to-tr from-blue-50 via-purple-50 to-pink-50 min-h-screen items-center flex-col justify-center lg:flex-row-reverse">
             {/* <Helmet>
                 <title>EventExpo || Register</title>
             </Helmet> */}
