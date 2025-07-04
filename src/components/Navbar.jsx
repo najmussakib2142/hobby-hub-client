@@ -63,7 +63,7 @@ const Navbar = () => {
                         </ul>
                     </div>
                     <div className="navbar-end gap-3">
-                        <span className="hidden md:inline text-sm font-medium text-gray-600">{user && user.email}</span>
+                        {/* <span className="hidden md:inline text-sm font-medium text-gray-600">{user && user.email}</span> */}
                         <div className="relative group">
                             <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar">
                                 <Link to="/">

@@ -53,7 +53,7 @@ const Banner = () => {
                     Join vibrant hobby groups, meet like-minded people, and fuel your passion.
                 </p>
                 <Link to={'/allGroups'}>
-                    <button className="mt-8 bg-blue-600 hover:bg-blue-700 text-white font-semibold px-6 py-3 rounded-lg transition">
+                    <button className="mt-8 bg-primary hover:text-primary hover:bg-white hover:border hover:border-primary text-white font-semibold px-6 py-3 rounded-lg transition">
                         Browse Hobby Groups
                     </button>
                 </Link>

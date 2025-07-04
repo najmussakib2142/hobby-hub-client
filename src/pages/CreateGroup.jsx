@@ -2,18 +2,55 @@ import React, { useContext } from 'react';
 import Swal from 'sweetalert2';
 import { AuthContext } from '../provider/AuthContext';
 import { Helmet } from 'react-helmet-async';
+import { useNavigate } from 'react-router';
 
 const CreateGroup = () => {
 
-    const { user } = useContext(AuthContext)
-    console.log(user);
 
+
+    const { user } = useContext(AuthContext)
+    // console.log(user);
+    const navigate = useNavigate();
+
+
+    // const handleCreateGroup = e => {
+    //     e.preventDefault();
+    //     const form = e.target;
+    //     const formData = new FormData(form);
+    //     const newGroup = Object.fromEntries(formData.entries());
+
+
+    //     console.log(newGroup);
+
+    //     // send Data to db
+    //     fetch('http://localhost:3000/groups', {
+    //         method: 'POST',
+    //         headers: {
+    //             'content-type': 'application/json'
+    //         },
+    //         body: JSON.stringify(newGroup)
+    //     })
+    //         .then(res => res.json())
+    //         .then(data => {
+    //             if (data.insertedId) {
+    //                 Swal.fire({
+    //                     // position: "top-end",
+    //                     icon: "success",
+    //                     title: "Successfully create a new group",
+    //                     showConfirmButton: false,
+    //                     timer: 1500
+    //                 });
+
+    //                 form.reset()
+    //             }
+    //         })
+
+    // }
     const handleCreateGroup = e => {
         e.preventDefault();
         const form = e.target;
         const formData = new FormData(form);
         const newGroup = Object.fromEntries(formData.entries());
-
 
         console.log(newGroup);
 
@@ -29,18 +66,20 @@ const CreateGroup = () => {
             .then(data => {
                 if (data.insertedId) {
                     Swal.fire({
-                        // position: "top-end",
                         icon: "success",
-                        title: "Successfully create a new group",
-                        showConfirmButton: false,
-                        timer: 1500
+                        title: `"${newGroup.name}" created successfully!`,
+                        text: "Redirecting to All Groups...",
+                        timer: 2000,
+                        timerProgressBar: true,
+                        showConfirmButton: false
+                    }).then(() => {
+                        navigate("/allGroups");
                     });
 
-                    form.reset()
+                    form.reset();
                 }
-            })
-
-    }
+            });
+    };
 
     return (
         <div className='mb-10  mt-4 px-10'>

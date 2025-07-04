@@ -26,6 +26,7 @@ const MyGroups = () => {
 
   // Handle Delete Button
   const handleDelete = (id) => {
+    // console.log(id);
     Swal.fire({
       title: "Are you sure?",
       text: "You want to delete this group?",
@@ -35,20 +36,20 @@ const MyGroups = () => {
       cancelButtonColor: "#3085d6",
       confirmButtonText: "Yes, delete it!"
     }).then((result) => {
+      console.log(result.isConfirmed);
       if (result.isConfirmed) {
-        // Call delete API
-        fetch(`http://localhost:3000/groups/${id}`, {
+        fetch(`http://localhost:3000/myGroups/${id}`, {
           method: 'DELETE'
         })
           .then(res => res.json())
           .then(data => {
+            // console.log('after delete', data);
             if (data.deletedCount > 0) {
               Swal.fire("Deleted!", "Your group has been deleted.", "success");
-              // Remove group from UI
               setGroups(prevGroups => prevGroups.filter(group => group._id !== id));
             }
           })
-          .catch(err => console.error("Delete failed:", err));
+          .catch(error => console.error("Delete failed:", error));
       }
     });
   };
