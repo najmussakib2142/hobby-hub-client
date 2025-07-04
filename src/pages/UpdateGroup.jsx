@@ -2,6 +2,7 @@
 // import { useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { useLoaderData } from 'react-router';
+import Swal from 'sweetalert2';
 
 const UpdateGroup = () => {
 
@@ -20,7 +21,57 @@ const UpdateGroup = () => {
 
     const handleUpdateGroup = e => {
         e.preventDefault();
+        const form = e.target;
+        const formData = new FormData(form)
+        const updatedGroup = Object.fromEntries(formData.entries())
+        // console.log(updatedGroup);
+        // update data to DB
+        Swal.fire({
+            title: "Are you sure?",
+            text: `You want to update the group "${name}"?`,
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes, update it!",
+        }).then((result) => {
+            if (result.isConfirmed) {
+                fetch(`http://localhost:3000/groups/${_id}`, {
+                    method: "PUT",
+                    headers: {
+                        'content-type': 'application/json'
+                    },
+                    body: JSON.stringify(updatedGroup)
+                })
+                    .then(res => res.json())
+                    .then(data => {
+                        console.log(data);
+                        Swal.fire({
+                            toast: true,
+                            position: "top-end",
+                            icon: "success",
+                            title: `Group "${name}" updated successfully!`,
+                            showConfirmButton: false,
+                            timer: 2000,
+                            timerProgressBar: true,
+                        });
+                    })
+            }
+        })
     }
+    //     fetch(`http://localhost:3000/groups/${_id}`, {
+    //         method: "PUT",
+    //         headers: {
+    //             'content-type': 'application/json'
+    //         },
+    //         body: JSON.stringify(updatedGroup)
+    //     })
+    //         .then(res => res.json())
+    //         .then(data => {
+    //             console.log(data);
+    //         })
+
+    // }
     return (
         <div className='mb-10 px-10'>
             <Helmet>
