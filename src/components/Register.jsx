@@ -4,7 +4,6 @@ import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import { AuthContext } from '../provider/AuthContext';
 import toast from 'react-hot-toast';
 import { Helmet } from 'react-helmet-async';
-// import { AuthContext } from '../provider/AuthProvider';
 
 
 const Register = () => {
@@ -23,7 +22,6 @@ const Register = () => {
         const password = formData.get('password')
         const name = formData.get('name')
         const photo = formData.get('photo')
-        // console.log(email, password);
 
         // firebase
         createUser(email, password)

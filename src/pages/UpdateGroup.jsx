@@ -1,11 +1,11 @@
 // import React, { useState } from 'react';
-import { useState } from 'react';
+// import { useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { useLoaderData } from 'react-router';
 
 const UpdateGroup = () => {
 
-    const [hobbyCategory, setCategory] = useState("");
+    // const [hobbyCategory, setCategory] = useState("");
 
     const { _id,
         name,
@@ -45,7 +45,7 @@ const UpdateGroup = () => {
                         <select
                             name="category"
                             value={category}
-                            onChange={(e) => setCategory(e.target.value)}
+                            // onChange={(e) => setCategory(e.target.value)}
                             className="select select-primary w-full"
                         >
                             <option value="" disabled>Select a hobby category</option>

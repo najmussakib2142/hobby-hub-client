@@ -43,12 +43,12 @@ const CreateGroup = () => {
     }
 
     return (
-        <div className='mb-10 px-10'>
+        <div className='mb-10  mt-4 px-10'>
             <Helmet>
                 <title>HobbyHub || Create Group</title>
             </Helmet>
             <div className='text-center py-4 '>
-                <p>*private route*</p>
+                {/* <p>*private route*</p> */}
                 <h2 className='text-4xl font-semibold mb-3'>Create Group</h2>
                 <p className='text-2xl font-semibold mb-5 text-gray-600'>create a new hobby group</p>
             </div>

@@ -15,10 +15,10 @@ const HomeLayout = () => {
             <Helmet>
                 <title>HobbyHub || Home</title>
             </Helmet>
-            <nav>
+            <nav className='max-w-7xl mx-auto'>
                 <Navbar></Navbar>
             </nav>
-            <main className='max-w-6xl mx-auto'>
+            <main className='max-w-7xl mx-auto'>
                {state == "loading" ? <Loading/> : <Outlet></Outlet>} 
             </main>
             <Footer></Footer>
