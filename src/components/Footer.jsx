@@ -1,4 +1,4 @@
-import { FaFacebookF, FaInstagram, FaTwitter, FaEnvelope, } from "react-icons/fa";
+import { FaFacebookF, FaInstagram, FaTwitter, FaEnvelope, FaYoutube, } from "react-icons/fa";
 import { Link, NavLink } from "react-router";
 
 const Footer = () => {
@@ -14,10 +14,10 @@ const Footer = () => {
                             Discover hobby groups, connect with others, and fuel your passions.
                         </p>
                         <div className="flex gap-4 mt-4 text-lg">
-                            <a href="#" className="hover:text-primary"><FaFacebookF /></a>
-                            <a href="#" className="hover:text-primary"><FaInstagram /></a>
-                            <a href="#" className="hover:text-primary"><FaTwitter /></a>
-                            <a href="mailto:info@hobbyhub.com" className="hover:text-primary"><FaEnvelope /></a>
+                            <a target="_blank"   href="https://www.facebook.com/programmingHero/" className="hover:text-primary"><FaFacebookF /></a>
+                            <a target="_blank" href="https://www.instagram.com/programminghero/?hl=en" className="hover:text-primary"><FaInstagram /></a>
+                            <a target="_blank" href="https://www.youtube.com/c/ProgrammingHeroCommunity" className="hover:text-primary"><FaYoutube /></a>
+                            <a href="web@programming-hero.com" className="hover:text-primary"><FaEnvelope /></a>
                         </div>
                     </div>
 
@@ -25,10 +25,10 @@ const Footer = () => {
                     <div>
                         <h3 className="text-lg font-semibold mb-3">Quick Links</h3>
                         <ul className="space-y-2 text-sm">
-                            <li><NavLink to="/">Home </NavLink></li>
-                            <li><NavLink to="/AllGroups">All Groups</NavLink></li>
-                            <li><NavLink to="/createGroup">Create Group </NavLink></li>
-                            <li><NavLink to="/myGroups">My Groups </NavLink></li>
+                            <li className='text-[#101828]'><NavLink to="/">Home </NavLink></li>
+                            <li className='text-[#101828]'><NavLink to="/AllGroups">All Groups</NavLink></li>
+                            <li className='text-[#101828]'><NavLink to="/createGroup">Create Group </NavLink></li>
+                            <li className='text-[#101828]'><NavLink to="/myGroups">My Groups </NavLink></li>
                         </ul>
                     </div>
 
@@ -49,11 +49,11 @@ const Footer = () => {
 
 
             </footer>
-            <div className="fixed bottom-1 left-0 right-0 z-50 bg-white border-t border-gray-300 shadow-md px-6 py-3 flex justify-between text-sm lg:hidden">
-                <NavLink to="/" className="text-gray-700 font-medium hover:text-blue-600" >Home</NavLink>
-                <NavLink to="/AllGroups" className="text-gray-700 font-medium hover:text-blue-600">All Groups</NavLink>
-                <NavLink to="/createGroup" className="text-gray-700 font-medium hover:text-blue-600">Create Group </NavLink>
-                <NavLink to="/myGroups" className="text-gray-700 font-medium hover:text-blue-600">My Groups </NavLink>
+            <div className="fixed bottom-1 left-0 right-0 z-50 bg-base-100 border-t border-gray-300 shadow-md px-6 py-3 flex justify-between text-sm lg:hidden">
+                <NavLink to="/" className="text-[#101828] font-medium hover:text-blue-600" >Home</NavLink>
+                <NavLink to="/AllGroups" className="text-[#101828] font-medium hover:text-blue-600">All Groups</NavLink>
+                <NavLink to="/createGroup" className="text-[#101828] font-medium hover:text-blue-600">Create Group </NavLink>
+                <NavLink to="/myGroups" className="text-[#101828] font-medium hover:text-blue-600">My Groups </NavLink>
             </div>
 
         </nav>

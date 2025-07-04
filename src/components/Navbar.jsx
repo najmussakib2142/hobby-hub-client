@@ -1,10 +1,12 @@
-import React, { use } from 'react';
+import React, { use, } from 'react';
 import { Link, NavLink } from 'react-router';
 import { AuthContext } from '../provider/AuthContext';
 import Swal from 'sweetalert2';
+import { LuMoon, LuSun } from 'react-icons/lu';
 
 const Navbar = () => {
     const { user, logOut } = use(AuthContext)
+    // const [theme, setTheme] = useState("")
 
     const handleLogOut = () => {
         Swal.fire({
@@ -12,7 +14,7 @@ const Navbar = () => {
             text: "You want to log out?",
             icon: "warning",
             showCancelButton: true,
-            confirmButtonColor: "#3085d6",
+            confirmButtonColor: "#1F1A70",
             cancelButtonColor: "#d33",
             confirmButtonText: "Yes, log me out!"
         }).then((result) => {
@@ -33,15 +35,15 @@ const Navbar = () => {
     }
 
     const links = <>
-        <li><NavLink to="/">Home</NavLink></li>
-        <li><NavLink to="/AllGroups">All Groups</NavLink></li>
-        <li><NavLink to="/createGroup">Create Group </NavLink></li>
-        <li><NavLink to="myGroups">My Groups </NavLink></li>
+        <li className='text-[#101828]'><NavLink to="/">Home</NavLink></li>
+        <li className='text-[#101828]'><NavLink to="/AllGroups">All Groups</NavLink></li>
+        <li className='text-[#101828]'><NavLink to="/createGroup">Create Group </NavLink></li>
+        <li className='text-[#101828]'><NavLink to="myGroups">My Groups </NavLink></li>
     </>
 
     return (
         <div>
-            <div >
+            <div>
                 <div className="navbar sticky top-0 z-50 md:px-12 bg-base-100 shadow-sm">
                     <div className="navbar-start">
                         <div className="dropdown">
@@ -50,19 +52,47 @@ const Navbar = () => {
                             </div>
                             <ul
                                 tabIndex={0}
-                                className="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow">
+                                className="menu menu-sm text-[#101828] dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow">
                                 {links}
                             </ul>
                         </div>
-                        <Link to="/" className="font-bold text-2xl"><span className='text-primary'>HobbyHub</span><span className='text-[#F97316]'></span></Link>
+                        <Link to="/" className="font-bold text-2xl"><span className='text-primary'>HobbyHub</span><span className='text-secondary'></span></Link>
 
                     </div>
                     <div className="navbar-center hidden lg:flex">
-                        <ul className="menu menu-horizontal px-1">
+                        <ul className="menu text-[#101828] menu-horizontal px-1">
                             {links}
                         </ul>
                     </div>
                     <div className="navbar-end gap-3">
+                        {/* <div className='flex gap-1.5 bg-zinc-100 dark:bg-zinc-600 p-2 rounded-xl'>
+                            <button className='bg-transparent p-2 hover:bg-zinc-800 dark:bg-zinc-100/10 rounded-lg text-black dark:text-white'
+                                onClick={() => {
+                                    document.documentElement.setAttribute("data-theme", "light");
+                                }}                            >
+                                <LuSun></LuSun>
+                            </button>
+                            <button
+                                onClick={() => {
+                                    document.documentElement.setAttribute("data-theme", "dark");
+                                }} className='bg-transparent p-2 hover:bg-zinc-200 dark:bg-zinc-100/10 rounded-lg text-black dark:text-white'>
+                                <LuMoon></LuMoon>
+                            </button>
+                        </div> */}
+                        {/* <div className="flex gap-1.5 bg-zinc-100 dark:bg-zinc-600 p-2 rounded-xl">
+                            <button
+                                className="bg-transparent p-2 hover:bg-zinc-800 dark:bg-zinc-100/10 rounded-lg text-black dark:text-white"
+                                onClick={() => document.documentElement.setAttribute("data-theme", "light")}
+                            >
+                                <LuSun />
+                            </button>
+                            <button
+                                className="bg-transparent p-2 hover:bg-zinc-200 dark:bg-zinc-100/10 rounded-lg text-black dark:text-white"
+                                onClick={() => document.documentElement.setAttribute("data-theme", "dark")}
+                            >
+                                <LuMoon />
+                            </button>
+                        </div> */}
                         {/* <span className="hidden md:inline text-sm font-medium text-gray-600">{user && user.email}</span> */}
                         <div className="relative group">
                             <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar">

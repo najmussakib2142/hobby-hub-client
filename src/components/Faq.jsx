@@ -6,7 +6,7 @@ const Faq = () => {
             <h2 className="text-3xl font-bold mb-8 text-center">Why Join HobbyHub?</h2>
 
             <div className="space-y-4">
-                <div className="collapse collapse-arrow bg-base-100 border border-base-300 rounded-lg">
+                <div className="collapse hover:scale-105 hover:shadow-lg collapse-arrow bg-base-100 border border-base-300 rounded-lg">
                     <input type="radio" name="faq-accordion" defaultChecked />
                     <div
                         tabIndex={0}
@@ -19,7 +19,7 @@ const Faq = () => {
                     </div>
                 </div>
 
-                <div className="collapse collapse-arrow bg-base-100 border border-base-300 rounded-lg">
+                <div className="collapse hover:scale-105 hover:shadow-lg collapse-arrow bg-base-100 border border-base-300 rounded-lg">
                     <input type="radio" name="faq-accordion" />
                     <div
                         tabIndex={0}
@@ -32,7 +32,7 @@ const Faq = () => {
                     </div>
                 </div>
 
-                <div className="collapse collapse-arrow bg-base-100 border border-base-300 rounded-lg">
+                <div className="collapse hover:scale-105 hover:shadow-lg collapse-arrow bg-base-100 border border-base-300 rounded-lg">
                     <input type="radio" name="faq-accordion" />
                     <div
                         tabIndex={0}
@@ -45,7 +45,7 @@ const Faq = () => {
                     </div>
                 </div>
 
-                <div className="collapse collapse-arrow bg-base-100 border border-base-300 rounded-lg">
+                <div className="collapse hover:scale-105 hover:shadow-lg collapse-arrow bg-base-100 border border-base-300 rounded-lg">
                     <input type="radio" name="faq-accordion" />
                     <div
                         tabIndex={0}

@@ -82,7 +82,7 @@ const CreateGroup = () => {
     };
 
     return (
-        <div className='mb-10  mt-4 px-10'>
+        <div className='mb-10 max-w-5xl mx-auto  mt-4 px-10'>
             <Helmet>
                 <title>HobbyHub || Create Group</title>
             </Helmet>
