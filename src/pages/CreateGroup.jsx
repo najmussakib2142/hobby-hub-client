@@ -12,50 +12,16 @@ const CreateGroup = () => {
     // console.log(user);
     const navigate = useNavigate();
 
-
-    // const handleCreateGroup = e => {
-    //     e.preventDefault();
-    //     const form = e.target;
-    //     const formData = new FormData(form);
-    //     const newGroup = Object.fromEntries(formData.entries());
-
-
-    //     console.log(newGroup);
-
-    //     // send Data to db
-    //     fetch('http://localhost:3000/groups', {
-    //         method: 'POST',
-    //         headers: {
-    //             'content-type': 'application/json'
-    //         },
-    //         body: JSON.stringify(newGroup)
-    //     })
-    //         .then(res => res.json())
-    //         .then(data => {
-    //             if (data.insertedId) {
-    //                 Swal.fire({
-    //                     // position: "top-end",
-    //                     icon: "success",
-    //                     title: "Successfully create a new group",
-    //                     showConfirmButton: false,
-    //                     timer: 1500
-    //                 });
-
-    //                 form.reset()
-    //             }
-    //         })
-
-    // }
     const handleCreateGroup = e => {
         e.preventDefault();
         const form = e.target;
         const formData = new FormData(form);
         const newGroup = Object.fromEntries(formData.entries());
 
-        console.log(newGroup);
+        // console.log(newGroup);
 
         // send Data to db
-        fetch('http://localhost:3000/groups', {
+        fetch('https://hobby-hub-server-psi-bay.vercel.app/groups', {
             method: 'POST',
             headers: {
                 'content-type': 'application/json'
@@ -88,8 +54,8 @@ const CreateGroup = () => {
             </Helmet>
             <div className='text-center py-4 '>
                 {/* <p>*private route*</p> */}
-                <h2 className='text-4xl font-semibold mb-3'>Create Group</h2>
-                <p className='text-2xl font-semibold mb-5 text-gray-600'>create a new hobby group</p>
+                <h2 className='text-4xl text-primary font-semibold mb-3'>Create Group</h2>
+                <p className='text-2xl font-semibold mb-5 text-gray-500'>create a new hobby group</p>
             </div>
 
             <form onSubmit={handleCreateGroup} >

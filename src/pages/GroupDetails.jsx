@@ -80,7 +80,7 @@ const GroupDetails = () => {
 
 
           <Link to="/">
-            <button className="btn mt-3 bg-secondary btn-primary w-full">
+            <button className="btn mt-3 bg-secondary text-[#101828] btn-primary w-full">
               Back to discovery
             </button>
           </Link>

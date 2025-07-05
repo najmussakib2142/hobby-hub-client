@@ -3,6 +3,7 @@ import { Link, NavLink } from 'react-router';
 import { AuthContext } from '../provider/AuthContext';
 import Swal from 'sweetalert2';
 import { LuMoon, LuSun } from 'react-icons/lu';
+import toast from 'react-hot-toast';
 
 const Navbar = () => {
     const { user, logOut } = use(AuthContext)
@@ -28,7 +29,7 @@ const Navbar = () => {
                         });
                     })
                     .catch((error) => {
-                        console.log(error);
+                        toast.error(error.message);
                     })
             }
         })
@@ -44,7 +45,7 @@ const Navbar = () => {
     return (
         <div>
             <div>
-                <div className="navbar sticky top-0 z-50 md:px-12 bg-base-100 shadow-sm">
+                <div className="navbar lg:fixed sticky top-0 z-50 md:px-12 px-4 bg-base-100/80 backdrop-blur transition-all duration-300 shadow-md">
                     <div className="navbar-start">
                         <div className="dropdown">
                             <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">
@@ -65,35 +66,6 @@ const Navbar = () => {
                         </ul>
                     </div>
                     <div className="navbar-end gap-3">
-                        {/* <div className='flex gap-1.5 bg-zinc-100 dark:bg-zinc-600 p-2 rounded-xl'>
-                            <button className='bg-transparent p-2 hover:bg-zinc-800 dark:bg-zinc-100/10 rounded-lg text-black dark:text-white'
-                                onClick={() => {
-                                    document.documentElement.setAttribute("data-theme", "light");
-                                }}                            >
-                                <LuSun></LuSun>
-                            </button>
-                            <button
-                                onClick={() => {
-                                    document.documentElement.setAttribute("data-theme", "dark");
-                                }} className='bg-transparent p-2 hover:bg-zinc-200 dark:bg-zinc-100/10 rounded-lg text-black dark:text-white'>
-                                <LuMoon></LuMoon>
-                            </button>
-                        </div> */}
-                        {/* <div className="flex gap-1.5 bg-zinc-100 dark:bg-zinc-600 p-2 rounded-xl">
-                            <button
-                                className="bg-transparent p-2 hover:bg-zinc-800 dark:bg-zinc-100/10 rounded-lg text-black dark:text-white"
-                                onClick={() => document.documentElement.setAttribute("data-theme", "light")}
-                            >
-                                <LuSun />
-                            </button>
-                            <button
-                                className="bg-transparent p-2 hover:bg-zinc-200 dark:bg-zinc-100/10 rounded-lg text-black dark:text-white"
-                                onClick={() => document.documentElement.setAttribute("data-theme", "dark")}
-                            >
-                                <LuMoon />
-                            </button>
-                        </div> */}
-                        {/* <span className="hidden md:inline text-sm font-medium text-gray-600">{user && user.email}</span> */}
                         <div className="relative group">
                             <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar">
                                 <Link to="/">

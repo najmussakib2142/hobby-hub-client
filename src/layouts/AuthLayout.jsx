@@ -1,6 +1,7 @@
 import React from 'react';
 import Navbar from '../components/Navbar';
 import { Outlet } from 'react-router';
+import BottomNav from '../components/BottomNav';
 
 const AuthLayout = () => {
     return (
@@ -11,6 +12,7 @@ const AuthLayout = () => {
             <div className='max-w-6xl mx-auto'>
                 <Outlet></Outlet>
             </div>
+            {/* <BottomNav></BottomNav> */}
         </div>
     );
 };

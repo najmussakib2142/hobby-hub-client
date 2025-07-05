@@ -5,7 +5,6 @@ import { Link } from "react-router";
 const Banner = () => {
     return (
         <section className="max-w-7xl mx-auto">
-            {/* Image Carousel */}
             <div className="overflow-hidden">
                 <Carousel
                     autoPlay
@@ -42,15 +41,12 @@ const Banner = () => {
                     </div>
                 </Carousel>
             </div>
-            {/* <div className="border-t border-gray-200"></div> */}
-            {/* Hero Text Section */}
-            {/* <div className="border-t border-gray-600"></div> */}
-            <div className="text-center py-14 px-6">
-                <h1 className="text-4xl md:text-6xl font-bold text-[#101828]">
+            <div className="text-center py-12 px-5">
+                <h1 className="text-4xl md:text-5xl font-bold text-[#101828]">
                     Discover Your Hobby Tribe
                 </h1>
-                <p className="text-gray-600 text-lg md:text-2xl mt-4 max-w-3xl mx-auto">
-                    Join vibrant hobby groups, meet like-minded people, and fuel your passion.
+                <p className="text-gray-600 text-lg md:text-xl mt-4 max-w-3xl mx-auto">
+                    Join vibrant hobby groups, meet like-minded people, and fuel <br className="hidden md:block" /> your passion.
                 </p>
                 <Link to={'/allGroups'}>
                     <button className="mt-8 bg-primary hover:text-primary hover:bg-base-100 hover:border hover:border-primary text-white font-semibold px-6 py-3 rounded-lg transition">

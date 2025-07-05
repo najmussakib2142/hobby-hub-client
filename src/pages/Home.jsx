@@ -13,8 +13,8 @@ const Home = () => {
     return (
         <div>
             <Banner></Banner>
-            <div>
-                <div className="text-center mt-10">
+            <div className='max-w-screen-lg mx-auto'>
+                <div className="text-center mt-5">
                     <h2 className="text-3xl md:text-4xl font-bold text-primary">
                         Discover New{' '}
                         <span className="text-secondary">
@@ -33,7 +33,7 @@ const Home = () => {
                         Connect with passionate people, discover new hobbies, and build your own community!
                     </p>
                 </div>
-                <div className='grid p-8 gap-6 grid-cols-1 md:grid-cols-2 lg:grid-cols-3'>
+                <div className='grid p-8  lg:gap-5 gap-5 grid-cols-1 md:grid-cols-2 lg:grid-cols-3'>
                     {
                         groups.map(group =>
                             <GroupCard

@@ -6,22 +6,24 @@ import PopularCategories from '../components/PopularCategories';
 import Faq from '../components/Faq';
 import Footer from '../components/Footer';
 import { Helmet } from 'react-helmet-async';
+import BottomNav from '../components/BottomNav';
 
 const HomeLayout = () => {
     const {state} = useNavigation()
 
     return (
-        <div>
+        <div className='lg:pt-15'>
             <Helmet>
                 <title>HobbyHub || Home</title>
             </Helmet>
-            <nav className='max-w-7xl mx-auto'>
+            <nav className=''>
                 <Navbar></Navbar>
             </nav>
             <main className='max-w-7xl mx-auto'>
                {state == "loading" ? <Loading/> : <Outlet></Outlet>} 
             </main>
             <Footer></Footer>
+            <BottomNav></BottomNav>
         </div>
     );
 };

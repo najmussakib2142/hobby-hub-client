@@ -19,59 +19,7 @@ const UpdateGroup = () => {
         userEmail,
         location, } = useLoaderData()
 
-    // const handleUpdateGroup = e => {
-    //     e.preventDefault();
-    //     const form = e.target;
-    //     const formData = new FormData(form)
-    //     const updatedGroup = Object.fromEntries(formData.entries())
-    //     // console.log(updatedGroup);
-    //     // update data to DB
-    //     Swal.fire({
-    //         title: "Are you sure?",
-    //         text: `You want to update the group "${name}"?`,
-    //         icon: "warning",
-    //         showCancelButton: true,
-    //         confirmButtonColor: "#3085d6",
-    //         cancelButtonColor: "#d33",
-    //         confirmButtonText: "Yes, update it!",
-    //     }).then((result) => {
-    //         if (result.isConfirmed) {
-    //             fetch(`http://localhost:3000/groups/${_id}`, {
-    //                 method: "PUT",
-    //                 headers: {
-    //                     'content-type': 'application/json'
-    //                 },
-    //                 body: JSON.stringify(updatedGroup)
-    //             })
-    //                 .then(res => res.json())
-    //                 .then(data => {
-    //                     console.log(data);
-    //                     Swal.fire({
-    //                         toast: true,
-    //                         position: "top-end",
-    //                         icon: "success",
-    //                         title: `Group "${name}" updated successfully!`,
-    //                         showConfirmButton: false,
-    //                         timer: 2000,
-    //                         timerProgressBar: true,
-    //                     });
-    //                 })
-    //         }
-    //     })
-    // }
-    //     fetch(`http://localhost:3000/groups/${_id}`, {
-    //         method: "PUT",
-    //         headers: {
-    //             'content-type': 'application/json'
-    //         },
-    //         body: JSON.stringify(updatedGroup)
-    //     })
-    //         .then(res => res.json())
-    //         .then(data => {
-    //             console.log(data);
-    //         })
 
-    // }
     const handleUpdateGroup = e => {
         e.preventDefault();
         const form = e.target;
@@ -91,7 +39,7 @@ const UpdateGroup = () => {
             confirmButtonText: "Yes, update it!",
         }).then((result) => {
             if (result.isConfirmed) {
-                fetch(`http://localhost:3000/groups/${_id}`, {
+                fetch(`https://hobby-hub-server-psi-bay.vercel.app/groups/${_id}`, {
                     method: "PUT",
                     headers: {
                         'content-type': 'application/json'
@@ -100,30 +48,32 @@ const UpdateGroup = () => {
                 })
                     .then(res => res.json())
                     .then(data => {
-                        console.log(data);
-                        Swal.fire({
-                            toast: true,
-                            position: "top-end",
-                            icon: "success",
-                            title: `Group "${groupName}" updated successfully!`,
-                            showConfirmButton: false,
-                            timer: 2000,
-                            timerProgressBar: true,
-                        });
+                        if (data.modifiedCount) {
+                            Swal.fire({
+                                toast: true,
+                                position: "top-end",
+                                icon: "success",
+                                title: `Group "${groupName}" updated successfully!`,
+                                showConfirmButton: false,
+                                timer: 2000,
+                                timerProgressBar: true,
+                            });
+
+                        }
                     });
             }
         });
     };
 
     return (
-        <div className='mb-10 max-w-5xl mx-auto px-10'>
+        <div className='mb-10 lg:mt-4 max-w-5xl mx-auto px-10'>
             <Helmet>
                 <title>HobbyHub || Update Group</title>
             </Helmet>
             <div className='text-center py-4 '>
                 {/* <p>*private route*</p> */}
-                <h2 className='text-4xl font-semibold mb-3'>Update Group</h2>
-                <p className='text-2xl font-semibold mb-5 text-gray-600'>Keep your community fresh. Update your group details anytime!</p>
+                <h2 className='text-4xl text-primary font-semibold mb-3'>Update Group</h2>
+                <p className='text-2xl font-semibold mb-5 text-gray-500'>Keep your community fresh. Update your group details anytime!</p>
             </div>
 
             <form onSubmit={handleUpdateGroup} >
