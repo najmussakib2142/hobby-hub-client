@@ -2,11 +2,18 @@
 
 
 @import "tailwindcss";
-
 @plugin "daisyui" {
-  themes: light --default;
+  /* themes: light --default; */
 }
 
+@custom-variant dark (&:where([data-theme=dark], [data-theme=dark] *));
+
+@layer base {
+  @apply transition-colors duration-300
+}
+body{
+  @apply bg-base-100 dark:bg-gray-900 text-gray-900 dark:text-gray-100
+}
 @plugin "daisyui/theme" {
   name: "light";
   default: true;

@@ -71,41 +71,41 @@ const MyGroups = () => {
 
       {loading ? (
         <div className='min-h-screen  flex items-center justify-center'>
-          <span className="loading text-[#1F1A70] loading-dots loading-xl"></span>
+          <span className="loading text-[#1F1A70] dark:text-gray-300 loading-dots loading-xl"></span>
         </div>
       ) : (
-        <div className="overflow-x-auto rounded-lg shadow  border-primary">
+        <div className="overflow-x-auto rounded-lg shadow dark:border-gray-600  border-primary">
           <table className="table-auto w-full text-left">
-            <thead className="bg-gradient-to-r from-indigo-100 to-purple-100 text-gray-800">
+            <thead className="bg-gradient-to-r from-indigo-100 to-purple-100 text-gray-800 dark:from-gray-800 dark:text-gray-200 dark:to-gray-900">
               <tr>
-                <th className=" border-primary px-4 py-3">No</th>
-                <th className=" border-primary px-4 py-3">Image</th>
-                <th className=" border-primary px-4 py-3">Group Name</th>
-                <th className=" border-primary px-4 py-3">Category</th>
-                <th className=" border-primary px-4 py-3">Location</th>
-                <th className=" border-primary px-4 py-3">Members</th>
-                <th className=" border-primary px-4 py-3">Start Date</th>
-                <th className=" border-primary px-4 py-3">Actions</th>
+                <th className=" border-primary dark:border-gray-600  px-4 py-3">No</th>
+                <th className=" border-primary dark:border-gray-600 px-4 py-3">Image</th>
+                <th className=" border-primary dark:border-gray-600 px-4 py-3">Group Name</th>
+                <th className=" border-primary dark:border-gray-600 px-4 py-3">Category</th>
+                <th className=" border-primary dark:border-gray-600 px-4 py-3">Location</th>
+                <th className=" border-primary dark:border-gray-600 px-4 py-3">Members</th>
+                <th className=" border-primary dark:border-gray-600 px-4 py-3">Start Date</th>
+                <th className=" border-primary dark:border-gray-600 px-4 py-3">Actions</th>
               </tr>
             </thead>
             <tbody>
               {groups.length > 0 ? (
                 groups.map((group, index) => (
-                  <tr key={group._id} className="hover:bg-gray-50 transition-all shadow-sm last:border-b-0">
-                    <td className=" border-primary px-4 py-3 text-center font-semibold">{index + 1}</td>
-                    <td className=" border-primary px-2 py-2">
+                  <tr key={group._id} className="hover:bg-gray-50 dark:hover:bg-gray-800 transition-all shadow-sm last:border-b-0">
+                    <td className=" border-primary px-4 dark:border-gray-600 py-3 text-center font-semibold">{index + 1}</td>
+                    <td className=" border-primary dark:border-gray-600 px-2 py-2">
                       <img
                         src={group.image}
                         alt={group.name}
                         className="w-16 h-16 object-cover rounded-lg mx-auto"
                       />
                     </td>
-                    <td className="  border-primary px-4 py-3 font-medium text-gray-900">{group.name}</td>
-                    <td className=" border-primary px-4 py-3 text-gray-700">{group.category}</td>
-                    <td className=" border-primary px-4 py-3 text-gray-700">{group.location}</td>
-                    <td className=" border-primary px-4 py-3 text-center text-gray-700">{group.maxMembers}</td>
-                    <td className=" border-primary px-4 py-3 text-gray-700">{group.startDate}</td>
-                    <td className=" border-primary px-4 py-3 flex flex-col space-y-2 items-center">
+                    <td className=" border-primary dark:text-gray-100 dark:border-gray-600 px-4 py-3 font-medium text-gray-900">{group.name}</td>
+                    <td className=" border-primary dark:text-gray-100 dark:border-gray-600 px-4 py-3 text-gray-700">{group.category}</td>
+                    <td className=" border-primary dark:text-gray-100 dark:border-gray-600 px-4 py-3 text-gray-700">{group.location}</td>
+                    <td className=" border-primary dark:text-gray-100 dark:border-gray-600 px-4 py-3 text-center text-gray-700">{group.maxMembers}</td>
+                    <td className=" border-primary dark:text-gray-100 dark:border-gray-600 px-4 py-3 text-gray-700">{group.startDate}</td>
+                    <td className=" border-primary dark:text-gray-100 dark:border-gray-600 px-4 py-3 flex flex-col space-y-2 items-center">
                       <button
                         onClick={() => handleUpdate(group._id)}
                         className="bg-primary hover:bg-indigo-800 text-white px-3 py-1.5 rounded text-sm w-24 transition-all"

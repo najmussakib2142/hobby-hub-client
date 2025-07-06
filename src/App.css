@@ -7,3 +7,8 @@
   color: #1F1A70;
   transition: all 0.3s ease;
 }
+
+html[data-theme='dark'] .active {
+  text-decoration-color: #f43098;
+  color: #f43098;
+}

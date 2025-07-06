@@ -11,7 +11,7 @@ const Footer = () => {
                     {/* Brand Info */}
                     <div className="">
                         <h2 className="text-3xl font-bold text-primary">HobbyHub</h2>
-                        <p className="text-sm text-gray-500 mt-2">
+                        <p className="text-sm text-gray-500 dark:text-gray-400 mt-2">
                             Discover hobby groups, connect with others, and fuel your passions.
                         </p>
                         <div className="flex gap-4 mt-4 text-lg">
@@ -23,25 +23,25 @@ const Footer = () => {
                     </div>
 
                     {/* Quick Links */}
-                    
-                        <div className="md:ml-20">
-                            <h3 className="text-lg font-semibold mb-3">Quick Links</h3>
-                            <ul className="space-y-2 text-sm">
-                                <li className='text-[#101828]'><NavLink to="/">Home </NavLink></li>
-                                <li className='text-[#101828]'><NavLink to="/AllGroups">All Groups</NavLink></li>
-                                <li className='text-[#101828]'><NavLink to="/createGroup">Create Group </NavLink></li>
-                                <li className='text-[#101828]'><NavLink to="/myGroups">My Groups </NavLink></li>
-                            </ul>
-                        </div>
 
-                        {/* Contact Info */}
-                        <div className="md:ml-10">
-                            <h3 className="text-lg font-semibold mb-3">Contact</h3>
-                            <p className="text-sm text-gray-500">📧 info@hobbyhub.com</p>
-                            <p className="text-sm text-gray-500">📍 Dhaka, Bangladesh</p>
-                            <p className="text-sm text-gray-500 mt-2">Open: 9:00AM - 6:00PM</p>
-                        </div>
-                    
+                    <div className="md:ml-20">
+                        <h3 className="text-lg font-semibold mb-3">Quick Links</h3>
+                        <ul className="space-y-2 text-sm">
+                            <li className='text-[#101828] dark:text-gray-100 hover:text-primary dark:hover:text-secondary'><NavLink to="/">Home </NavLink></li>
+                            <li className='text-[#101828] dark:text-gray-100 hover:text-primary dark:hover:text-secondary'><NavLink to="/AllGroups">All Groups</NavLink></li>
+                            <li className='text-[#101828] dark:text-gray-100 hover:text-primary dark:hover:text-secondary'><NavLink to="/createGroup">Create Group </NavLink></li>
+                            <li className='text-[#101828] dark:text-gray-100 hover:text-primary dark:hover:text-secondary'><NavLink to="/myGroups">My Groups </NavLink></li>
+                        </ul>
+                    </div>
+
+                    {/* Contact Info */}
+                    <div className="md:ml-10">
+                        <h3 className="text-lg font-semibold mb-3">Contact</h3>
+                        <p className="text-sm text-gray-600 dark:text-gray-400">📧 info@hobbyhub.com</p>
+                        <p className="text-sm text-gray-500 dark:text-gray-400">📍 Dhaka, Bangladesh</p>
+                        <p className="text-sm text-gray-500 dark:text-gray-400 mt-2">Open: 9:00AM - 6:00PM</p>
+                    </div>
+
 
                 </div>
 

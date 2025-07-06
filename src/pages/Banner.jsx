@@ -42,16 +42,20 @@ const Banner = () => {
                 </Carousel>
             </div>
             <div className="text-center py-12 px-5">
-                <h1 className="text-4xl md:text-5xl font-bold text-[#101828]">
+                <h1 className="text-4xl md:text-5xl font-bold text-[#101828] dark:text-gray-300">
                     Discover Your Hobby Tribe
                 </h1>
-                <p className="text-gray-600 text-lg md:text-xl mt-4 max-w-3xl mx-auto">
+                <p className="text-gray-600 dark:text-gray-500 text-lg md:text-xl mt-4 max-w-3xl mx-auto">
                     Join vibrant hobby groups, meet like-minded people, and fuel <br className="hidden md:block" /> your passion.
                 </p>
                 <Link to={'/allGroups'}>
-                    <button className="mt-8 bg-primary hover:text-primary hover:bg-base-100 hover:border hover:border-primary text-white font-semibold px-6 py-3 rounded-lg transition">
+                    <button className="mt-8 bg-primary hover:text-primary hover:bg-base-100  hover:border hover:border-primary text-white font-semibold px-6 py-3 rounded-lg transition">
                         Browse Hobby Groups
                     </button>
+                    {/* <button className="mt-8 bg-primary dark:bg-indigo-500 text-white font-semibold px-6 py-3 rounded-lg transition hover:text-primary dark:hover:text-secondary hover:bg-base-100 dark:hover:bg-gray-700 hover:border hover:border-primary dark:hover:border-secondary">
+                        Browse Hobby Groups
+                    </button> */}
+
                 </Link>
             </div>
         </section>

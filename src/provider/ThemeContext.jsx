@@ -1,31 +1,40 @@
-// import React, { createContext, useState, useEffect } from "react";
+import React, { createContext, useEffect, useState, useContext } from 'react';
 
-// export const ThemeContext = createContext();
+// Create the ThemeContext
+const ThemeContext = createContext();
 
-// const ThemeProvider = ({ children }) => {
-//   const [theme, setTheme] = useState(() => {
-//     return localStorage.getItem("theme") || "light";
-//   });
+// Custom hook for consuming theme
+// eslint-disable-next-line react-refresh/only-export-components
+export const useTheme = () => useContext(ThemeContext);
 
-//   useEffect(() => {
-//     const root = window.document.documentElement;
-//     if (theme === "dark") {
-//       root.classList.add("dark");
-//     } else {
-//       root.classList.remove("dark");
-//     }
-//     localStorage.setItem("theme", theme);
-//   }, [theme]);
+// Provider component
+export const ThemeProvider = ({ children }) => {
+  const [theme, setTheme] = useState('light');
 
-//   const toggleTheme = () => {
-//     setTheme((prev) => (prev === "dark" ? "light" : "dark"));
-//   };
+  useEffect(() => {
+    const savedTheme = localStorage.getItem('theme');
+    const systemPreferDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
 
-//   return (
-//     <ThemeContext.Provider value={{ theme, toggleTheme }}>
-//       {children}
-//     </ThemeContext.Provider>
-//   );
-// };
+    if (savedTheme) {
+      setTheme(savedTheme);
+    } else if (systemPreferDark) {
+      setTheme('dark');
+    }
+  }, []);
 
-// export default ThemeProvider;
+  useEffect(() => {
+    const html = document.documentElement;
+    html.setAttribute('data-theme', theme);
+    localStorage.setItem('theme', theme);
+  }, [theme]);
+
+  const toggleTheme = () => {
+    setTheme(theme === 'light' ? 'dark' : 'light');
+  };
+
+  return (
+    <ThemeContext.Provider value={{ theme, toggleTheme }}>
+      {children}
+    </ThemeContext.Provider>
+  );
+};
