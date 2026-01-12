@@ -40,7 +40,11 @@ const Navbar = () => {
         <li className='text-[#101828] dark:text-gray-100 hover:text-primary dark:hover:text-secondary'><NavLink to="/">Home</NavLink></li>
         <li className='text-[#101828]  dark:text-gray-100 hover:text-primary dark:hover:text-secondary'><NavLink to="/AllGroups">All Groups</NavLink></li>
         <li className='text-[#101828] dark:text-gray-100 hover:text-primary dark:hover:text-secondary'><NavLink to="/createGroup">Create Group </NavLink></li>
-        <li className='text-[#101828] dark:text-gray-100 hover:text-primary dark:hover:text-secondary'><NavLink to="myGroups">My Groups </NavLink></li>
+        {user && (
+            <>
+                <li className='text-[#101828] dark:text-gray-100 hover:text-primary dark:hover:text-secondary'><NavLink to="myGroups">My Groups </NavLink></li>
+            </>
+        )}
     </>
 
     return (
@@ -115,15 +119,17 @@ const Navbar = () => {
                         </div>
                         <div className="relative group">
 
-                            <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar">
-                                <Link to="/">
-                                    <img
-                                        className="w-12 dark:border dark:border-gray-500 h-12 rounded-full object-cover"
-                                        src={`${user ? user.photoURL : "https://i.ibb.co/VWqpdVpB/user.pngs"}`}
-                                        alt="User"
-                                    />
-                                </Link>
-                            </div>
+                            {user && (
+                                <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar">
+                                    <Link to="/">
+                                        <img
+                                            className="w-12 dark:border dark:border-gray-500 h-12 rounded-full object-cover"
+                                            src={`${user ? user.photoURL : "https://i.ibb.co/VWqpdVpB/user.pngs"}`}
+                                            alt="User"
+                                        />
+                                    </Link>
+                                </div>
+                            )}
 
                             <div className="absolute top-14 left-1/2 -translate-x-1/2 w-max bg-gray-700 text-white text-xs font-medium py-1.5 px-3 rounded-xl opacity-0 group-hover:opacity-100 transition duration-200 whitespace-nowrap z-20">
                                 {user?.displayName || user?.email}

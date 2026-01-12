@@ -27,7 +27,7 @@ const GroupCard = ({ group }) => {
 
             <div className="p-4 flex flex-col gap-2">
                 <h2 className="text-xl font-bold text-primary">{name}</h2>
-                <p className="text-sm text-gray-500 line-clamp-3">
+                <p className="text-sm text-gray-500 line-clamp-2">
                     {description.length > 10 ? description.slice(0, 70) + '...' : description}
                 </p>
                 <div className="text-xs text-gray-400">Start: {startDate}</div>

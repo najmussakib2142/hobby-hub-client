@@ -39,9 +39,7 @@ const router = createBrowserRouter([
             {
                 path: '/groupDetails/:id',
                 loader: ({ params }) => fetch(`https://hobby-hub-server-psi-bay.vercel.app/groups/${params.id}`),
-                element: <PrivateRoute>
-                    <GroupDetails></GroupDetails>
-                </PrivateRoute>,
+                element:  <GroupDetails></GroupDetails>,
                 hydrateFallbackElement: <Loading></Loading>
             },
             {
