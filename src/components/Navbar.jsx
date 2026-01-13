@@ -69,7 +69,7 @@ const Navbar = () => {
         <>
             {/* Navbar */}
             <nav className="sticky top-0 z-50 bg-white/80 dark:bg-gray-900/80 backdrop-blur border-b border-gray-200 dark:border-gray-700">
-                <div className="max-w-7xl mx-auto px-4 md:px-8 h-16 flex items-center justify-between">
+                <div className="max-w-7xl mx-auto px-4  h-16 flex items-center justify-between">
 
                     {/* Left */}
                     <div className="flex items-center gap-3">
