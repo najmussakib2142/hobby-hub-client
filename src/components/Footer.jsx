@@ -5,8 +5,8 @@ import BottomNav from "./BottomNav";
 const Footer = () => {
     return (
         <nav className="">
-            <footer className="bg-base-200 md:px-20 px-3 text-base-content pt-12 pb-5 lg:pb-5 mt-10 border-t border-base-300">
-                <div className="max-w-5xl mx-auto px-4 grid grid-cols-1 md:grid-cols-3 gap-8">
+            <footer className="bg-base-200  text-base-content pt-12 pb-5 lg:pb-5 mt-10 border-t border-base-300">
+                <div className="px-6 md:px-12  max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8">
 
                     {/* Brand Info */}
                     <div className="">

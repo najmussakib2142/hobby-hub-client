@@ -12,7 +12,7 @@ const HomeLayout = () => {
     const {state} = useNavigation()
 
     return (
-        <div className=''>
+        <div className='md:pt-15'>
         <Helmet>
                 <title>HobbyHub || Home</title>
             </Helmet>

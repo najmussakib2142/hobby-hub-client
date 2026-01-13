@@ -10,6 +10,7 @@ import Login from "../components/Login";
 import Loading from "../components/Loading";
 import AuthLayout from "../layouts/AuthLayout";
 import Register from "../components/Register";
+import CategoryDetails from "../components/CategoryDetails";
 import UpdateGroup from "../pages/UpdateGroup";
 import PrivateRoute from "../provider/PrivateRoute";
 
@@ -20,15 +21,13 @@ const router = createBrowserRouter([
         children: [
             {
                 index: true,
-                loader: () => fetch('https://hobby-hub-server-psi-bay.vercel.app/groups'),
                 element: <Home></Home>,
-                hydrateFallbackElement: <Loading></Loading>
             },
             {
                 path: '/allGroups',
-                loader: () => fetch('https://hobby-hub-server-psi-bay.vercel.app/groups'),
+                // loader: () => fetch('https://hobby-hub-server-psi-bay.vercel.app/groups'),
                 element: <AllGroups></AllGroups>,
-                hydrateFallbackElement: <Loading></Loading>
+                // hydrateFallbackElement: <Loading></Loading>
             },
             {
                 path: '/createGroup',
@@ -39,7 +38,7 @@ const router = createBrowserRouter([
             {
                 path: '/groupDetails/:id',
                 // loader: ({ params }) => fetch(`https://hobby-hub-server-psi-bay.vercel.app/groups/${params.id}`),
-                element:  <GroupDetails></GroupDetails>,
+                element: <GroupDetails></GroupDetails>,
                 // hydrateFallbackElement: <Loading></Loading>
             },
             {
@@ -56,6 +55,10 @@ const router = createBrowserRouter([
                     <UpdateGroup></UpdateGroup>
                 </PrivateRoute>,
                 hydrateFallbackElement: <Loading></Loading>
+            },
+            {
+                path: "/category/:categoryName",
+                element: <CategoryDetails />
             },
         ]
     },

@@ -4,7 +4,7 @@ import { Link } from "react-router";
 
 const Banner = () => {
     return (
-        <section className="max-w-7xl mx-auto px-4 py-10 md:py-16 grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
+        <section className="max-w-7xl mx-auto px-6 md:px-12 py-10 md:py-16 grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
             
             {/* LEFT SIDE: Text Content */}
             <div className="text-center lg:text-left order-2 lg:order-1">

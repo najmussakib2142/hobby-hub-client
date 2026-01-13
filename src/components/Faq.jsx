@@ -23,7 +23,7 @@ const Faq = () => {
   ];
 
   return (
-    <div className="my-12 px-6 md:px-12 max-w-6xl mx-auto">
+    <div className="py-8 md:py-16 px-6 md:px-12 max-w-7xl mx-auto">
       <h2 className="text-3xl font-bold mb-8 text-center">Why Join HobbyHub?</h2>
 
       <div className="space-y-4">
