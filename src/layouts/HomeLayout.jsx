@@ -12,14 +12,14 @@ const HomeLayout = () => {
     const {state} = useNavigation()
 
     return (
-        <div className='lg:pt-15'>
-            <Helmet>
+        <div className=''>
+        <Helmet>
                 <title>HobbyHub || Home</title>
             </Helmet>
             <nav className=''>
                 <Navbar></Navbar>
             </nav>
-            <main className='max-w-7xl mx-auto'>
+            <main className='max-w-7xl mx-auto '>
                {state == "loading" ? <Loading/> : <Outlet></Outlet>} 
             </main>
             <Footer></Footer>

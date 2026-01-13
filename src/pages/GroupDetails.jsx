@@ -1,11 +1,47 @@
 import { Helmet } from "react-helmet-async";
 import toast from "react-hot-toast";
-import { Link, useLoaderData } from "react-router";
+import { Link, useParams } from "react-router";
 // 1. Importing React Icons
 import { FaCalendarAlt, FaUsers, FaMapMarkerAlt, FaUser, FaArrowLeft, FaEnvelope } from "react-icons/fa";
 import { MdVerified, MdErrorOutline } from "react-icons/md";
+import { useEffect, useState } from "react";
+import Loading from "../components/Loading";
 
 const GroupDetails = () => {
+
+  const { id } = useParams();
+  const [group, setGroup] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetch(`https://hobby-hub-server-psi-bay.vercel.app/groups/${id}`)
+      .then(response => {
+        if (response.ok) {
+          return response.json();
+        } else {
+          throw new Error('API request failed');
+        }
+      })
+      .then(data => {
+        setGroup(data);
+        setLoading(false);
+      })
+      .catch(error => {
+        console.error(error);
+        setLoading(false);
+      });
+  }, [id]);
+
+  if (loading) {
+    return <Loading />
+  }
+  if (!group) {
+    return <div className="text-center mt-20">
+      <h2 className="text-3xl font-bold text-red-600">Group not found</h2>
+      <Link to="/" className="text-blue-500 hover:underline">Go back to Home</Link>
+    </div>
+  }
+
   const {
     _id,
     name,
@@ -17,7 +53,7 @@ const GroupDetails = () => {
     userName,
     userEmail,
     location,
-  } = useLoaderData();
+  } = group;
 
   const groupStartDate = new Date(startDate).setHours(0, 0, 0, 0);
   const today = new Date().setHours(0, 0, 0, 0);
@@ -33,8 +69,8 @@ const GroupDetails = () => {
   };
 
   return (
-    <div className="relative min-h-screen ">
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 max-w-6xl mt-12  py-12  w-full px-6">
+    <div className=" ">
+      <div className=" max-w-6xl    md:py-12  w-full px-6">
         <div >
           <Helmet>
             <title>HobbyHub | {name}</title>

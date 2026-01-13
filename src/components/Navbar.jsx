@@ -1,14 +1,16 @@
-import React, { use, } from 'react';
-import { Link, NavLink } from 'react-router';
-import { AuthContext } from '../provider/AuthContext';
-import Swal from 'sweetalert2';
-import { LuMoon, LuSun } from 'react-icons/lu';
-import toast from 'react-hot-toast';
-import { useTheme } from '../provider/ThemeContext';
+import React, { useContext, useEffect, useState } from "react";
+import { Link, NavLink, useLocation } from "react-router";
+import { AuthContext } from "../provider/AuthContext";
+import Swal from "sweetalert2";
+import toast from "react-hot-toast";
+import { useTheme } from "../provider/ThemeContext";
+import { motion, AnimatePresence } from "framer-motion";
 
 const Navbar = () => {
-    const { user, logOut } = use(AuthContext)
+    const { user, logOut } = useContext(AuthContext);
     const { theme, toggleTheme } = useTheme();
+    const [isOpen, setOpen] = useState(false);
+    const location = useLocation();
 
     const handleLogOut = () => {
         Swal.fire({
@@ -16,135 +18,192 @@ const Navbar = () => {
             text: "You want to log out?",
             icon: "warning",
             showCancelButton: true,
-            confirmButtonColor: "#1F1A70",
+            confirmButtonColor: "#4f46e5",
             cancelButtonColor: "#d33",
-            confirmButtonText: "Yes, log me out!"
+            confirmButtonText: "Yes, log out",
         }).then((result) => {
             if (result.isConfirmed) {
                 logOut()
-                    .then(() => {
-                        Swal.fire({
-                            title: "Logged out!",
-                            text: "You have been successfully logged out.",
-                            icon: "success"
-                        });
-                    })
-                    .catch((error) => {
-                        toast.error(error.message);
-                    })
+                    .then(() => toast.success("Logged out successfully"))
+                    .catch((err) => toast.error(err.message));
             }
-        })
-    }
+        });
+    };
 
-    const links = <>
-        <li className='text-[#101828] dark:text-gray-100 hover:text-primary dark:hover:text-secondary'><NavLink to="/">Home</NavLink></li>
-        <li className='text-[#101828]  dark:text-gray-100 hover:text-primary dark:hover:text-secondary'><NavLink to="/AllGroups">All Groups</NavLink></li>
-        <li className='text-[#101828] dark:text-gray-100 hover:text-primary dark:hover:text-secondary'><NavLink to="/createGroup">Create Group </NavLink></li>
-        {user && (
-            <>
-                <li className='text-[#101828] dark:text-gray-100 hover:text-primary dark:hover:text-secondary'><NavLink to="myGroups">My Groups </NavLink></li>
-            </>
-        )}
-    </>
+    const navLinkClass = ({ isActive }) =>
+        `px-3 py-2 rounded-md text-sm font-medium transition
+     ${isActive
+            ? "text-indigo-600 dark:text-indigo-400"
+            : "text-gray-700 dark:text-gray-200 hover:text-indigo-600 dark:hover:text-indigo-400"
+        }`;
+
+    const links = (
+        <>
+            <NavLink to="/" className={navLinkClass}>Home</NavLink>
+            <NavLink to="/AllGroups" className={navLinkClass}>All Groups</NavLink>
+            <NavLink to="/createGroup" className={navLinkClass}>Create Group</NavLink>
+            {user && (
+                <NavLink to="/myGroups" className={navLinkClass}>My Groups</NavLink>
+            )}
+        </>
+    );
+
+    // after change the router the drawer will be closed
+    useEffect(() => {
+        setOpen(false);
+    }, [location.pathname])
+
+    // if drawer is open, prevent body scroll
+    useEffect(() => {
+        if (isOpen) {
+            document.body.style.overflow = "hidden";
+        } else {
+            document.body.style.overflow = "";
+        }
+        return () => {
+            document.body.style.overflow = "";
+        }
+    }, [isOpen])
 
     return (
-        <div>
-            <div>
-                <div className="navbar lg:fixed py-0  sticky top-0 z-50 md:px-8 lg:px-12 bg-base-100/80 dark:bg-gray-800 border-b border-gray-300 dark:border-gray-700 backdrop-blur transition-all duration-300 shadow-md">
-                    <div className="navbar-start">
-                        <div className="dropdown">
-                            <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">
-                                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"> <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16" /> </svg>
-                            </div>
-                            <ul
-                                tabIndex={0}
-                                className="menu menu-sm left-0 text-[#101828] dropdown-content bg-base-100  z-1 w-[80vw] p-2 shadow">
-                                {links}
-                            </ul>
-                        </div>
-                        <Link to="/" className="font-bold text-2xl"><span className='text-primary'>HobbyHub</span><span className='text-secondary'></span></Link>
+        <>
+            {/* Navbar */}
+            <nav className="sticky top-0 z-50 bg-white/80 dark:bg-gray-900/80 backdrop-blur border-b border-gray-200 dark:border-gray-700">
+                <div className="max-w-7xl mx-auto px-4 md:px-8 h-16 flex items-center justify-between">
 
+                    {/* Left */}
+                    <div className="flex items-center gap-3">
+                        <button
+                            onClick={() => setOpen(true)}
+                            className="lg:hidden p-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-800"
+                        >
+                            ☰
+                        </button>
+
+                        <Link to="/" className="text-xl text-primary font-bold">
+                            HobbyHub
+                        </Link>
                     </div>
-                    <div className="navbar-center hidden lg:flex">
-                        <ul className="menu text-[#101828] menu-horizontal px-1">
-                            {links}
-                        </ul>
+
+                    {/* Center (Desktop) */}
+                    <div className="hidden lg:flex items-center gap-1">
+                        {links}
                     </div>
-                    <div className="navbar-end md:gap-3 gap-1">
-                        <div>
-                            <div className='hidden md:block'>
-                                <div className="flex items-center space-x-1 md:space-x-2">
-                                    <div className="flex items-center bg-gray-300 dark:bg-gray-700 rounded-full md:p-0.5 transition-colors">
-                                        <button
-                                            onClick={() => toggleTheme('light')}
-                                            className={`md:p-1 rounded-full transition-colors ${theme === 'light'
-                                                ? 'bg-white text-yellow-600'
-                                                : 'text-gray-600 dark:text-gray-300'
-                                                }`}
-                                            aria-label="Switch to light mode"
-                                        >
-                                            <span className="text-base md:text-xl">☀️</span>
-                                        </button>
-                                        <button
-                                            onClick={() => toggleTheme('dark')}
-                                            className={` md:p-1 rounded-full transition-colors ${theme === 'dark'
-                                                ? 'bg-white text-indigo-500'
-                                                : 'text-gray-600 dark:text-gray-300'
-                                                }`}
-                                            aria-label="Switch to dark mode"
-                                        >
-                                            <span className="text-base md:text-xl">🌙</span>
-                                        </button>
-                                    </div>
+
+                    {/* Right */}
+                    <div className="flex items-center gap-3">
+                        {/* Theme toggle */}
+                        <div className='hidden md:block'>
+                            <div className="flex items-center space-x-1 md:space-x-2">
+                                <div className="flex items-center bg-gray-300 dark:bg-gray-700 rounded-full md:p-0.5 transition-colors">
+                                    <button
+                                        onClick={() => toggleTheme('light')}
+                                        className={`md:p-1 rounded-full transition-colors ${theme === 'light'
+                                            ? 'bg-white text-yellow-600'
+                                            : 'text-gray-600 dark:text-gray-300'
+                                            }`}
+                                        aria-label="Switch to light mode"
+                                    >
+                                        <span className="text-base md:text-xl">☀️</span>
+                                    </button>
+                                    <button
+                                        onClick={() => toggleTheme('dark')}
+                                        className={` md:p-1 rounded-full transition-colors ${theme === 'dark'
+                                            ? 'bg-white text-indigo-500'
+                                            : 'text-gray-600 dark:text-gray-300'
+                                            }`}
+                                        aria-label="Switch to dark mode"
+                                    >
+                                        <span className="text-base md:text-xl">🌙</span>
+                                    </button>
                                 </div>
                             </div>
-
-                            <div className="block md:hidden">
-                                <button
-                                    onClick={toggleTheme}
-                                    aria-label={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}
-                                    className='p-1 md:p-2 rounded-full bg-gray-300 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors'
-                                >
-                                    {
-                                        theme === 'dark' ?
-                                            (
-                                                <span className='text-yellow-600 text-xl' > ☀️</span>
-                                            ) :
-                                            (
-                                                <span className='text-gray-700 text-xl'>🌙</span>
-                                            )
-                                    }
-                                </button>
-                            </div>
                         </div>
-                        <div className="relative group">
 
-                            {user && (
-                                <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar">
-                                    <Link to="/">
-                                        <img
-                                            className="w-12 dark:border dark:border-gray-500 h-12 rounded-full object-cover"
-                                            src={`${user ? user.photoURL : "https://i.ibb.co/VWqpdVpB/user.pngs"}`}
-                                            alt="User"
-                                        />
-                                    </Link>
+                        <div className="block md:hidden">
+                            <button
+                                onClick={toggleTheme}
+                                aria-label={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}
+                                className='p-1 md:p-2 rounded-full bg-gray-300 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors'
+                            >
+                                {
+                                    theme === 'dark' ?
+                                        (
+                                            <span className='text-yellow-600 text-xl' > ☀️</span>
+                                        ) :
+                                        (
+                                            <span className='text-gray-700 text-xl'>🌙</span>
+                                        )
+                                }
+                            </button>
+                        </div>
+
+                        {/* Avatar */}
+                        {user && (
+                            <div className="relative group">
+                                <img
+                                    src={user.photoURL}
+                                    alt="user"
+                                    className="w-9 h-9 rounded-full border object-cover"
+                                />
+                                <div className="absolute -bottom-9 left-1/2 -translate-x-1/2 text-xs bg-black text-white px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition">
+                                    {user.displayName || user.email}
                                 </div>
-                            )}
-
-                            <div className="absolute top-14 left-1/2 -translate-x-1/2 w-max bg-gray-700 text-white text-xs font-medium py-1.5 px-3 rounded-xl opacity-0 group-hover:opacity-100 transition duration-200 whitespace-nowrap z-20">
-                                {user?.displayName || user?.email}
                             </div>
-                        </div>
+                        )}
 
-                        {
-                            user ? <Link onClick={handleLogOut} to="/" className="btn border-primary text-primary hover:bg-primary hover:text-white hover:border-primary">Logout</Link>
-                                : <Link to="auth/login" className="btn border-primary text-primary  hover:bg-primary hover:text-white hover:border-primary">Login</Link>
-                        }
-
+                        {/* Auth */}
+                        {user ? (
+                            <button
+                                onClick={handleLogOut}
+                                className="text-sm px-4 py-2 rounded-md border border-indigo-600 text-indigo-600 hover:bg-indigo-600 hover:text-white transition"
+                            >
+                                Logout
+                            </button>
+                        ) : (
+                            <Link
+                                to="/auth/login"
+                                className="text-sm px-4 py-2 rounded-md border border-indigo-600 text-indigo-600 hover:bg-indigo-600 hover:text-white transition"
+                            >
+                                Login
+                            </Link>
+                        )}
                     </div>
                 </div>
-            </div>
-        </div>
+            </nav>
+
+            {/* Mobile Drawer */}
+            <AnimatePresence>
+                {isOpen && (
+                    <>
+                        <motion.div
+                            className="fixed inset-0 bg-black/40 z-40"
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            exit={{ opacity: 0 }}
+                            onClick={() => setOpen(false)}
+                        />
+
+                        <motion.aside
+                            initial={{ x: "-100%" }}
+                            animate={{ x: 0 }}
+                            exit={{ x: "-100%" }}
+                            transition={{ type: "spring", stiffness: 260, damping: 30 }}
+                            className="fixed top-0 left-0 z-50 h-full w-72 bg-white dark:bg-gray-900 p-6"
+                        >
+                            <div className="flex items-center justify-between mb-6">
+                                <span className="font-bold text-lg">HobbyHub</span>
+                                <button onClick={() => setOpen(false)}>✕</button>
+                            </div>
+
+                            <div className="flex flex-col gap-2">
+                                {links}
+                            </div>
+                        </motion.aside>
+                    </>
+                )}
+            </AnimatePresence>
+        </>
     );
 };
 

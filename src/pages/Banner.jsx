@@ -4,7 +4,7 @@ import { Link } from "react-router";
 
 const Banner = () => {
     return (
-        <section className="max-w-7xl mx-auto">
+        <section className="">
             <div className="overflow-hidden">
                 <Carousel
                     autoPlay
