@@ -40,7 +40,7 @@ const Navbar = () => {
     const links = (
         <>
             <NavLink to="/" className={navLinkClass}>Home</NavLink>
-            <NavLink to="/AllGroups" className={navLinkClass}>All Groups</NavLink>
+            <NavLink to="/AllGroups" className={navLinkClass}>Hobby Space</NavLink>
             <NavLink to="/createGroup" className={navLinkClass}>Create Group</NavLink>
             {user && (
                 <NavLink to="/myGroups" className={navLinkClass}>My Groups</NavLink>
@@ -69,7 +69,7 @@ const Navbar = () => {
         <>
             {/* Navbar */}
             <nav className="fixed top-0 left-0 w-full z-99 bg-white/80 dark:bg-gray-900/80 backdrop-blur border-b border-gray-200 dark:border-gray-700">
-                <div className="max-w-7xl mx-auto px-6 md:px-12  h-14 flex items-center justify-between">
+                <div className="max-w-7xl mx-auto pl-4 pr-6 md:px-12  h-14 flex items-center justify-between">
 
                     {/* Left */}
                     <div className="flex items-center gap-3">
@@ -162,7 +162,7 @@ const Navbar = () => {
                             </button>
                         ) : (
                             <Link
-                                to="/auth/login"
+                                to="login"
                                 className="text-sm px-4 py-2 rounded-md border border-indigo-600 text-indigo-600 hover:bg-indigo-600 hover:text-white transition"
                             >
                                 Login

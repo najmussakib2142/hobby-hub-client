@@ -9,7 +9,7 @@ const CategoryDetails = () => {
 
     useEffect(() => {
         setLoading(true);
-        fetch(`https://hobby-hub-server-psi-bay.vercel.app/api/groups/category/${categoryName}`)
+        fetch(`https://hobby-hub-server-psi-bay.vercel.app/groups/category/${categoryName}`)
             .then(res => res.json())
             .then(data => {
                 setGroups(data);
@@ -18,10 +18,10 @@ const CategoryDetails = () => {
             .catch(err => console.error(err));
     }, [categoryName]);
 
-    if (loading) return <div className="text-center mt-20 text-2xl animate-bounce">Loading {categoryName} clubs...</div>;
+    if (loading) return <div className="min-h-screen flex items-center justify-center text-center mt-20 text-2xl animate-bounce">Loading {categoryName} clubs...</div>;
 
     return (
-        <div className="max-w-7xl mx-auto py-8 md:py-16 px-6 md:px-12">
+        <div className="max-w-7xl mx-auto px-6 md:px-12 py-8 md:py-16 ">
             <h2 className="text-4xl font-bold mb-12 text-center">
                 Explore <span className="text-primary capitalize">{categoryName}</span> Groups
             </h2>

@@ -53,12 +53,13 @@ const GroupDetails = () => {
     userName,
     userEmail,
     location,
+
   } = group;
 
   const groupStartDate = new Date(startDate).setHours(0, 0, 0, 0);
   const today = new Date().setHours(0, 0, 0, 0);
   const isExpired = groupStartDate < today;
-  const isIncomplete = !name || !startDate || !image || !description || !maxMembers || !userName || !userEmail || !location;
+  const isIncomplete = !name || !startDate || !image || !description || !maxMembers || !(group?.createdBy?.name || userName) || !(group?.createdBy?.email || userEmail) || !location;
 
   const handleJoin = () => {
     if (isExpired) {
@@ -70,7 +71,7 @@ const GroupDetails = () => {
 
   return (
     <div className=" ">
-      <div className=" max-w-6xl    md:py-12  w-full px-6">
+      <div className=" py-8 md:py-12 px-6 md:px-12 max-w-7xl mx-auto">
         <div >
           <Helmet>
             <title>HobbyHub | {name}</title>
@@ -81,7 +82,7 @@ const GroupDetails = () => {
             <FaArrowLeft /> Back to Discovery
           </Link>
 
-          <div className="bg-base-100 mb-12 rounded-3xl shadow-2xl border border-base-200 overflow-hidden lg:flex">
+          <div className="bg-base-100  rounded-3xl shadow-2xl border border-base-200 overflow-hidden lg:flex">
 
             {/* Image Section */}
             <div className="lg:w-1/2 relative">
@@ -150,7 +151,8 @@ const GroupDetails = () => {
                   </div>
                   <div>
                     <p className="text-[10px] uppercase font-bold opacity-50">Organizer</p>
-                    <p className="font-semibold text-sm md:text-base">{userName}</p>
+                    {/* <p className="font-semibold text-sm md:text-base">{userName}</p> */}
+                    <p className="font-semibold text-sm md:text-base">{group?.createdBy?.name || userName || "Anonymous"}</p>
                   </div>
                 </div>
               </div>
@@ -160,16 +162,18 @@ const GroupDetails = () => {
                 <button
                   onClick={handleJoin}
                   disabled={isExpired || isIncomplete}
-                  className={`btn btn-lg flex-1 rounded-2xl font-bold transition-all hover:scale-105 ${isExpired ? 'btn-disabled' : 'btn-primary shadow-lg shadow-primary/30'
+                  className={`btn btn-lg py-2 flex-1 rounded-2xl font-bold transition-all hover:scale-105 ${isExpired ? 'btn-disabled' : 'btn-primary shadow-lg shadow-primary/30'
                     }`}
                 >
                   {isExpired ? "Registration Closed" : "Join this Hobby Group"}
                 </button>
 
                 <a
-                  href={`mailto:${userEmail}`}
+                  href={`https://mail.google.com/mail/?view=cm&fs=1&to=${(group?.createdBy?.email || userEmail || "").trim()}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="btn btn-lg btn-outline btn-secondary rounded-2xl px-6"
-                  title="Contact Host"
+                  title="Contact Host via Gmail"
                 >
                   <FaEnvelope size={20} />
                 </a>

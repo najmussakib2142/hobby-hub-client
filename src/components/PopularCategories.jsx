@@ -10,7 +10,7 @@ const PopularCategories = () => {
     useEffect(() => {
         const fetchCategories = async () => {
             try {
-                const res = await fetch('https://hobby-hub-server-psi-bay.vercel.app/api/category');
+                const res = await fetch('https://hobby-hub-server-psi-bay.vercel.app/category');
                 if (!res.ok) throw new Error('Failed to fetch categories');
                 const data = await res.json();
                 setCategories(data);

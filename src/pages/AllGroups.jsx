@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import GroupCard from '../components/GroupCard';
 import { Helmet } from 'react-helmet-async';
+import Loading from '../components/Loading';
 
 const AllGroups = () => {
     const [groups, setGroups] = useState([]);
@@ -27,7 +28,7 @@ const AllGroups = () => {
     }, []);
 
     if (loading) {
-        return <div className="text-center mt-10">Loading...</div>;
+        return <Loading />;
     }
 
     if (error) {

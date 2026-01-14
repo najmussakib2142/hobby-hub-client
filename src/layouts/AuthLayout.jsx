@@ -9,7 +9,7 @@ const AuthLayout = () => {
             <div>
                 <Navbar></Navbar>
             </div>
-            <div className='max-w-5xl mx-auto lg:pt-10'>
+            <div className='max-w-7xl mx-auto lg:pt-10'>
                 <Outlet></Outlet>
             </div>
             {/* <BottomNav></BottomNav> */}

@@ -60,7 +60,7 @@ const MyGroups = () => {
   };
 
   return (
-    <div className="max-w-5xl mx-auto px-5 py-10">
+    <div className="max-w-5xl min-h-screen flex flex-col items-center-center-center mx-auto px-6 md:px-12 py-8 md:py-16">
       <Helmet>
         <title>HobbyHub || My Groups</title>
       </Helmet>
@@ -124,7 +124,7 @@ const MyGroups = () => {
               ) : (
                 <tr>
                   <td colSpan="8" className="text-center text-gray-500 py-8 text-lg">
-                    No groups found.
+                    You have not created any groups.
                   </td>
                 </tr>
               )}

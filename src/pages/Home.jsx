@@ -4,6 +4,7 @@ import GroupCard from '../components/GroupCard';
 import PopularCategories from '../components/PopularCategories';
 import Faq from '../components/Faq';
 import { Typewriter } from 'react-simple-typewriter';
+import { Loader2 } from 'lucide-react';
 
 const Home = () => {
     const [groups, setGroups] = useState([]); // Initialize as empty array
@@ -14,6 +15,7 @@ const Home = () => {
             try {
                 setIsLoading(true);
                 const response = await fetch('https://hobby-hub-server-psi-bay.vercel.app/groups');
+
                 const data = await response.json();
 
                 // Debug: See exactly what the API sends back
@@ -63,9 +65,10 @@ const Home = () => {
 
                     {/* Loader/Grid Logic */}
                     {isLoading ? (
-                        <div className="flex justify-center py-20">
-                            <span className="loading loading-bars loading-lg text-blue-600"></span>
+                        <div className="flex justify-center items-center h-40">
+                            <Loader2 className="animate-spin text-blue-500" size={32} />
                         </div>
+
                     ) : (
                         <div className='grid py-8 md:py-12 lg:gap-6 gap-6 grid-cols-1 md:grid-cols-2 lg:grid-cols-3'>
                             {groups.length > 0 ? (
