@@ -1,67 +1,131 @@
-import { FaFacebookF, FaInstagram, FaTwitter, FaEnvelope, FaYoutube, } from "react-icons/fa";
+import { FaFacebookF, FaInstagram, FaTwitter, FaEnvelope, FaYoutube, FaPaperPlane } from "react-icons/fa";
 import { Link, NavLink } from "react-router";
-import BottomNav from "./BottomNav";
+import Swal from "sweetalert2";
+import { LuMail, LuMapPin, LuClock } from "react-icons/lu";
 
 const Footer = () => {
+
+    const handleSubscribe = (e) => {
+        e.preventDefault(); // Prevents the page from refreshing
+
+        Swal.fire({
+            title: 'Coming Soon!',
+            text: 'The newsletter feature is currently under development. Stay tuned!',
+            icon: 'info',
+            confirmButtonColor: '#570df8', // Use your primary color hex here
+            buttonsStyling: true,
+            customClass: {
+                confirmButton: 'btn btn-primary btn-sm' // Matches your DaisyUI style
+            }
+        });
+    };
+
     return (
-        <nav className="">
-            <footer className="bg-base-200  text-base-content pt-12 pb-5 lg:pb-5 mt-10 border-t border-base-300">
-                <div className="px-6 md:px-12  max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8">
+        <footer className="bg-base-200 text-base-content border-t border-base-300">
+            <div className="max-w-7xl mx-auto px-6 md:px-12 py-12">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
 
                     {/* Brand Info */}
-                    <div className="">
-                        <h2 className="text-3xl font-bold text-primary">HobbyHub</h2>
-                        <p className="text-sm text-gray-500 dark:text-gray-400 mt-2">
-                            Discover hobby groups, connect with others, and fuel your passions.
+                    <div className="space-y-4">
+                        <h2 className="text-3xl font-bold text-primary tracking-tight">HobbyHub</h2>
+                        <p className="text-sm leading-relaxed text-gray-500 dark:text-gray-400">
+                            The ultimate community for enthusiasts. Discover hobby groups, connect with like-minded people, and fuel your daily passions.
                         </p>
-                        <div className="flex gap-4 mt-4 text-lg">
-                            <a target="_blank" href="https://www.facebook.com/programmingHero/" className="hover:text-primary"><FaFacebookF /></a>
-                            <a target="_blank" href="https://www.instagram.com/programminghero/?hl=en" className="hover:text-primary"><FaInstagram /></a>
-                            <a target="_blank" href="https://www.youtube.com/c/ProgrammingHeroCommunity" className="hover:text-primary"><FaYoutube /></a>
-                            <a href="web@programming-hero.com" className="hover:text-primary"><FaEnvelope /></a>
+                        <div className="flex gap-3">
+                            <a target="_blank" rel="noreferrer" href="#" className="p-2 bg-base-300 rounded-full hover:bg-primary hover:text-white transition-all duration-300"><FaFacebookF /></a>
+                            <a target="_blank" rel="noreferrer" href="#" className="p-2 bg-base-300 rounded-full hover:bg-primary hover:text-white transition-all duration-300"><FaInstagram /></a>
+                            <a target="_blank" rel="noreferrer" href="#" className="p-2 bg-base-300 rounded-full hover:bg-primary hover:text-white transition-all duration-300"><FaYoutube /></a>
+                            <a href="mailto:info@hobbyhub.com" className="p-2 bg-base-300 rounded-full hover:bg-primary hover:text-white transition-all duration-300"><FaEnvelope /></a>
                         </div>
                     </div>
 
                     {/* Quick Links */}
-
-                    <div className="md:ml-20">
-                        <h3 className="text-lg font-semibold mb-3">Quick Links</h3>
-                        <ul className="space-y-2 text-sm">
-                            <li className='text-[#101828] dark:text-gray-100 hover:text-primary dark:hover:text-secondary'><NavLink to="/">Home </NavLink></li>
-                            <li className='text-[#101828] dark:text-gray-100 hover:text-primary dark:hover:text-secondary'><NavLink to="/AllGroups">All Groups</NavLink></li>
-                            <li className='text-[#101828] dark:text-gray-100 hover:text-primary dark:hover:text-secondary'><NavLink to="/createGroup">Create Group </NavLink></li>
-                            <li className='text-[#101828] dark:text-gray-100 hover:text-primary dark:hover:text-secondary'><NavLink to="/myGroups">My Groups </NavLink></li>
+                    <div className="lg:ml-10">
+                        <h3 className="text-lg font-bold mb-5">Explore</h3>
+                        <ul className="space-y-3 text-sm">
+                            <li><NavLink to="/" className="hover:text-primary transition-colors">Home</NavLink></li>
+                            <li><NavLink to="/AllGroups" className="hover:text-primary transition-colors">All Groups</NavLink></li>
+                            <li><NavLink to="/createGroup" className="hover:text-primary transition-colors">Create Group</NavLink></li>
+                            <li><NavLink to="/myGroups" className="hover:text-primary transition-colors">My Groups</NavLink></li>
                         </ul>
                     </div>
 
                     {/* Contact Info */}
-                    <div className="md:ml-10">
-                        <h3 className="text-lg font-semibold mb-3">Contact</h3>
-                        <p className="text-sm text-gray-600 dark:text-gray-400">📧 info@hobbyhub.com</p>
-                        <p className="text-sm text-gray-500 dark:text-gray-400">📍 Dhaka, Bangladesh</p>
-                        <p className="text-sm text-gray-500 dark:text-gray-400 mt-2">Open: 9:00AM - 6:00PM</p>
+                    <div className="flex flex-col">
+                        <h3 className="text-lg font-bold mb-6 tracking-tight text-base-content">
+                            Support & Help
+                        </h3>
+                        <div className="space-y-5">
+                            {/* Email - Now a clickable link */}
+                            <div className="flex items-start gap-3 group">
+                                <div className="mt-1 p-2 rounded-lg bg-primary/10 text-primary group-hover:bg-primary group-hover:text-white transition-all duration-300">
+                                    <LuMail className="text-sm" />
+                                </div>
+                                <div>
+                                    <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider">Email Us</p>
+                                    <a href="mailto:info@hobbyhub.com" className="text-sm font-medium hover:text-primary transition-colors">
+                                        info@hobbyhub.com
+                                    </a>
+                                </div>
+                            </div>
+
+                            {/* Location */}
+                            <div className="flex items-start gap-3 group">
+                                <div className="mt-1 p-2 rounded-lg bg-primary/10 text-primary group-hover:bg-primary group-hover:text-white transition-all duration-300">
+                                    <LuMapPin className="text-sm" />
+                                </div>
+                                <div>
+                                    <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider">Visit Us</p>
+                                    <p className="text-sm font-medium">Dhaka, Bangladesh</p>
+                                </div>
+                            </div>
+
+                            {/* Hours */}
+                            <div className="flex items-start gap-3 group">
+                                <div className="mt-1 p-2 rounded-lg bg-primary/10 text-primary group-hover:bg-primary group-hover:text-white transition-all duration-300">
+                                    <LuClock className="text-sm" />
+                                </div>
+                                <div>
+                                    <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider">Business Hours</p>
+                                    <p className="text-sm font-medium">9:00 AM — 6:00 PM <span className="text-gray-400 font-normal">(Sun-Thu)</span></p>
+                                </div>
+                            </div>
+                        </div>
                     </div>
 
+                    {/* Newsletter */}
+                    <div>
+                        <h3 className="text-lg font-bold mb-5 tracking-tight text-base-content">Stay Updated</h3>
+                        <p className="text-sm text-gray-500 mb-4">Subscribe to get the latest hobby trends.</p>
 
+                        <form onSubmit={handleSubscribe} className="flex group">
+                            <input
+                                type="email"
+                                required
+                                placeholder="Your email"
+                                className="input input-bordered input-sm w-full rounded-r-none focus:outline-none focus:border-primary transition-colors"
+                            />
+                            <button
+                                type="submit"
+                                className="btn btn-primary btn-sm rounded-l-none border-none hover:bg-primary-focus px-5"
+                            >
+                                <FaPaperPlane className="text-xs" />
+                            </button>
+                        </form>
+                    </div>
                 </div>
 
-                {/* Bottom */}
-                <div className="text-center text-xs text-gray-500 mt-4 mb-2 lg:mt-6 border-t border-base-300 pt-4">
-                    &copy; {new Date().getFullYear()} HobbyHub. All rights reserved.
+                {/* Bottom Bar */}
+                <div className="mt-8 pt-8 border-t border-base-300 flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-gray-500">
+                    <p>&copy; {new Date().getFullYear()} HobbyHub Inc. All rights reserved.</p>
+                    <div className="flex gap-6">
+                        <Link to="/privacy" className="hover:text-primary transition-colors">Privacy Policy</Link>
+                        <Link to="/terms" className="hover:text-primary transition-colors">Terms of Service</Link>
+                        <Link to="/cookies" className="hover:text-primary transition-colors">Cookie Policy</Link>
+                    </div>
                 </div>
-
-
-            </footer>
-            {/* <div className=" bottom-1 left-0 right-0 z-50 bg-base-100 border-t border-gray-300 shadow-md px-6 py-3 flex justify-between text-sm lg:hidden">
-                <BottomNav></BottomNav> */}
-            {/* <NavLink to="/" className="text-[#101828] font-medium hover:text-blue-600" >Home</NavLink>
-                <NavLink to="/AllGroups" className="text-[#101828] font-medium hover:text-blue-600">All Groups</NavLink>
-                <NavLink to="/createGroup" className="text-[#101828] font-medium hover:text-blue-600">Create Group </NavLink>
-                <NavLink to="/myGroups" className="text-[#101828] font-medium hover:text-blue-600">My Groups </NavLink> */}
-            {/* </div> */}
-
-        </nav>
-
+            </div>
+        </footer>
     );
 };
 

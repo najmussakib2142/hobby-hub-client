@@ -13,6 +13,9 @@ import Register from "../components/Register";
 import CategoryDetails from "../components/CategoryDetails";
 import UpdateGroup from "../pages/UpdateGroup";
 import PrivateRoute from "../provider/PrivateRoute";
+import PrivacyPolicy from "../components/PrivacyPolicy";
+import TermsOfService from "../components/TermsOfService";
+import CookiePolicy from "../components/CookiePolicy";
 
 const router = createBrowserRouter([
     {
@@ -60,6 +63,18 @@ const router = createBrowserRouter([
                 path: "/category/:categoryName",
                 element: <CategoryDetails />
             },
+            {
+                path: "/privacy",
+                element: <PrivacyPolicy></PrivacyPolicy>
+            },
+            {
+                path: "/terms",
+                element: <TermsOfService></TermsOfService>
+            },
+            {
+                path: "/cookies",
+                element: <CookiePolicy></CookiePolicy>
+            }
         ]
     },
     {
