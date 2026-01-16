@@ -5,6 +5,13 @@ import { AuthContext } from '../provider/AuthContext';
 import { Helmet } from 'react-helmet-async';
 import { useNavigate } from 'react-router';
 
+const generateSlug = (text) =>
+    text
+        .toLowerCase()
+        .trim()
+        .replace(/[^a-z0-9]+/g, '-')
+        .replace(/(^-|-$)/g, '');
+
 const CreateGroup = () => {
     const { user } = useContext(AuthContext);
     const navigate = useNavigate();
@@ -17,7 +24,8 @@ const CreateGroup = () => {
         handleSubmit,
         reset,
         setValue,
-        formState: { errors, isSubmitting }
+        formState: { errors, isSubmitting },
+        watch
     } = useForm();
 
     const handleImageUpload = async (e) => {
@@ -62,7 +70,7 @@ const CreateGroup = () => {
             // ✅ inject image URL into React Hook Form
             setValue('image', data.secure_url, { shouldValidate: true });
 
-            Swal.fire('Success', 'Image uploaded successfully', 'success');
+            // Swal.fire('Success', 'Image uploaded successfully', 'success');
         } catch (error) {
             Swal.fire('Error', 'Image upload failed', 'error');
         } finally {
@@ -72,15 +80,32 @@ const CreateGroup = () => {
 
 
     const onSubmit = async (data) => {
+        const finalCategory =
+            data.category === 'other'
+                ? data.customCategory
+                : data.category;
+
+
+
         const newGroup = {
-            ...data,
+            name: data.name,
+            slug: generateSlug(data.name),
+            category: finalCategory,
+            description: data.description,
+            location: data.location,
+            startDate: data.startDate,
+
+            maxMembers: data.maxMembers,     // from form
+            membersCount: 1,                 // creator joined automatically
+
             createdBy: {
                 name: user.displayName,
                 email: user.email,
             },
+
             createdAt: new Date(),
-            membersCount: 1,
         };
+
 
         try {
             const res = await fetch(
@@ -158,14 +183,27 @@ const CreateGroup = () => {
                             defaultValue=""
                         >
                             <option value="" disabled>Select a category</option>
-                            <option>Aquarium & Fish Keeping</option>
-                            <option>Photography</option>
-                            <option>Mechanical Keyboards</option>
-                            <option>Cooking</option>
-                            <option>Fitness</option>
-                            <option>Other</option>
+                            <option value="aquarium">Aquarium & Fish Keeping</option>
+                            <option value="photography">Photography</option>
+                            <option value="mechanical-keyboards">Mechanical Keyboards</option>
+                            <option value="home-coffee">Home Coffee Brewing</option>
+                            <option value="fitness">Fitness</option>
+                            <option value="other">Other</option>
                         </select>
+                        {watch('category') === 'other' && (
+                            <input
+                                type="text"
+                                className="input input-bordered bg-transparent mt-2"
+                                placeholder="Specify your category"
+                                {...register('customCategory', {
+                                    required: 'Please specify your category',
+                                    minLength: 3,
+                                })}
+                            />
+                        )}
+
                     </fieldset>
+
 
 
 
@@ -188,6 +226,7 @@ const CreateGroup = () => {
                             {...register('maxMembers', {
                                 required: true,
                                 min: 2,
+                                valueAsNumber: true
                             })}
                         />
                     </fieldset>
@@ -202,7 +241,70 @@ const CreateGroup = () => {
                         />
                     </fieldset>
 
+
+
+                    <fieldset className="fieldset border border-gray-400 dark:border-gray-600 p-4 rounded-box mt-4">
+                        <label className="label">Difficulty Level</label>
+
+                        <select
+                            className="select select-bordered bg-transparent w-full"
+                            {...register('difficultyLevel', { required: true })}
+                            defaultValue=""
+                        >
+                            <option value="" disabled>Select difficulty</option>
+                            <option value="Beginner">Beginner</option>
+                            <option value="Intermediate">Intermediate</option>
+                            <option value="Advanced">Advanced</option>
+                        </select>
+                    </fieldset>
+
+                    <fieldset className="fieldset border border-gray-400 dark:border-gray-600 p-4 rounded-box mt-4">
+                        <label className="label">Meetup Type</label>
+
+                        <label className="flex items-center gap-3">
+                            <input
+                                type="checkbox"
+                                className="toggle toggle-primary"
+                                {...register('isPhysicalMeetup')}
+                            />
+                            <span>Physical meetup (uncheck = online only)</span>
+                        </label>
+
+                    </fieldset>
+
+
                 </div>
+
+                <fieldset className="fieldset border border-gray-400 dark:border-gray-600 p-4 rounded-box mt-4">
+                    <label className="label font-medium">Focus Areas</label>
+
+                    <div className="grid grid-cols-2 gap-2 text-sm">
+                        {[
+                            'Beginner Setup',
+                            'Troubleshooting',
+                            'Gear Reviews',
+                            'Maintenance',
+                            'DIY / Mods',
+                            'Buying Guide',
+                        ].map((area) => (
+                            <label key={area} className="flex items-center gap-2">
+                                <input
+                                    type="checkbox"
+                                    value={area}
+                                    {...register('focusAreas', {
+                                        required: 'Select at least one focus area',
+                                    })}
+                                    className="checkbox checkbox-sm"
+                                />
+                                {area}
+                            </label>
+                        ))}
+                    </div>
+
+                    {errors.focusAreas && (
+                        <p className="text-error text-sm">{errors.focusAreas.message}</p>
+                    )}
+                </fieldset>
 
                 {/* Description */}
                 <fieldset className="fieldset bg-transparent border border-gray-400 dark:border-gray-600 mt-4 p-4 rounded-box">
