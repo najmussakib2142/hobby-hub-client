@@ -5,6 +5,7 @@ import PopularCategories from '../components/PopularCategories';
 import Faq from '../components/Faq';
 import { Typewriter } from 'react-simple-typewriter';
 import { Loader2 } from 'lucide-react';
+import HowHobbyHubWorks from '../components/HowHobbyHubWorks';
 
 const Home = () => {
     const [groups, setGroups] = useState([]); // Initialize as empty array
@@ -41,6 +42,7 @@ const Home = () => {
     return (
         <div>
             <Banner />
+            <HowHobbyHubWorks />
             <section className='max-w-7xl mx-auto'>
                 <div className='px-6 md:px-12 py-8 md:py-16'>
                     <div className="text-center mt-5">
