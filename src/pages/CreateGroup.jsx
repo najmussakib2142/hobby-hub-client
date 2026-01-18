@@ -26,7 +26,15 @@ const CreateGroup = () => {
         setValue,
         formState: { errors, isSubmitting },
         watch
-    } = useForm();
+    } = useForm({
+        defaultValues: {
+            isPhysicalMeetup: false,
+            location: ""
+        }
+    });
+
+    const focusAreas = watch("focusAreas") || [];
+    const isPhysical = watch("isPhysicalMeetup");
 
     const handleImageUpload = async (e) => {
         const file = e.target.files?.[0];
@@ -85,17 +93,36 @@ const CreateGroup = () => {
                 ? data.customCategory
                 : data.category;
 
+        let finalFocusAreas = Array.isArray(data.focusAreas) ? [...data.focusAreas] : [];
 
+        if (finalFocusAreas.includes("Other")) {
+            // 1. Always remove the "Other" string from the array
+            finalFocusAreas = finalFocusAreas.filter(area => area !== "Other");
+
+            // 2. Only add custom areas if the input isn't empty
+            if (data.customFocusArea) {
+                const customTags = data.customFocusArea
+                    .split(',')
+                    .map(tag => tag.trim())
+                    .filter(tag => tag !== "");
+                finalFocusAreas = [...finalFocusAreas, ...customTags];
+            }
+        }
 
         const newGroup = {
             name: data.name,
             slug: generateSlug(data.name),
+            image: data.image,
             category: finalCategory,
             description: data.description,
+            meetupType: data.isPhysicalMeetup ? 'Physical' : 'Online',
             location: data.location,
+            focusAreas: finalFocusAreas,
+            difficultyLevel: data.difficultyLevel,
+
             startDate: data.startDate,
 
-            maxMembers: data.maxMembers,     // from form
+            maxMembers: Number(data.maxMembers),    // from form
             membersCount: 1,                 // creator joined automatically
 
             createdBy: {
@@ -205,9 +232,32 @@ const CreateGroup = () => {
                     </fieldset>
 
 
+                    {/* Start Date */}
+                    <fieldset className="fieldset bg-transparent border border-gray-400 dark:border-gray-600 p-4 rounded-box">
+                        <label className="label">Start Date</label>
+                        <input
+                            type="date"
+                            className="input bg-transparent input-bordered w-full"
+                            {...register('startDate', { required: true })}
+                        />
+                    </fieldset>
 
 
-                    {/* Location */}
+
+                    {/* <fieldset className="fieldset border border-gray-400 dark:border-gray-600 p-4 rounded-box mt-4">
+                        <label className="label">Meetup Type</label>
+
+                        <label className="flex items-center gap-3">
+                            <input
+                                type="checkbox"
+                                className="toggle toggle-primary"
+                                {...register('isPhysicalMeetup')}
+                            />
+                            <span>Physical meetup (uncheck = online only)</span>
+                        </label>
+
+                    </fieldset>
+
                     <fieldset className="fieldset bg-transparent border border-gray-400 dark:border-gray-600 p-4 rounded-box">
                         <label className="label">Location</label>
                         <input
@@ -215,7 +265,10 @@ const CreateGroup = () => {
                             placeholder="City / Online"
                             {...register('location', { required: true })}
                         />
-                    </fieldset>
+                    </fieldset> */}
+
+
+
 
                     {/* Max Members */}
                     <fieldset className="fieldset bg-transparent border border-gray-400 dark:border-gray-600 p-4 rounded-box">
@@ -231,18 +284,9 @@ const CreateGroup = () => {
                         />
                     </fieldset>
 
-                    {/* Start Date */}
-                    <fieldset className="fieldset bg-transparent border border-gray-400 dark:border-gray-600 p-4 rounded-box">
-                        <label className="label">Start Date</label>
-                        <input
-                            type="date"
-                            className="input bg-transparent input-bordered w-full"
-                            {...register('startDate', { required: true })}
-                        />
-                    </fieldset>
 
 
-
+                    {/* Difficulty Level */}
                     <fieldset className="fieldset border border-gray-400 dark:border-gray-600 p-4 rounded-box mt-4">
                         <label className="label">Difficulty Level</label>
 
@@ -258,51 +302,101 @@ const CreateGroup = () => {
                         </select>
                     </fieldset>
 
-                    <fieldset className="fieldset border border-gray-400 dark:border-gray-600 p-4 rounded-box mt-4">
-                        <label className="label">Meetup Type</label>
 
-                        <label className="flex items-center gap-3">
+
+
+                </div>
+                <div className="card  shadow-xl p-4 border border-gray-400 dark:border-gray-600  rounded-box mt-4">
+                    <h2 className="text-lg font-bold mb-4">Event Logistics</h2>
+
+                    <div className="flex flex-col gap-6">
+                        {/* Toggle Section */}
+                        <div className="flex items-center justify-between bg-gray-800/10 dark:bg-gray-100/10 p-4 rounded-lg">
+                            <div>
+                                <span className="font-medium block">Meetup Type</span>
+                                <span className="text-xs text-gray-500">
+                                    {isPhysical ? "Happening at a physical venue" : "Happening online via video call"}
+                                </span>
+                            </div>
                             <input
                                 type="checkbox"
-                                className="toggle toggle-primary"
+                                className="toggle toggle-primary toggle-lg"
                                 {...register('isPhysicalMeetup')}
                             />
-                            <span>Physical meetup (uncheck = online only)</span>
-                        </label>
+                        </div>
 
-                    </fieldset>
-
-
+                        {/* Dynamic Location Field */}
+                        <div className="form-control  w-full">
+                            <label className="label ">
+                                <span className="label-text pb-1   font-semibold">
+                                    {isPhysical ? " Venue Location" : "🔗 Meeting Link"}
+                                </span>
+                            </label>
+                            <input
+                                type="text"
+                                className={`input input-bordered w-full bg-gray-800/10 dark:bg-gray-100/10 transition-all duration-300 ${isPhysical ? "border-blue-400/50" : "border-purple-400/50"
+                                    }`}
+                                placeholder={isPhysical ? "e.g. KIB Complex, Khamar Bari Rd, Dhaka 1215" : "e.g. https://zoom.us/j/..."}
+                                {...register('location', {
+                                    required: "This field is required",
+                                    pattern: !isPhysical ? {
+                                        value: /^(https?:\/\/)/,
+                                        message: "Please enter a valid URL for online meetups"
+                                    } : null
+                                })}
+                            />
+                        </div>
+                    </div>
                 </div>
 
                 <fieldset className="fieldset border border-gray-400 dark:border-gray-600 p-4 rounded-box mt-4">
                     <label className="label font-medium">Focus Areas</label>
 
-                    <div className="grid grid-cols-2 gap-2 text-sm">
+                    <div className="grid grid-cols-2 gap-3 text-sm">
                         {[
-                            'Beginner Setup',
-                            'Troubleshooting',
-                            'Gear Reviews',
-                            'Maintenance',
-                            'DIY / Mods',
-                            'Buying Guide',
+                            'Beginner Setup', 'Troubleshooting', 'Gear Reviews',
+                            'Maintenance', 'DIY / Mods', 'Buying Guide'
                         ].map((area) => (
-                            <label key={area} className="flex items-center gap-2">
+                            <label key={area} className="flex items-center gap-2 cursor-pointer hover:bg-base-100 p-1 rounded transition-colors">
                                 <input
                                     type="checkbox"
                                     value={area}
-                                    {...register('focusAreas', {
-                                        required: 'Select at least one focus area',
-                                    })}
-                                    className="checkbox checkbox-sm"
+                                    {...register('focusAreas', { required: 'Select at least one focus area' })}
+                                    className="checkbox checkbox-primary checkbox-sm"
                                 />
-                                {area}
+                                <span>{area}</span>
                             </label>
                         ))}
+
+                        {/* The "Other" Logic */}
+                        <label className="flex items-center gap-2 cursor-pointer p-1">
+                            <input
+                                type="checkbox"
+                                value="Other"
+                                {...register('focusAreas')}
+                                className="checkbox checkbox-primary checkbox-sm"
+                            />
+                            <span className="italic text-gray-500">Something else?</span>
+                        </label>
                     </div>
 
+                    {/* Smart Input: Only appears if "Other" is checked */}
+                    {focusAreas.includes("Other") && (
+                        <div className="mt-3 animate-in fade-in slide-in-from-top-1">
+                            <input
+                                type="text"
+                                placeholder="Type your custom focus area..."
+                                className="input input-bordered bg-gray-800/10 dark:bg-gray-100/10 input-sm  w-full"
+                                {...register('customFocusArea', { required: 'Please specify your focus' })}
+                            />
+                            <p className="text-[10px] text-gray-500 mt-1">
+                                Tip: Separate multiple areas with commas (e.g. Vintage, Restoration)
+                            </p>
+                        </div>
+                    )}
+
                     {errors.focusAreas && (
-                        <p className="text-error text-sm">{errors.focusAreas.message}</p>
+                        <p className="text-error text-xs mt-2">{errors.focusAreas.message}</p>
                     )}
                 </fieldset>
 

@@ -46,9 +46,9 @@ const Home = () => {
             <section className='max-w-7xl mx-auto'>
                 <div className='px-6 md:px-12 py-8 md:py-16'>
                     <div className="text-center mt-5">
-                        <h2 className="text-3xl md:text-4xl font-bold text-primary">
+                        <h2 className="text-3xl md:text-4xl font-bold text-gray-800 dark:text-white">
                             Discover New{' '}
-                            <span className="text-secondary">
+                            <span className="text-primary">
                                 <Typewriter
                                     words={['Passions', 'Hobbies', 'Skills', 'Communities']}
                                     loop={true}
