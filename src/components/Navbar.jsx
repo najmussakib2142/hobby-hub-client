@@ -31,10 +31,10 @@ const Navbar = () => {
     };
 
     const navLinkClass = ({ isActive }) =>
-        `px-3 py-2 rounded-md text-sm font-medium transition
+        `px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200
      ${isActive
-            ? "text-indigo-600 dark:text-indigo-400"
-            : "text-gray-700 dark:text-gray-200 hover:text-indigo-600 dark:hover:text-indigo-400"
+           ? "text-primary dark:text-indigo-400 underline decoration-1 underline-offset-4 lg:underline-offset-26" 
+      : "text-gray-700 dark:text-gray-200 hover:text-primary dark:hover:text-indigo-400"
         }`;
 
     const links = (
@@ -156,14 +156,14 @@ const Navbar = () => {
                         {user ? (
                             <button
                                 onClick={handleLogOut}
-                                className="text-sm px-4 py-2 rounded-md border border-indigo-600 text-indigo-600 hover:bg-indigo-600 hover:text-white transition"
+                                className="text-sm px-4 py-2 rounded-md border border-primary text-primary hover:bg-primary hover:text-white transition"
                             >
                                 Logout
                             </button>
                         ) : (
                             <Link
                                 to="login"
-                                className="text-sm px-4 py-2 rounded-md border border-indigo-600 text-indigo-600 hover:bg-indigo-600 hover:text-white transition"
+                                className="text-sm px-4 py-2 rounded-md border border-primary text-primary hover:bg-primary hover:text-white transition"
                             >
                                 Login
                             </Link>

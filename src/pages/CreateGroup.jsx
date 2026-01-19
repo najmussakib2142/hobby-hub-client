@@ -231,61 +231,6 @@ const CreateGroup = () => {
 
                     </fieldset>
 
-
-                    {/* Start Date */}
-                    <fieldset className="fieldset bg-transparent border border-gray-400 dark:border-gray-600 p-4 rounded-box">
-                        <label className="label">Start Date</label>
-                        <input
-                            type="date"
-                            className="input bg-transparent input-bordered w-full"
-                            {...register('startDate', { required: true })}
-                        />
-                    </fieldset>
-
-
-
-                    {/* <fieldset className="fieldset border border-gray-400 dark:border-gray-600 p-4 rounded-box mt-4">
-                        <label className="label">Meetup Type</label>
-
-                        <label className="flex items-center gap-3">
-                            <input
-                                type="checkbox"
-                                className="toggle toggle-primary"
-                                {...register('isPhysicalMeetup')}
-                            />
-                            <span>Physical meetup (uncheck = online only)</span>
-                        </label>
-
-                    </fieldset>
-
-                    <fieldset className="fieldset bg-transparent border border-gray-400 dark:border-gray-600 p-4 rounded-box">
-                        <label className="label">Location</label>
-                        <input
-                            className="input bg-transparent input-bordered w-full"
-                            placeholder="City / Online"
-                            {...register('location', { required: true })}
-                        />
-                    </fieldset> */}
-
-
-
-
-                    {/* Max Members */}
-                    <fieldset className="fieldset bg-transparent border border-gray-400 dark:border-gray-600 p-4 rounded-box">
-                        <label className="label">Max Members</label>
-                        <input
-                            type="number"
-                            className="input bg-transparent input-bordered w-full"
-                            {...register('maxMembers', {
-                                required: true,
-                                min: 2,
-                                valueAsNumber: true
-                            })}
-                        />
-                    </fieldset>
-
-
-
                     {/* Difficulty Level */}
                     <fieldset className="fieldset border border-gray-400 dark:border-gray-600 p-4 rounded-box mt-4">
                         <label className="label">Difficulty Level</label>
@@ -302,12 +247,34 @@ const CreateGroup = () => {
                         </select>
                     </fieldset>
 
+                    {/* Start Date */}
+                    <fieldset className="fieldset bg-transparent border border-gray-400 dark:border-gray-600 p-4 rounded-box">
+                        <label className="label">Start Date</label>
+                        <input
+                            type="date"
+                            className="input bg-transparent input-bordered w-full"
+                            {...register('startDate', { required: true })}
+                        />
+                    </fieldset>
 
+                    {/* Max Members */}
+                    <fieldset className="fieldset bg-transparent border border-gray-400 dark:border-gray-600 p-4 rounded-box">
+                        <label className="label">Max Members</label>
+                        <input
+                            type="number"
+                            className="input bg-transparent input-bordered w-full"
+                            {...register('maxMembers', {
+                                required: true,
+                                min: 2,
+                                valueAsNumber: true
+                            })}
+                        />
+                    </fieldset>
 
 
                 </div>
-                <div className="card  shadow-xl p-4 border border-gray-400 dark:border-gray-600  rounded-box mt-4">
-                    <h2 className="text-lg font-bold mb-4">Event Logistics</h2>
+                <div className="card   p-4 border border-gray-400 dark:border-gray-600  rounded-box mt-4">
+                    <h2 className="text-lg font-semibold mb-4">Event Logistics</h2>
 
                     <div className="flex flex-col gap-6">
                         {/* Toggle Section */}
@@ -328,7 +295,7 @@ const CreateGroup = () => {
                         {/* Dynamic Location Field */}
                         <div className="form-control  w-full">
                             <label className="label ">
-                                <span className="label-text pb-1   font-semibold">
+                                <span className="label-text pb-1 font-semibold">
                                     {isPhysical ? " Venue Location" : "🔗 Meeting Link"}
                                 </span>
                             </label>

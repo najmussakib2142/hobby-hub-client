@@ -19,7 +19,7 @@ const HomeLayout = () => {
             <nav className=''>
                 <Navbar></Navbar>
             </nav>
-            <main className='max-w-7xl mx-auto '>
+            <main className=' '>
                {state == "loading" ? <Loading/> : <Outlet></Outlet>} 
             </main>
             <Footer></Footer>
