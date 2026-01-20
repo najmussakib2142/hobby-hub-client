@@ -9,7 +9,7 @@ const FeaturedGroups = ({ isLoading, groups }) => {
         <section className='max-w-7xl mx-auto'>
             <div className='px-6 md:px-12 py-8 md:py-16'>
                 <div className="text-center mt-5">
-                    <h2 className="text-3xl md:text-4xl font-bold text-gray-800 dark:text-white">
+                    <h2 className="text-4xl md:text-5xl font-bold text-slate-900 dark:text-slate-50 tracking-tight">
                         Discover New{' '}
                         <span className="text-primary">
                             <Typewriter

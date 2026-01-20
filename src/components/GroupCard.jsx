@@ -15,7 +15,7 @@ const GroupCard = ({ group }) => {
   });
 
   return (
-    <div className="group border border-base-200 rounded-2xl overflow-hidden bg-base-100 shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col h-full">
+    <div className="group  border border-base-200 rounded-2xl overflow-hidden  shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col h-full">
       {/* Image Section */}
       <div className="relative h-48 overflow-hidden">
         {image ? (

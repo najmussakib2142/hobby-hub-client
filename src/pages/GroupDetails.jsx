@@ -72,7 +72,7 @@ const GroupDetails = () => {
         
         {/* Main Content */}
         <div className="lg:col-span-2 space-y-8">
-          <div className="bg-base-100 rounded-3xl p-8 shadow-xl shadow-base-300/50 border border-base-200">
+          <div className="bg-[#fcfcfd] dark:bg-slate-950 rounded-3xl p-8 shadow-xl shadow-base-300/50 border border-base-200">
             <h3 className="text-2xl font-bold mb-4">About this Hobby Group</h3>
             <p className="text-lg text-base-content/70 leading-relaxed mb-8">{description}</p>
             
@@ -96,7 +96,7 @@ const GroupDetails = () => {
 
         {/* Sidebar Info */}
         <div className="space-y-6">
-          <div className="bg-base-100 rounded-3xl p-6 shadow-xl border border-base-200">
+          <div className="bg-[#fcfcfd] dark:bg-slate-950 rounded-3xl p-6 shadow-xl border border-base-200">
             <h3 className="font-bold text-xl mb-6 pb-4 border-b">Event Details</h3>
             
             <div className="space-y-6">

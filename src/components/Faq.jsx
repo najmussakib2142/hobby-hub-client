@@ -1,7 +1,7 @@
 import React from "react";
+import { FaChevronDown } from "react-icons/fa";
 
 const Faq = () => {
-  // 1. Define your questions and answers here
   const faqData = [
     {
       question: "What is HobbyHub?",
@@ -23,26 +23,45 @@ const Faq = () => {
   ];
 
   return (
-    <div className="py-8 md:py-16 px-6 md:px-12 max-w-7xl mx-auto">
-      <h2 className="text-3xl font-bold mb-8 text-center">Why Join HobbyHub?</h2>
+    <section className=" dark:bg-slate-950 py-16 md:py-24 transition-colors duration-300">
+      <div className="max-w-4xl mx-auto px-6">
+        
+        {/* Professional Header Section */}
+        <div className="text-center mb-16">
+          <h2 className="text-sm font-bold tracking-[0.2em] text-primary uppercase mb-4">
+            Common Questions
+          </h2>
+          <p className="text-4xl md:text-5xl font-bold text-slate-900 dark:text-slate-50 tracking-tight">
+            Everything you need <br /> to know.
+          </p>
+        </div>
 
-      <div className="space-y-4">
-        {faqData.map((item, index) => (
-          <div 
-            key={index} 
-            className="collapse collapse-arrow bg-base-100 border border-base-300 rounded-lg transition-all duration-300 hover:scale-[1.02] hover:shadow-md"
-          >
-            <input type="radio" name="faq-accordion" defaultChecked={item.defaultOpen} />
-            <div className="collapse-title text-lg font-semibold focus:outline-none">
-              {item.question}
+        {/* Professional Accordion Grid */}
+        <div className="space-y-4">
+          {faqData.map((item, index) => (
+            <div 
+              key={index} 
+              className="group collapse collapse-plus bg-[#fcfcfd] dark:bg-slate-900/50 border border-slate-200 dark:border-slate-800 rounded-xl transition-all duration-300 hover:border-primary/50"
+            >
+              <input type="radio" name="faq-accordion" defaultChecked={item.defaultOpen} className="peer" /> 
+              
+              {/* Question: High Contrast & Interaction */}
+              <div className="collapse-title text-lg font-bold text-slate-800 dark:text-slate-200 peer-checked:text-primary transition-colors pr-12">
+                {item.question}
+              </div>
+
+              {/* Answer: Subtle & High Readability */}
+              <div className="collapse-content px-6">
+                <div className="h-[1px] w-full bg-slate-200 dark:bg-slate-800 mb-4" />
+                <p className="text-slate-600 dark:text-slate-400 leading-relaxed text-base antialiased pb-4">
+                  {item.answer}
+                </p>
+              </div>
             </div>
-            <div className="collapse-content text-base-content/80 px-4 pb-4">
-              <p>{item.answer}</p>
-            </div>
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
-    </div>
+    </section>
   );
 };
 
