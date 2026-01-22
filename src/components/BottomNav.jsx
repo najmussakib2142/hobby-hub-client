@@ -30,8 +30,8 @@ const BottomNav = () => {
     >
       <NavLink to="/" className="text-gray-900 dark:text-gray-100 font-medium hover:text-primary dark:hover:text-secondary">Home</NavLink>
       <NavLink to="/AllGroups" className="text-gray-900 dark:text-gray-100 font-medium hover:text-primary dark:hover:text-secondary">All Groups</NavLink>
-      <NavLink to="/createGroup" className="text-gray-900 dark:text-gray-100 font-medium hover:text-primary dark:hover:text-secondary">Create Group</NavLink>
-      <NavLink to="/myGroups" className="text-gray-900 dark:text-gray-100 font-medium hover:text-primary dark:hover:text-secondary">My Groups</NavLink>
+      <NavLink to="/createGroup" className="text-gray-900 dark:text-gray-100 font-medium hover:text-primary dark:hover:text-secondary">Build Space</NavLink>
+      <NavLink to="/myGroups" className="text-gray-900 dark:text-gray-100 font-medium hover:text-primary dark:hover:text-secondary">My Spaces</NavLink>
     </div>
   );
 };

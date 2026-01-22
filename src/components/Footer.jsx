@@ -45,8 +45,8 @@ const Footer = () => {
                         <ul className="space-y-3 text-sm">
                             <li><NavLink to="/" className="hover:text-primary transition-colors">Home</NavLink></li>
                             <li><NavLink to="/AllGroups" className="hover:text-primary transition-colors">All Groups</NavLink></li>
-                            <li><NavLink to="/createGroup" className="hover:text-primary transition-colors">Create Group</NavLink></li>
-                            <li><NavLink to="/myGroups" className="hover:text-primary transition-colors">My Groups</NavLink></li>
+                            <li><NavLink to="/createGroup" className="hover:text-primary transition-colors">Build Space</NavLink></li>
+                            <li><NavLink to="/myGroups" className="hover:text-primary transition-colors">My Spaces</NavLink></li>
                         </ul>
                     </div>
 

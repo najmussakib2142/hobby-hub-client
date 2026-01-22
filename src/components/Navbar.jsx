@@ -41,9 +41,9 @@ const Navbar = () => {
         <>
             <NavLink to="/" className={navLinkClass}>Home</NavLink>
             <NavLink to="/AllGroups" className={navLinkClass}>Hobby Space</NavLink>
-            <NavLink to="/createGroup" className={navLinkClass}>Create Group</NavLink>
+            <NavLink to="/createGroup" className={navLinkClass}>New Circle</NavLink>
             {user && (
-                <NavLink to="/myGroups" className={navLinkClass}>My Groups</NavLink>
+                <NavLink to="/myGroups" className={navLinkClass}>My Dashboard</NavLink>
             )}
         </>
     );
