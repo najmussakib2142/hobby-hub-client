@@ -5,12 +5,55 @@ import Swal from "sweetalert2";
 import toast from "react-hot-toast";
 import { useTheme } from "../provider/ThemeContext";
 import { motion, AnimatePresence } from "framer-motion";
+import { Loader2, Search, X } from "lucide-react";
 
 const Navbar = () => {
     const { user, logOut } = useContext(AuthContext);
     const { theme, toggleTheme } = useTheme();
     const [isOpen, setOpen] = useState(false);
     const location = useLocation();
+    const [isSearchOpen, setIsSearchOpen] = useState(false);
+    const [searchQuery, setSearchQuery] = useState("");
+    const [allGroups, setAllGroups] = useState([]); // Local state for search
+    const [isSearching, setIsSearching] = useState(false);
+
+    useEffect(() => {
+        if (isSearchOpen && allGroups.length === 0) {
+            setIsSearching(true);
+            fetch('https://hobby-hub-server-psi-bay.vercel.app/groups')
+                .then(res => res.json())
+                .then(data => {
+                    setAllGroups(Array.isArray(data) ? data : data.groups || []);
+                    setIsSearching(false);
+                })
+                .catch(() => setIsSearching(false));
+        }
+    }, [isSearchOpen, allGroups.length]);
+
+    const filteredResults = allGroups.filter(group =>
+        group.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        group.category.toLowerCase().includes(searchQuery.toLowerCase())
+    ).slice(0, 6);
+
+    // 1. Handle Body Scroll Lock
+    useEffect(() => {
+        if (isSearchOpen) {
+            document.body.style.overflow = 'hidden';
+        } else {
+            document.body.style.overflow = 'unset';
+        }
+        // Cleanup on unmount
+        return () => { document.body.style.overflow = 'unset'; };
+    }, [isSearchOpen]);
+
+    // 2. Function to close on Esc key
+    useEffect(() => {
+        const handleEsc = (e) => {
+            if (e.key === 'Escape') setIsSearchOpen(false);
+        };
+        window.addEventListener('keydown', handleEsc);
+        return () => window.removeEventListener('keydown', handleEsc);
+    }, []);
 
     const handleLogOut = () => {
         Swal.fire({
@@ -33,8 +76,8 @@ const Navbar = () => {
     const navLinkClass = ({ isActive }) =>
         `px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200
      ${isActive
-           ? "text-primary dark:text-indigo-400 underline decoration-1 underline-offset-4 lg:underline-offset-26" 
-      : "text-gray-700 dark:text-gray-200 hover:text-primary dark:hover:text-indigo-400"
+            ? "text-primary dark:text-indigo-400 underline decoration-1 underline-offset-4 lg:underline-offset-26"
+            : "text-gray-700 dark:text-gray-200 hover:text-primary dark:hover:text-indigo-400"
         }`;
 
     const links = (
@@ -92,6 +135,14 @@ const Navbar = () => {
 
                     {/* Right */}
                     <div className="flex items-center gap-3">
+
+                        <button
+                            onClick={() => setIsSearchOpen(true)}
+                            className="p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-full transition-colors"
+                        >
+                            <Search className="w-5 h-5 text-gray-600 dark:text-gray-300" />
+                        </button>
+
                         {/* Theme toggle */}
                         <div className='hidden md:block'>
                             <div className="flex items-center space-x-1 md:space-x-2">
@@ -200,6 +251,123 @@ const Navbar = () => {
                                 {links}
                             </div>
                         </motion.aside>
+                    </>
+                )}
+            </AnimatePresence>
+
+            {/* --- SEARCH SHUTTER --- */}
+            <AnimatePresence>
+                {isSearchOpen && (
+                    <>
+                        {/* Backdrop / Overlay: Clicking this closes the search */}
+                        <motion.div
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            exit={{ opacity: 0 }}
+                            onClick={() => setIsSearchOpen(false)}
+                            className="fixed inset-0 bg-black/40 dark:bg-black/60 backdrop-blur-sm z-[998]"
+                        />
+
+                        {/* Shutter Panel */}
+                        <motion.div
+                            initial={{ y: "-100%" }}
+                            animate={{ y: 0 }}
+                            exit={{ y: "-100%" }}
+                            transition={{ type: "spring", damping: 25, stiffness: 200 }}
+                            className="fixed top-0 left-0 w-full bg-white dark:bg-gray-900 z-[999] shadow-2xl border-b border-primary/30"
+                        >
+                            <div className="max-w-5xl mx-auto p-6 md:p-10">
+
+                                {/* Input Header */}
+                                <div className="flex items-center gap-4 border-b-2 border-gray-100 dark:border-gray-800 pb-6">
+                                    <div className="bg-primary/10 p-3 rounded-full">
+                                        <Search className="text-primary w-6 h-6" />
+                                    </div>
+                                    <input
+                                        autoFocus
+                                        className="flex-1 bg-transparent text-2xl md:text-3xl outline-none dark:text-white font-medium placeholder:text-gray-300 dark:placeholder:text-gray-600"
+                                        placeholder="Find your next hobby..."
+                                        onChange={(e) => setSearchQuery(e.target.value)}
+                                    />
+                                    <button
+                                        onClick={() => setIsSearchOpen(false)}
+                                        className="group p-2 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-full transition-colors"
+                                    >
+                                        <X className="w-8 h-8 text-gray-400 group-hover:text-red-500 transition-colors" />
+                                    </button>
+                                </div>
+
+                                {/* Results Body */}
+                                <div className="py-8 max-h-[60vh] overflow-y-auto custom-scrollbar">
+                                    {isSearching ? (
+                                        <div className="flex flex-col items-center justify-center py-10 text-gray-500">
+                                            <Loader2 className="animate-spin w-10 h-10 mb-2 text-primary" />
+                                            <p className="animate-pulse">Scanning the Hub...</p>
+                                        </div>
+                                    ) : searchQuery === "" ? (
+                                        <div className="flex flex-col gap-2">
+                                            <p className="text-xs font-bold text-gray-400 uppercase tracking-widest">Suggestions</p>
+                                            <div className="flex gap-2 flex-wrap mt-2">
+                                                {['Coffee', 'Photography', 'Coding', 'Fitness'].map(tag => (
+                                                    <button
+                                                        key={tag}
+                                                        onClick={() => setSearchQuery(tag)}
+                                                        className="px-4 py-1.5 rounded-full bg-gray-100 dark:bg-gray-800 text-sm hover:bg-primary hover:text-white transition"
+                                                    >
+                                                        {tag}
+                                                    </button>
+                                                ))}
+                                            </div>
+                                        </div>
+                                    ) : filteredResults.length > 0 ? (
+                                        <div>
+                                            <p className="text-xs font-bold text-gray-400 uppercase tracking-widest mb-4">
+                                                Found {filteredResults.length} Matching Circles
+                                            </p>
+                                            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                                                {filteredResults.map(group => (
+                                                    <Link
+                                                        key={group._id}
+                                                        to={`/group/${group.slug}`}
+                                                        onClick={() => setIsSearchOpen(false)}
+                                                        className="flex items-center gap-4 p-3 rounded-2xl bg-gray-50 dark:bg-gray-800/50 border border-transparent hover:border-primary hover:bg-white dark:hover:bg-gray-800 transition-all group shadow-sm hover:shadow-md"
+                                                    >
+                                                        <div className="relative overflow-hidden w-16 h-16 rounded-xl">
+                                                            <img src={group.image} alt="" className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300" />
+                                                        </div>
+                                                        <div className="flex-1 min-w-0">
+                                                            <h4 className="font-bold text-gray-900 dark:text-gray-100 truncate group-hover:text-primary transition-colors">
+                                                                {group.name}
+                                                            </h4>
+                                                            <div className="flex items-center gap-2">
+                                                                <span className="text-[10px] bg-primary/10 text-primary px-2 py-0.5 rounded font-bold uppercase">
+                                                                    {group.category}
+                                                                </span>
+                                                                <span className="text-xs text-gray-400">
+                                                                    {group.membersCount || 0} members
+                                                                </span>
+                                                            </div>
+                                                        </div>
+                                                    </Link>
+                                                ))}
+                                            </div>
+                                        </div>
+                                    ) : (
+                                        <div className="text-center py-12">
+                                            <div className="text-5xl mb-4">🔍</div>
+                                            <p className="text-gray-500 text-lg">No results found for "<span className="text-primary font-semibold">{searchQuery}</span>"</p>
+                                            <p className="text-sm text-gray-400 mt-1">Try searching for a different category or hobby.</p>
+                                        </div>
+                                    )}
+                                </div>
+
+                                {/* Footer Hint */}
+                                <div className="border-t border-gray-100 dark:border-gray-800 pt-4 flex justify-between items-center text-[10px] text-gray-400 uppercase tracking-widest font-bold">
+                                    <span>Press <kbd className="bg-gray-100 dark:bg-gray-800 px-1.5 py-0.5 rounded border border-gray-300 dark:border-gray-600">ESC</kbd> to close</span>
+                                    <span>Search powered by HobbyHub Engine</span>
+                                </div>
+                            </div>
+                        </motion.div>
                     </>
                 )}
             </AnimatePresence>
