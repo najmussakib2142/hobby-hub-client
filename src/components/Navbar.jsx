@@ -12,9 +12,10 @@ const Navbar = () => {
     const { theme, toggleTheme } = useTheme();
     const [isOpen, setOpen] = useState(false);
     const location = useLocation();
+
     const [isSearchOpen, setIsSearchOpen] = useState(false);
     const [searchQuery, setSearchQuery] = useState("");
-    const [allGroups, setAllGroups] = useState([]); // Local state for search
+    const [allGroups, setAllGroups] = useState([]);
     const [isSearching, setIsSearching] = useState(false);
 
     useEffect(() => {
@@ -42,7 +43,6 @@ const Navbar = () => {
         } else {
             document.body.style.overflow = 'unset';
         }
-        // Cleanup on unmount
         return () => { document.body.style.overflow = 'unset'; };
     }, [isSearchOpen]);
 
@@ -54,6 +54,11 @@ const Navbar = () => {
         window.addEventListener('keydown', handleEsc);
         return () => window.removeEventListener('keydown', handleEsc);
     }, []);
+
+    const closeSearch = () => {
+        setIsSearchOpen(false);
+        setSearchQuery(""); // This clears the "Coding" text
+    };
 
     const handleLogOut = () => {
         Swal.fire({
@@ -264,7 +269,8 @@ const Navbar = () => {
                             initial={{ opacity: 0 }}
                             animate={{ opacity: 1 }}
                             exit={{ opacity: 0 }}
-                            onClick={() => setIsSearchOpen(false)}
+                            // onClick={() => setIsSearchOpen(false)}
+                            onClick={closeSearch}
                             className="fixed inset-0 bg-black/40 dark:bg-black/60 backdrop-blur-sm z-[998]"
                         />
 
@@ -281,16 +287,26 @@ const Navbar = () => {
                                 {/* Input Header */}
                                 <div className="flex items-center gap-4 border-b-2 border-gray-100 dark:border-gray-800 pb-6">
                                     <div className="bg-primary/10 p-3 rounded-full">
-                                        <Search className="text-primary w-6 h-6" />
+                                        <Search className="text-primary w-4 h-4" />
                                     </div>
                                     <input
                                         autoFocus
-                                        className="flex-1 bg-transparent text-2xl md:text-3xl outline-none dark:text-white font-medium placeholder:text-gray-300 dark:placeholder:text-gray-600"
+                                        value={searchQuery}
+                                        className="flex-1 bg-transparent text-xl md:text-2xl outline-none dark:text-white font-medium placeholder:text-gray-300 dark:placeholder:text-gray-600"
                                         placeholder="Find your next hobby..."
                                         onChange={(e) => setSearchQuery(e.target.value)}
                                     />
+                                    {searchQuery && (
+                                        <button
+                                            onClick={() => setSearchQuery("")}
+                                            className="text-xs font-bold text-primary hover:underline"
+                                        >
+                                            Clear
+                                        </button>
+                                    )}
                                     <button
-                                        onClick={() => setIsSearchOpen(false)}
+                                        // onClick={() => setIsSearchOpen(false)}
+                                        onClick={closeSearch}
                                         className="group p-2 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-full transition-colors"
                                     >
                                         <X className="w-8 h-8 text-gray-400 group-hover:text-red-500 transition-colors" />
@@ -328,8 +344,9 @@ const Navbar = () => {
                                                 {filteredResults.map(group => (
                                                     <Link
                                                         key={group._id}
-                                                        to={`/group/${group.slug}`}
-                                                        onClick={() => setIsSearchOpen(false)}
+                                                        to={`/groupDetails/${group._id}`}
+                                                        // onClick={() => setIsSearchOpen(false)}
+                                                        onClick={closeSearch}
                                                         className="flex items-center gap-4 p-3 rounded-2xl bg-gray-50 dark:bg-gray-800/50 border border-transparent hover:border-primary hover:bg-white dark:hover:bg-gray-800 transition-all group shadow-sm hover:shadow-md"
                                                     >
                                                         <div className="relative overflow-hidden w-16 h-16 rounded-xl">

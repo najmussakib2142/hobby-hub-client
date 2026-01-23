@@ -68,7 +68,7 @@ const GroupDetails = () => {
         </div>
       </div>
 
-      <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-3 gap-8 -mt-10 relative z-10">
+      <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-3 gap-8 -mt-4 md:-mt-10 relative z-10">
         
         {/* Main Content */}
         <div className="lg:col-span-2 space-y-8">
