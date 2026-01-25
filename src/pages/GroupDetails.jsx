@@ -5,6 +5,7 @@ import { FaCalendarAlt, FaUsers, FaMapMarkerAlt, FaUser, FaArrowLeft, FaEnvelope
 import { MdVerified, MdErrorOutline, MdSignalCellularAlt } from "react-icons/md";
 import { useEffect, useState } from "react";
 import Loading from "../components/Loading";
+import { FaYoutube, FaExternalLinkAlt } from "react-icons/fa";
 
 const GroupDetails = () => {
   const { id } = useParams();
@@ -23,24 +24,29 @@ const GroupDetails = () => {
 
 
   useEffect(() => {
-  if (!group?.category) return;
+    if (!group?.category) return;
 
-  fetchVideos(group.category)
-    .then(setVideos)
-    .catch(() => setVideos([]));
-}, [group?.category]);
+    fetchVideos(group.category)
+      .then(setVideos)
+      .catch(() => setVideos([]));
+  }, [group?.category]);
 
 
   const fetchVideos = async (hobby) => {
-  const res = await fetch(
-    `https://www.googleapis.com/youtube/v3/search?part=snippet&q=${hobby} tutorial&type=video&videoDuration=medium&videoEmbeddable=true&maxResults=6&key=${API_KEY}`
-  );
+    const res = await fetch(
+      `https://www.googleapis.com/youtube/v3/search?part=snippet&q=${hobby} tutorial&type=video&videoDuration=medium&videoEmbeddable=true&maxResults=6&key=${API_KEY}`
+    );
 
-  const data = await res.json();
+    const data = await res.json();
 
-  return (data.items || []).filter(item => item.id?.videoId);
-};
+    return (data.items || []).filter(item => item.id?.videoId);
+  };
 
+  const decodeHtml = (html) => {
+    const txt = document.createElement("textarea");
+    txt.innerHTML = html;
+    return txt.value;
+  };
 
 
   if (loading) return <Loading />;
@@ -157,46 +163,72 @@ const GroupDetails = () => {
       </div>
 
 
-      <section className="max-w-7xl mx-auto px-6 mt-16">
-        <h2 className="text-2xl font-bold mb-6">Recommended Tutorials</h2>
+      <section className="max-w-7xl mx-auto px-6 mt-20 mb-20">
+        <div className="flex items-center justify-between mb-8">
+          <div>
+            <h2 className="text-3xl font-bold tracking-tight">Master {category}</h2>
+            <p className="text-base-content/60 mt-1">Handpicked tutorials to help you get started</p>
+          </div>
+          <div className="hidden md:block h-1 flex-1 bg-base-200 mx-8 rounded-full opacity-50" />
+        </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-          {videos.map(video => (
-            <article
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-8">
+          {videos.map((video) => (
+            <a
               key={video.id?.videoId || video.etag}
-              className="bg-white dark:bg-slate-900 rounded-2xl shadow-md hover:shadow-xl transition-shadow border border-base-200 overflow-hidden"
+              href={`https://www.youtube.com/watch?v=${video.id.videoId}`}
+              target="_blank"
+              rel="noreferrer"
+              className="group flex flex-col bg-base-100 dark:bg-slate-900 rounded-[2rem] overflow-hidden border border-base-200 hover:border-primary/30 transition-all duration-300 hover:shadow-2xl hover:shadow-primary/5 hover:-translate-y-1"
             >
-              {/* Thumbnail */}
-              <img
-                src={video.snippet.thumbnails.medium.url}
-                alt={video.snippet.title}
-                className="w-full h-44 object-cover"
-              />
+              {/* Thumbnail Container */}
+              <div className="relative aspect-video overflow-hidden">
+                <img
+                  src={video.snippet.thumbnails.high?.url || video.snippet.thumbnails.medium.url}
+                  alt={video.snippet.title}
+                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                />
+                {/* Play Overlay */}
+                <div className="absolute inset-0 bg-black/20 group-hover:bg-black/40 transition-colors flex items-center justify-center">
+                  <div className="w-14 h-14 flex items-center justify-center rounded-full bg-white/20 backdrop-blur-md text-white opacity-0 scale-50 group-hover:opacity-100 group-hover:scale-100 transition-all duration-300">
+                    <FaYoutube size={30} className="text-red-600" />
+                  </div>
+                </div>
+                {/* Badge */}
+                <span className="absolute bottom-3 right-3 bg-black/70 text-white text-[10px] font-bold px-2 py-1 rounded backdrop-blur-sm">
+                  TUTORIAL
+                </span>
+              </div>
 
               {/* Content */}
-              <div className="p-4 space-y-2">
-                <h3 className="font-semibold text-sm leading-snug line-clamp-2">
-                  {video.snippet.title}
-                </h3>
+              <div className="p-6 flex flex-col flex-grow">
+                <div className="flex-grow">
+                  <h3 className="font-bold text-lg leading-tight line-clamp-2 group-hover:text-primary transition-colors">
+                    {decodeHtml(video.snippet.title)}
+                  </h3>
+                  <div className="flex items-center gap-2 mt-3">
+                    <div className="w-6 h-6 rounded-full bg-primary/10 flex items-center justify-center text-[10px] font-bold text-primary">
+                      {video.snippet.channelTitle.charAt(0)}
+                    </div>
+                    <p className="text-sm font-medium text-base-content/50 truncate">
+                      {video.snippet.channelTitle}
+                    </p>
+                  </div>
+                </div>
 
-                <p className="text-xs text-base-content/60">
-                  {video.snippet.channelTitle}
-                </p>
-
-                <a
-                  href={`https://www.youtube.com/watch?v=${video.id.videoId}`}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="inline-flex items-center gap-2 text-sm font-medium text-primary hover:underline mt-2"
-                >
-                  Watch on YouTube →
-                </a>
+                <div className="mt-6 pt-4 border-t border-base-200 flex items-center justify-between">
+                  <span className="text-xs font-bold uppercase tracking-widest text-primary flex items-center gap-2">
+                    Watch Video <FaExternalLinkAlt size={10} />
+                  </span>
+                  <span className="text-[10px] text-base-content/30 italic">
+                    via YouTube
+                  </span>
+                </div>
               </div>
-            </article>
+            </a>
           ))}
         </div>
       </section>
-
     </div>
 
   );
