@@ -6,9 +6,12 @@
   font-weight: 600;
   color: #1F1A70;
   transition: all 0.3s ease;
+  text-underline-offset: 6px;
+  text-decoration: underline;
 }
 
 html[data-theme='dark'] .active {
-  text-decoration-color: #f43098;
-  color: #f43098;
+  text-decoration-color: #1F1A70;
+  color: #1F1A70;
+  
 }

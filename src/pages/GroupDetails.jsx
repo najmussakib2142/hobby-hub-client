@@ -10,6 +10,8 @@ const GroupDetails = () => {
   const { id } = useParams();
   const [group, setGroup] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [videos, setVideos] = useState([]);
+  const API_KEY = import.meta.env.VITE_YOUTUBE_API_KEY;
 
   useEffect(() => {
     fetch(`https://hobby-hub-server-psi-bay.vercel.app/groups/${id}`)
@@ -18,8 +20,31 @@ const GroupDetails = () => {
       .catch(() => setLoading(false));
   }, [id]);
 
+
+
+  useEffect(() => {
+  if (!group?.category) return;
+
+  fetchVideos(group.category)
+    .then(setVideos)
+    .catch(() => setVideos([]));
+}, [group?.category]);
+
+
+  const fetchVideos = async (hobby) => {
+  const res = await fetch(
+    `https://www.googleapis.com/youtube/v3/search?part=snippet&q=${hobby} tutorial&type=video&videoDuration=medium&videoEmbeddable=true&maxResults=6&key=${API_KEY}`
+  );
+
+  const data = await res.json();
+
+  return (data.items || []).filter(item => item.id?.videoId);
+};
+
+
+
   if (loading) return <Loading />;
-  
+
   if (!group) return (
     <div className="min-h-screen flex flex-col items-center justify-center space-y-4">
       <MdErrorOutline size={64} className="text-error opacity-20" />
@@ -29,12 +54,12 @@ const GroupDetails = () => {
   );
 
   const {
-    name, category, image, description, startDate, 
+    name, category, image, description, startDate,
     maxMembers, membersCount, location, focusAreas, difficultyLevel,
     userName, userEmail, meetupType
   } = group;
 
-  const isExpired = new Date(startDate).setHours(0,0,0,0) < new Date().setHours(0,0,0,0);
+  const isExpired = new Date(startDate).setHours(0, 0, 0, 0) < new Date().setHours(0, 0, 0, 0);
   const hostEmail = group?.createdBy?.email || userEmail;
   const hostName = group?.createdBy?.name || userName || "Anonymous Host";
 
@@ -42,6 +67,10 @@ const GroupDetails = () => {
     if (isExpired) return toast.error("This group is no longer active!");
     toast.success(`Welcome to ${name}!`);
   };
+
+
+
+
 
   return (
     <div className="min-h-screen bg-base-200/30 pb-20">
@@ -51,7 +80,7 @@ const GroupDetails = () => {
       <div className="relative h-[40vh] min-h-[300px] w-full overflow-hidden">
         <img src={image} alt={name} className="w-full h-full object-cover" />
         <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
-        
+
         <div className="absolute bottom-0 left-0 w-full p-6 md:p-12">
           <div className="max-w-7xl mx-auto">
             <Link to="/" className="inline-flex items-center gap-2 text-white/80 hover:text-white mb-4 transition-colors">
@@ -69,13 +98,13 @@ const GroupDetails = () => {
       </div>
 
       <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-3 gap-8 -mt-4 md:-mt-10 relative z-10">
-        
+
         {/* Main Content */}
         <div className="lg:col-span-2 space-y-8">
           <div className="bg-[#fcfcfd] dark:bg-slate-950 rounded-3xl p-8 shadow-xl shadow-base-300/50 border border-base-200">
             <h3 className="text-2xl font-bold mb-4">About this Hobby Group</h3>
             <p className="text-lg text-base-content/70 leading-relaxed mb-8">{description}</p>
-            
+
             {focusAreas && focusAreas.length > 0 && (
               <div>
                 <h4 className="font-bold text-xl mb-4 flex items-center gap-2">
@@ -98,7 +127,7 @@ const GroupDetails = () => {
         <div className="space-y-6">
           <div className="bg-[#fcfcfd] dark:bg-slate-950 rounded-3xl p-6 shadow-xl border border-base-200">
             <h3 className="font-bold text-xl mb-6 pb-4 border-b">Event Details</h3>
-            
+
             <div className="space-y-6">
               <DetailItem icon={<FaCalendarAlt />} label="Start Date" value={new Date(startDate).toLocaleDateString('en-US', { dateStyle: 'long' })} />
               <DetailItem icon={<FaMapMarkerAlt />} label="Location" value={location} subValue={meetupType} />
@@ -108,15 +137,15 @@ const GroupDetails = () => {
             </div>
 
             <div className="mt-8 space-y-3">
-              <button 
+              <button
                 onClick={handleJoin}
                 disabled={isExpired}
                 className="btn btn-primary btn-block btn-lg rounded-2xl shadow-lg shadow-primary/20"
               >
                 {isExpired ? "Registration Closed" : "Join this Group"}
               </button>
-              
-              <a 
+
+              <a
                 href={`https://mail.google.com/mail/?view=cm&fs=1&to=${hostEmail}`}
                 className="btn btn-outline btn-block btn-lg rounded-2xl"
               >
@@ -126,7 +155,50 @@ const GroupDetails = () => {
           </div>
         </div>
       </div>
+
+
+      <section className="max-w-7xl mx-auto px-6 mt-16">
+        <h2 className="text-2xl font-bold mb-6">Recommended Tutorials</h2>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+          {videos.map(video => (
+            <article
+              key={video.id?.videoId || video.etag}
+              className="bg-white dark:bg-slate-900 rounded-2xl shadow-md hover:shadow-xl transition-shadow border border-base-200 overflow-hidden"
+            >
+              {/* Thumbnail */}
+              <img
+                src={video.snippet.thumbnails.medium.url}
+                alt={video.snippet.title}
+                className="w-full h-44 object-cover"
+              />
+
+              {/* Content */}
+              <div className="p-4 space-y-2">
+                <h3 className="font-semibold text-sm leading-snug line-clamp-2">
+                  {video.snippet.title}
+                </h3>
+
+                <p className="text-xs text-base-content/60">
+                  {video.snippet.channelTitle}
+                </p>
+
+                <a
+                  href={`https://www.youtube.com/watch?v=${video.id.videoId}`}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="inline-flex items-center gap-2 text-sm font-medium text-primary hover:underline mt-2"
+                >
+                  Watch on YouTube →
+                </a>
+              </div>
+            </article>
+          ))}
+        </div>
+      </section>
+
     </div>
+
   );
 };
 
