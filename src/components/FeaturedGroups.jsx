@@ -2,9 +2,11 @@ import React from 'react';
 import { Typewriter } from 'react-simple-typewriter';
 import { Loader2 } from 'lucide-react';
 import GroupCard from '../components/GroupCard';
+import GroupCardSkeleton from './GroupCardSkeleton';
 
 
 const FeaturedGroups = ({ isLoading, groups }) => {
+    const displayLimit = 6;
     return (
         <section className='max-w-7xl mx-auto'>
             <div className='px-6 md:px-12 py-8 md:py-16'>
@@ -29,22 +31,23 @@ const FeaturedGroups = ({ isLoading, groups }) => {
                 </div>
 
                 {/* Loader/Grid Logic */}
-                {isLoading ? (
-                    <div className="flex justify-center items-center h-40">
-                        <Loader2 className="animate-spin text-blue-500" size={32} />
-                    </div>
-
-                ) : (
-                    <div className='grid py-8 md:py-12 lg:gap-6 gap-6 grid-cols-1 md:grid-cols-2 lg:grid-cols-3'>
-                        {groups.length > 0 ? (
-                            groups.slice(0, 6).map((group) => (
-                                <GroupCard key={group._id} group={group} />
-                            ))
-                        ) : (
-                            <p className="col-span-full text-center py-10">No groups found.</p>
-                        )}
-                    </div>
-                )}
+                <div className={`grid py-8 md:py-12 lg:gap-6 gap-6 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 transition-all duration-500 ${isLoading ? 'opacity-50' : 'opacity-100'}`}>
+                    {isLoading ? (
+                        [...Array(displayLimit)].map((_, index) => (
+                            <GroupCardSkeleton key={index} />
+                        ))
+                    ) : (
+                        <>
+                            {groups.length > 0 ? (
+                                groups.slice(0, displayLimit).map((group) => (
+                                    <GroupCard key={group._id} group={group} />
+                                ))
+                            ) : (
+                                <p className="col-span-full text-center py-10">No groups found.</p>
+                            )}
+                        </>
+                    )}
+                </div>
             </div>
         </section>
     );
