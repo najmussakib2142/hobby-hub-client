@@ -56,7 +56,7 @@ const PopularCategories = () => {
                 <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
                     {loading ? (
                         // Show 8 skeletons while loading
-                        [...Array(8)].map((_, idx) => (
+                        [...Array(3)].map((_, idx) => (
                             <CategorySkeleton key={idx} />
                         ))
                     ) : (

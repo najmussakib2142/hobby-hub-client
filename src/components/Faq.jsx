@@ -1,64 +1,128 @@
-import React from "react";
+import React, { useState } from "react";
 import { FaChevronDown } from "react-icons/fa";
+import Lottie from "lottie-react";
+import { motion, AnimatePresence } from "framer-motion"; // Added Framer Motion
+import animationData from "../../public/faq.json";
 
 const Faq = () => {
+  const [activeIndex, setActiveIndex] = useState(0);
+
   const faqData = [
     {
-      question: "What is HobbyHub?",
-      answer: "HobbyHub is a social platform where people can discover, join, and create hobby-based groups, events, and communities.",
-      defaultOpen: true,
+      question: "What exactly is HobbyHub?",
+      answer: "HobbyHub is the ultimate social ecosystem for enthusiasts. We bridge the gap between digital discovery and real-world connection, allowing you to find, join, and scale communities built around what you love.",
     },
     {
-      question: "How do I join a hobby group?",
-      answer: "Browse the available hobby groups from the groups page, click on a group you're interested in, and hit the 'Join Group' button.",
+      question: "How do I get started with a group?",
+      answer: "It’s seamless. Explore our curated categories, find a community that resonates with you, and hit 'Join.' You’ll get instant access to group discussions and exclusive events.",
     },
     {
-      question: "Can I host events for my group?",
-      answer: "Yes — once you're a group admin, you can create events, workshops, or meetups for your group members right from your group dashboard.",
+      question: "Can I host my own workshops?",
+      answer: "Absolutely. We empower creators. Once you lead a group, you unlock a professional suite of tools to host meetups, manage RSVPs, and grow your community.",
     },
     {
-      question: "Is it free to use HobbyHub?",
-      answer: "Absolutely. Creating an account, joining groups, and attending public events are all free on HobbyHub.",
+      question: "Is my data and privacy secure?",
+      answer: "Your trust is our priority. HobbyHub uses industry-standard encryption to ensure your interactions and personal data remain private and secure.",
     },
   ];
 
+  const recolorLottie = (animation, color) => {
+    const [r, g, b] = color;
+    if (!animation) return null;
+    const newAnimation = JSON.parse(JSON.stringify(animation)); // Deep clone to avoid mutating source
+    newAnimation.layers?.forEach(layer => {
+      layer.shapes?.forEach(shape => {
+        if (shape.it) {
+          shape.it.forEach(item => {
+            if (item.c?.k) {
+              item.c.k = [r, g, b, 1];
+            }
+          });
+        }
+      });
+    });
+    return newAnimation;
+  };
+
+  const blueColor = [0.121, 0.102, 0.439]; // #1F1A70
+
   return (
-    <section className=" dark:bg-slate-950 py-16 md:py-24 transition-colors duration-300">
-      <div className="max-w-4xl mx-auto px-6">
-        
-        {/* Professional Header Section */}
-        <div className="text-center mb-16">
-          <h2 className="text-sm font-bold tracking-[0.2em] text-primary uppercase mb-4">
-            Common Questions
-          </h2>
-          <p className="text-4xl md:text-5xl font-bold text-slate-900 dark:text-slate-50 tracking-tight">
-            Everything you need <br /> to know.
-          </p>
-        </div>
+    <section className="bg-white dark:bg-slate-950 py-20 overflow-hidden">
+      <div className="max-w-7xl mx-auto px-6">
+        <div className="flex flex-col lg:flex-row items-center gap-16">
 
-        {/* Professional Accordion Grid */}
-        <div className="space-y-4">
-          {faqData.map((item, index) => (
-            <div 
-              key={index} 
-              className="group collapse collapse-plus bg-[#fcfcfd] dark:bg-slate-900/50 border border-slate-200 dark:border-slate-800 rounded-xl transition-all duration-300 hover:border-primary/50"
-            >
-              <input type="radio" name="faq-accordion" defaultChecked={item.defaultOpen} className="peer" /> 
-              
-              {/* Question: High Contrast & Interaction */}
-              <div className="collapse-title text-lg font-bold text-slate-800 dark:text-slate-200 peer-checked:text-primary transition-colors pr-12">
-                {item.question}
-              </div>
-
-              {/* Answer: Subtle & High Readability */}
-              <div className="collapse-content px-6">
-                <div className="h-[1px] w-full bg-slate-200 dark:bg-slate-800 mb-4" />
-                <p className="text-slate-600 dark:text-slate-400 leading-relaxed text-base antialiased pb-4">
-                  {item.answer}
-                </p>
+          {/* Left Side: Visual Element */}
+          <div className="w-full lg:w-1/2">
+            <div className="relative">
+              <div className="absolute -top-10 -left-10 w-64 h-64 bg-primary/10 blur-3xl rounded-full" />
+              <div className="relative z-10 flex justify-center">
+                <div className="w-full h-[400px] bg-slate-100 dark:bg-slate-900 rounded-3xl flex items-center justify-center border border-slate-200 dark:border-slate-800">
+                  <Lottie animationData={recolorLottie(animationData, blueColor)} />
+                </div>
               </div>
             </div>
-          ))}
+          </div>
+
+          {/* Right Side: FAQ Text */}
+          <div className="w-full lg:w-1/2">
+            <div className="mb-10">
+              <h2 className="text-3xl md:text-4xl font-extrabold text-slate-900 dark:text-white mb-4">
+                Common Questions
+              </h2>
+              <p className="text-slate-500 dark:text-slate-400">
+                Everything you need to know about getting started on the platform.
+              </p>
+            </div>
+
+            <div className="space-y-4">
+              {faqData.map((item, index) => {
+                const isOpen = activeIndex === index;
+                
+                return (
+                  <div
+                    key={index}
+                    className="border-b border-slate-200 dark:border-slate-800"
+                  >
+                    <button
+                      onClick={() => setActiveIndex(isOpen ? null : index)}
+                      className="w-full flex items-center justify-between py-5 text-left group"
+                    >
+                      <span className={`text-lg font-semibold transition-colors ${isOpen ? "text-primary" : "text-slate-800 dark:text-slate-200 group-hover:text-primary"}`}>
+                        {item.question}
+                      </span>
+                      {/* Animated Chevron */}
+                      <motion.div
+                        animate={{ rotate: isOpen ? 180 : 0 }}
+                        transition={{ duration: 0.3 }}
+                        className={isOpen ? "text-primary" : "text-slate-400"}
+                      >
+                        <FaChevronDown />
+                      </motion.div>
+                    </button>
+
+                    {/* Framer Motion Accordion */}
+                    <AnimatePresence initial={false}>
+                      {isOpen && (
+                        <motion.div
+                          key="content"
+                          initial={{ height: 0, opacity: 0 }}
+                          animate={{ height: "auto", opacity: 1 }}
+                          exit={{ height: 0, opacity: 0 }}
+                          transition={{ duration: 0.3, ease: "easeInOut" }}
+                        >
+                          <div className="pb-5">
+                            <p className="text-slate-600 dark:text-slate-400 leading-relaxed">
+                              {item.answer}
+                            </p>
+                          </div>
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
         </div>
       </div>
     </section>
