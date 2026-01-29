@@ -1,105 +1,167 @@
 import React, { useContext, useState } from 'react';
-import { FcGoogle } from 'react-icons/fc';
 import { Link, useLocation, useNavigate } from 'react-router';
 import { AuthContext } from '../provider/AuthContext';
 import Swal from 'sweetalert2';
 import toast from 'react-hot-toast';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
+import { FcGoogle } from 'react-icons/fc';
 import { Helmet } from 'react-helmet-async';
 
 const Login = () => {
+    const { signIn, googleSignIn } = useContext(AuthContext);
+    const location = useLocation();
+    const navigate = useNavigate();
 
-    const { signIn, googleSignIn } = useContext(AuthContext)
-    const location = useLocation()
-    // console.log(location);
-    const navigate = useNavigate()
-    const [error, setError] = useState("")
-    const [showPassword, setShowPassword] = useState(false)
+    const [error, setError] = useState("");
+    const [showPassword, setShowPassword] = useState(false);
+    const [loading, setLoading] = useState(false);
+    const [googleLoading, setGoogleLoading] = useState(false);
 
-    const handleLogin = (e) => {
-        e.preventDefault()
+    // Dynamic redirect path
+    const from = location.state?.from?.pathname || "/";
+
+    const handleLogin = async (e) => {
+        e.preventDefault();
+        setLoading(true);
+        setError("");
+
         const form = e.target;
         const email = form.email.value;
         const password = form.password.value;
-        // console.log(email, password);
-        // firebase
-        signIn(email, password)
-            .then((result) => {
-                const user = result.user;
-                // console.log(user);
-                Swal.fire({
-                    icon: "success",
-                    title: "Login Successful!",
-                    text: `Welcome back, ${user.displayName || user.email}`,
-                    showConfirmButton: false,
-                    timer: 2000
-                });
-                navigate(`${location.state ? location.state : '/'}`)
-            })
-            .catch((error) => {
-                const errorCode = error.code;
-                // const errorMessage = error.message;
-                setError(errorCode)
-            })
 
-    }
+        try {
+            const result = await signIn(email, password);
+            Swal.fire({
+                icon: "success",
+                title: "Welcome back!",
+                text: `Successfully logged in as ${result.user.email}`,
+                timer: 2000,
+                showConfirmButton: false
+            });
+            navigate(from, { replace: true });
+        } catch (err) {
+            // Better error parsing
+            const errorMessage = err.code === "auth/invalid-credential" 
+                ? "Invalid email or password" 
+                : "Something went wrong. Please try again.";
+            setError(errorMessage);
+            toast.error(errorMessage);
+        } finally {
+            setLoading(false);
+        }
+    };
 
-    // google
-    const handleGoogleLogin = () => {
-        googleSignIn()
-            .then(() => {
-                toast.success("Logged in with Google!");
-                navigate(location.state ? location.state : "/");
-            })
-            .catch(error => {
-                const errorCode = error.code;
-                setError(errorCode)
-            })
-    }
+    const handleGoogleLogin = async () => {
+        setGoogleLoading(true);
+        try {
+            await googleSignIn();
+            toast.success("Logged in with Google!");
+            navigate(from, { replace: true });
+        } catch (err) {
+            setError(err.code);
+            toast.error("Google login failed");
+        } finally {
+            setGoogleLoading(false);
+        }
+    };
+
     return (
-        // <div className='hero min-h-screen items-center lg:pt-10 flex-col justify-center lg:flex-row-reverse bg-gradient-to-tr from-blue-50 via-purple-50 to-pink-50'>
-        <div className="hero min-h-screen items-center lg:pt-10 flex-col justify-center lg:flex-row-reverse ">
-
+        <div className="flex flex-col lg:flex-row items-center justify-center min-h-[100vh] gap-12 px-4 py-10">
             <Helmet>
                 <title>HobbyHub || Login</title>
             </Helmet>
-            <div className="card p-4 bg-base-100/60 w-full max-w-sm shrink-0 shadow-2xl">
-                <h1 className="text-4xl font-bold text-primary text-center">Login now!</h1>
-                <div className="card-body">
-                    <form onSubmit={handleLogin} className="fieldset">
-                        <label className="label">Email</label>
-                        <input type="email" required name='email' className="input select-primary" placeholder="Email" />
-                        <label className="label">Password</label>
-                        <div className='relative'>
-                            <input
-                                required
-                                name='password'
-                                type={showPassword ? 'text' : "password"}
-                                className="input select-primary"
-                                placeholder="Password"
+
+            {/* Left Side: Branding */}
+            <div className="hidden lg:block text-left lg:w-1/2 max-w-lg space-y-6">
+                <h1 className="text-7xl font-black text-primary tracking-tight">HobbyHub</h1>
+                <p className="text-xl text-gray-600 leading-relaxed">
+                    Connect with enthusiasts, share your passion, and explore new hobbies. 
+                    Login to pick up where you left off.
+                </p>
+                <div className="flex flex-wrap gap-2">
+                    <span className="badge badge-lg badge-outline badge-primary">Community</span>
+                    <span className="badge badge-lg badge-outline badge-secondary">Hobbies</span>
+                    <span className="badge badge-lg badge-outline badge-accent">Secure</span>
+                </div>
+            </div>
+
+            {/* Right Side: Login Card */}
+            <div className="card bg-base-100 w-full max-w-md shadow-2xl border border-base-200">
+                <div className="card-body p-8">
+                    <h2 className="text-3xl font-bold text-center mb-2">Welcome Back</h2>
+                    <p className="text-center text-gray-500 mb-6">Please enter your details</p>
+                    
+                    <form onSubmit={handleLogin} className="space-y-4">
+                        <div className="form-control">
+                            <label className="label font-semibold text-sm">Email Address</label>
+                            <input 
+                                type="email" 
+                                name="email"
+                                placeholder="name@example.com" 
+                                className="input input-bordered focus:outline-primary" 
+                                required 
                             />
-                            <button
-                                onClick={() => setShowPassword(!showPassword)}
-                                className='absolute btn btn-xs right-3 top-2'
-                                type='button'
-                            >
-                                {showPassword ? <FaEyeSlash></FaEyeSlash> : <FaEye></FaEye>}
-                            </button>
                         </div>
 
-                        <div className='py-1'><a className="link link-hover ">Forgot password?</a></div>
-                        {error && <p className='text-red-500 text-sm'>{error}</p>}
+                        <div className="form-control">
+                            <label className="label font-semibold text-sm">Password</label>
+                            <div className="relative">
+                                <input
+                                    type={showPassword ? 'text' : "password"}
+                                    name="password"
+                                    placeholder="••••••••"
+                                    className="input input-bordered w-full focus:outline-primary"
+                                    required
+                                />
+                                <button
+                                    type="button"
+                                    onClick={() => setShowPassword(!showPassword)}
+                                    className="absolute right-3 top-3 text-gray-400 hover:text-primary transition-colors"
+                                >
+                                    {showPassword ? <FaEyeSlash size={20} /> : <FaEye size={20} />}
+                                </button>
+                            </div>
+                            <label className="label">
+                                <Link to="/forgot-password" size="sm" className="label-text-alt link link-hover text-primary">
+                                    Forgot password?
+                                </Link>
+                            </label>
+                        </div>
 
-                        <button type='submit' className="btn bg-primary text-white border-primary">Login</button>
-                        <div className="divider">OR</div>
-                        <button onClick={handleGoogleLogin} className="btn dark:bg-gray-800 dark:text-gray-100 dark:border-gray-600 dark:hover:bg-gray-700 mt-1 bg-base-100 hover:bg-gray-50 hover:border-primary transition text-black border-[#e5e5e5]">
-                            <svg aria-label="Google logo" width="20" height="20" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><g><path d="m0 0H512V512H0" fill="#fff"></path><path fill="#34a853" d="M153 292c30 82 118 95 171 60h62v48A192 192 0 0190 341"></path><path fill="#4285f4" d="m386 400a140 175 0 0053-179H260v74h102q-7 37-38 57"></path><path fill="#fbbc02" d="m90 341a208 200 0 010-171l63 49q-12 37 0 73"></path><path fill="#ea4335" d="m153 219c22-69 116-109 179-50l55-54c-78-75-230-72-297 55"></path></g></svg>
-                            Login with Google
-                        </button>
-                        <p className='text-center pt-3'>Dont’t Have An Account ?
-                            <Link className='text-blue-600 hover:underline' to="/register"> Register </Link>
-                        </p>
+                        {error && (
+                            <div className="alert alert-error py-2 rounded-md shadow-sm">
+                                <span className="text-sm font-medium">{error}</span>
+                            </div>
+                        )}
+
+                        <div className="form-control mt-4">
+                            <button 
+                                type="submit" 
+                                disabled={loading || googleLoading}
+                                className="btn btn-primary text-white text-lg"
+                            >
+                                {loading ? <span className="loading loading-spinner"></span> : 'Login'}
+                            </button>
+                        </div>
                     </form>
+
+                    <div className="divider text-gray-400 text-xs">OR CONTINUE WITH</div>
+
+                    <button 
+                        onClick={handleGoogleLogin} 
+                        disabled={loading || googleLoading}
+                        className="btn btn-outline border-gray-300 hover:bg-gray-50 text-gray-700 w-full gap-3"
+                    >
+                        {googleLoading ? <span className="loading loading-spinner"></span> : <FcGoogle size={22} />}
+                        Google
+                    </button>
+
+                    <p className="text-center mt-8 text-sm text-gray-600">
+                        Don't have an account? 
+                        <Link to="/register" className="text-primary font-bold hover:underline ml-2">
+                            Sign up for free
+                        </Link>
+                    </p>
                 </div>
             </div>
         </div>
