@@ -72,7 +72,7 @@ const Login = () => {
             </Helmet>
 
             {/* Left Side: Branding */}
-            <div className="hidden lg:block text-left lg:w-1/2 max-w-lg space-y-6">
+            <div className="hidden  lg:block text-left lg:w-1/2 max-w-lg space-y-6">
                 <h1 className="text-7xl font-black text-primary tracking-tight">HobbyHub</h1>
                 <p className="text-xl text-gray-600 leading-relaxed">
                     Connect with enthusiasts, share your passion, and explore new hobbies. 
@@ -86,7 +86,7 @@ const Login = () => {
             </div>
 
             {/* Right Side: Login Card */}
-            <div className="card bg-base-100 w-full max-w-md shadow-2xl border border-base-200">
+            <div className="card  w-full max-w-md shadow-2xl border border-base-200">
                 <div className="card-body p-8">
                     <h2 className="text-3xl font-bold text-center mb-2">Welcome Back</h2>
                     <p className="text-center text-gray-500 mb-6">Please enter your details</p>

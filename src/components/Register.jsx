@@ -1,59 +1,48 @@
 import React, { useContext, useState } from 'react';
 import { Link, useNavigate } from 'react-router';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
+import { FcGoogle } from 'react-icons/fc';
 import { AuthContext } from '../provider/AuthContext';
 import toast from 'react-hot-toast';
 import { Helmet } from 'react-helmet-async';
-import Loading from './Loading';
-
 
 const Register = () => {
-    const { createUser, setUser, updateUser, googleSignIn } = useContext(AuthContext)
-    const [showPassword, setShowPassword] = useState(false)
-    const [error, setError] = useState('')
+    const { createUser, setUser, updateUser, googleSignIn } = useContext(AuthContext);
+    const [showPassword, setShowPassword] = useState(false);
+    const [error, setError] = useState('');
     const navigate = useNavigate();
+
     const [photoURL, setPhotoURL] = useState('');
     const [imageUploading, setImageUploading] = useState(false);
     const [loading, setLoading] = useState(false);
+    const [googleLoading, setGoogleLoading] = useState(false);
 
     const handleImageUpload = async (e) => {
         const file = e.target.files?.[0];
         if (!file) return;
 
-        // Optional validation
         if (file.size > 2 * 1024 * 1024) {
             toast.error('Image must be under 2MB');
             return;
         }
 
         setImageUploading(true);
-
         try {
             const formData = new FormData();
             formData.append('file', file);
-            formData.append(
-                'upload_preset',
-                import.meta.env.VITE_CLOUDINARY_PRESET
-            );
+            formData.append('upload_preset', import.meta.env.VITE_CLOUDINARY_PRESET);
 
             const res = await fetch(
-                `https://api.cloudinary.com/v1_1/${import.meta.env.VITE_CLOUDINARY_CLOUD
-                }/image/upload`,
-                {
-                    method: 'POST',
-                    body: formData,
-                }
+                `https://api.cloudinary.com/v1_1/${import.meta.env.VITE_CLOUDINARY_CLOUD}/image/upload`,
+                { method: 'POST', body: formData }
             );
 
             const data = await res.json();
-
-            if (!data?.secure_url) {
-                throw new Error('Upload failed');
-            }
+            if (!data?.secure_url) throw new Error('Upload failed');
 
             setPhotoURL(data.secure_url);
             toast.success('Profile image uploaded');
-        } catch (error) {
+        } catch (err) {
             toast.error('Image upload failed');
         } finally {
             setImageUploading(false);
@@ -61,38 +50,32 @@ const Register = () => {
     };
 
     const validatePassword = (password) => {
-        if (password.length < 6) {
-            return 'Password must be at least 6 characters long';
-        }
-        if (!/[A-Z]/.test(password)) {
-            return 'Password must contain at least one uppercase letter';
-        }
-        if (!/[a-z]/.test(password)) {
-            return 'Password must contain at least one lowercase letter';
-        }
+        if (password.length < 6) return 'Password must be at least 6 characters long';
+        if (!/[A-Z]/.test(password)) return 'Must contain an uppercase letter';
+        if (!/[a-z]/.test(password)) return 'Must contain a lowercase letter';
         return null;
     };
-
-
 
     const handleRegister = async (e) => {
         e.preventDefault();
         setError('');
 
         const form = e.target;
-        const formData = new FormData(form);
+        const name = form.name.value;
+        const email = form.email.value;
+        const password = form.password.value;
+        const terms = form.terms.checked;
 
-        const email = formData.get('email');
-        const password = formData.get('password');
-        const name = formData.get('name');
+        if (!terms) {
+            setError('Please accept the Terms & Conditions');
+            return;
+        }
 
-        // Image check
         if (!photoURL) {
             setError('Please upload a profile photo');
             return;
         }
 
-        // Password validation
         const passwordError = validatePassword(password);
         if (passwordError) {
             setError(passwordError);
@@ -101,13 +84,8 @@ const Register = () => {
 
         try {
             setLoading(true);
-
             const result = await createUser(email, password);
-
-            await updateUser({
-                displayName: name,
-                photoURL: photoURL,
-            });
+            await updateUser({ displayName: name, photoURL: photoURL });
 
             setUser({
                 ...result.user,
@@ -115,7 +93,7 @@ const Register = () => {
                 photoURL: photoURL,
             });
 
-            toast.success('Registration successful!');
+            toast.success('Account created successfully!');
             navigate('/');
         } catch (err) {
             setError(err.code || 'Registration failed');
@@ -124,113 +102,137 @@ const Register = () => {
         }
     };
 
-
-    const handleGoogleLogin = () => {
-        googleSignIn()
-            .then(() => {
-                toast.success("Logged in with Google!");
-                navigate(location.state ? location.state : "/");
-            })
-            .catch(error => {
-                toast.error(error.message)
-            })
-    }
+    const handleGoogleLogin = async () => {
+        setGoogleLoading(true);
+        try {
+            await googleSignIn();
+            toast.success("Logged in with Google!");
+            navigate("/");
+        } catch (err) {
+            toast.error(err.message);
+        } finally {
+            setGoogleLoading(false);
+        }
+    };
 
     return (
-        // <div className="hero py-10 lg:pt-10 bg-gradient-to-tr from-blue-50 via-purple-50 to-pink-50 min-h-screen items-center flex-col justify-center lg:flex-row-reverse">
-        <div className="hero min-h-screen items-center lg:pt-10 flex-col justify-center lg:flex-row-reverse ">
+        <div className="flex  flex-col lg:flex-row items-start justify-center min-h-screen gap-0 lg:gap-12 px-4">
             <Helmet>
                 <title>HobbyHub || Register</title>
             </Helmet>
 
-            <div className="card p-4 bg-base-100/60 w-full max-w-sm shrink-0 shadow-2xl">
-                <h1 className="text-4xl font-bold text-primary text-center">Register your account</h1>
-                <div className="card-body ">
-                    <form onSubmit={handleRegister} className="fieldset">
-                        {/* name */}
-                        <label className="label">Your Name</label>
-                        <input required name='name' type="text" className="input select-primary " placeholder="Enter your name" />
+            {/* Left Side: Branding (matches Login) */}
+            <div className="hidden lg:flex flex-col justify-center h-screen sticky top-0 lg:w-1/2 max-w-lg space-y-6 p-10">                <h1 className="text-7xl font-black text-primary tracking-tight">Join HobbyHub</h1>
+                <p className="text-xl text-gray-600 leading-relaxed">
+                    Create an account to discover communities, track your progress, and connect with like-minded creators.
+                </p>
+                <div className="flex flex-wrap gap-2">
+                    <span className="badge badge-lg badge-outline badge-primary">New Friends</span>
+                    <span className="badge badge-lg badge-outline badge-secondary">Growth</span>
+                    <span className="badge badge-lg badge-outline badge-accent">Free Forever</span>
+                </div>
+            </div>
 
-                        {/* email */}
-                        <label className="label">Email</label>
-                        <input required name='email' type="email" className="input select-primary " placeholder="Email" />
-                        {/* password */}
-                        <label className="label">Password</label>
-                        <div className='relative'>
-                            <input
-                                required
-                                name='password'
-                                type={showPassword ? 'text' : "password"}
-                                className="input select-primary"
-                                placeholder="Password"
-                            />
-                            <button
-                                onClick={() => setShowPassword(!showPassword)}
-                                className='absolute btn btn-xs right-3 top-2'
-                                type='button'
-                            >
-                                {showPassword ? <FaEyeSlash></FaEyeSlash> : <FaEye></FaEye>}
-                            </button>
-                        </div>
+            {/* Right Side: Register Card */}
+            <div className='py-16'>
+                <div className="card   w-full max-w-md shadow-2xl border border-base-200 z-10">
+                    <div className="card-body p-8">
+                        <h2 className="text-3xl font-bold text-center mb-2">Create Account</h2>
+                        <p className="text-center text-gray-500 mb-6">Start your journey with us today</p>
 
-                        {/* Profile Photo */}
-                        <label className="label">Profile Photo</label>
+                        <form onSubmit={handleRegister} className="space-y-4">
+                            <div className="form-control">
+                                <label className="label font-semibold text-sm">Full Name</label>
+                                <input name='name' type="text" placeholder="John Doe" className="input input-bordered focus:outline-primary" required />
+                            </div>
 
-                        <input
-                            type="file"
-                            accept="image/*"
-                            onChange={handleImageUpload}
-                            className="file-input file-input-bordered"
-                        />
+                            <div className="form-control">
+                                <label className="label font-semibold text-sm">Email Address</label>
+                                <input name='email' type="email" placeholder="name@example.com" className="input input-bordered focus:outline-primary" required />
+                            </div>
 
-                        {imageUploading && (
-                            <p className="text-sm text-info">Uploading image...</p>
-                        )}
+                            <div className="form-control">
+                                <label className="label font-semibold text-sm">Password</label>
+                                <div className="relative">
+                                    <input
+                                        name='password'
+                                        type={showPassword ? 'text' : "password"}
+                                        placeholder="••••••••"
+                                        className="input input-bordered w-full focus:outline-primary"
+                                        required
+                                    />
+                                    <button
+                                        type="button"
+                                        onClick={() => setShowPassword(!showPassword)}
+                                        className="absolute right-3 top-3 text-gray-400 hover:text-primary transition-colors"
+                                    >
+                                        {showPassword ? <FaEyeSlash size={20} /> : <FaEye size={20} />}
+                                    </button>
+                                </div>
+                            </div>
 
-                        {photoURL && (
-                            <img
-                                src={photoURL}
-                                alt="Profile preview"
-                                className="w-20 h-20 rounded-full mt-2 object-cover border"
-                            />
-                        )}
+                            <div className="form-control">
+                                <label className="label font-semibold text-sm">Profile Photo</label>
+                                <div className="flex items-center gap-4">
+                                    <input
+                                        type="file"
+                                        accept="image/*"
+                                        onChange={handleImageUpload}
+                                        className="file-input file-input-bordered file-input-sm w-full"
+                                    />
+                                    {photoURL && (
+                                        <div className="avatar">
+                                            <div className="w-12 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2">
+                                                <img src={photoURL} alt="Preview" />
+                                            </div>
+                                        </div>
+                                    )}
+                                </div>
+                                {imageUploading && <span className="loading loading-dots loading-xs mt-2 text-primary"></span>}
+                            </div>
 
+                            <div className="form-control mt-2">
+                                <label className="label cursor-pointer justify-start gap-3">
+                                    <input name="terms" type="checkbox" className="checkbox checkbox-primary checkbox-sm" />
+                                    <span className="label-text text-xs">I agree to the <a href="#" className="link link-primary">Terms & Conditions</a></span>
+                                </label>
+                            </div>
 
-                        {/* check box */}
-                        <label className="label py-2">
-                            <input name='terms' type="checkbox" className="checkbox" />
-                            Accept Term & conditions
-                        </label>
+                            {error && (
+                                <div className="alert alert-error py-2 rounded-md shadow-sm">
+                                    <span className="text-sm font-medium">{error}</span>
+                                </div>
+                            )}
 
-                        {error && <p className='text-red-500 text-sm'>{error}</p>}
+                            <div className="form-control mt-4">
+                                <button
+                                    type="submit"
+                                    disabled={loading || imageUploading || googleLoading}
+                                    className="btn btn-primary text-white text-lg"
+                                >
+                                    {loading ? <span className="loading loading-spinner"></span> : 'Register'}
+                                </button>
+                            </div>
+                        </form>
 
-                        {loading && (
-                            <p className="text-sm text-gray-500 text-center mt-2">
-                                Please wait, creating your account...
-                            </p>
-                        )}
+                        <div className="divider text-gray-400 text-xs uppercase">Or use social</div>
 
                         <button
-                            type="submit"
-                            disabled={loading || imageUploading}
-                            className="w-full py-3 rounded-md bg-primary text-white font-semibold disabled:opacity-60"
+                            onClick={handleGoogleLogin}
+                            disabled={loading || googleLoading}
+                            className="btn btn-outline border-gray-300 hover:bg-gray-50 text-gray-700 w-full gap-3"
                         >
-                            {loading ? 'Creating account...' : 'Register'}
+                            {googleLoading ? <span className="loading loading-spinner"></span> : <FcGoogle size={22} />}
+                            Continue with Google
                         </button>
 
-                        <div className="divider">OR</div>
-
-                        <button onClick={handleGoogleLogin}
-                            className="btn hover:bg-gray-100 dark:bg-gray-800 dark:text-gray-100 hover:border hover:border-primary dark:border-gray-600 dark:hover:bg-gray-700 transition mt-1 bg-base-100 text-black border-[#e5e5e5]">
-
-                            <svg aria-label="Google logo" width="20" height="20" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><g><path d="m0 0H512V512H0" fill="#fff"></path><path fill="#34a853" d="M153 292c30 82 118 95 171 60h62v48A192 192 0 0190 341"></path><path fill="#4285f4" d="m386 400a140 175 0 0053-179H260v74h102q-7 37-38 57"></path><path fill="#fbbc02" d="m90 341a208 200 0 010-171l63 49q-12 37 0 73"></path><path fill="#ea4335" d="m153 219c22-69 116-109 179-50l55-54c-78-75-230-72-297 55"></path></g></svg>
-                            Login with Google
-                        </button>
-
-                        <p className='text-center pt-3'>Already Have An Account ?
-                            <Link className='text-blue-600 hover:underline' to="/login"> Login </Link>
+                        <p className="text-center mt-8 text-sm text-gray-600">
+                            Already have an account?
+                            <Link to="/login" className="text-primary font-bold hover:underline ml-2">
+                                Sign in
+                            </Link>
                         </p>
-                    </form>
+                    </div>
                 </div>
             </div>
         </div>
